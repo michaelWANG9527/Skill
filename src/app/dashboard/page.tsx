@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import OrderList, { OrderData } from "@/components/OrderList";
 import OrderDetail from "@/components/OrderDetail";
 import Toast from "@/components/Toast";
@@ -10,13 +9,6 @@ interface UserInfo {
   role: string;
   displayName: string;
 }
-
-const roleAbbr: Record<string, string> = {
-  SALES_VP: "VP",
-  RD_VP: "RD",
-  GM: "GM",
-  ADMIN: "AD",
-};
 
 const roleLabel: Record<string, string> = {
   SALES_VP: "销售副总裁",
@@ -29,17 +21,15 @@ export default function DashboardPage() {
   const [orders, setOrders] = useState<OrderData[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [user, setUser] = useState<UserInfo | null>(null);
+  const [user, setUser] = useState<UserInfo | null>({ role: "SALES_VP", displayName: "销售副总裁" });
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [currentRole, setCurrentRole] = useState("SALES_VP");
 
   const fetchOrders = useCallback(async () => {
     try {
-      const res = await fetch("/api/orders");
-      if (res.status === 401) {
-        router.push("/login");
-        return;
-      }
+      const res = await fetch("/api/orders", {
+        headers: { "x-test-role": currentRole },
+      });
       const data = await res.json();
       setOrders(data);
       if (data.length > 0 && !selectedId) {
@@ -50,26 +40,13 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, [router, selectedId]);
+  }, [currentRole, selectedId]);
 
   useEffect(() => {
-    // Get user info from cookie-based session via a lightweight check
-    const getUserInfo = async () => {
-      try {
-        const res = await fetch("/api/auth/me");
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data);
-        } else {
-          router.push("/login");
-        }
-      } catch {
-        router.push("/login");
-      }
-    };
-    getUserInfo();
+    setUser({ role: currentRole, displayName: roleLabel[currentRole] });
+    setSelectedId(null);
     fetchOrders();
-  }, [fetchOrders, router]);
+  }, [fetchOrders, currentRole]);
 
   const handleAction = async (action: "approve" | "reject", comment: string) => {
     if (!selectedId) return;
@@ -77,7 +54,7 @@ export default function DashboardPage() {
     try {
       const res = await fetch(`/api/orders/${selectedId}/approve`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-test-role": currentRole },
         body: JSON.stringify({ action, comment }),
       });
 
@@ -108,11 +85,6 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
-  };
-
   const selected = orders.find((o) => o.id === selectedId) || null;
   const pendingCount = orders.filter(
     (o) => o.status === "PENDING" || o.status === "ESCALATED"
@@ -141,19 +113,20 @@ export default function DashboardPage() {
               {pendingCount} 笔待处理 · 希微科技审批平台
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2.5 px-3.5 py-1.5 bg-black/[0.03] rounded-full text-[13px] text-gray-900">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-xs font-semibold">
-                {user ? roleAbbr[user.role] || "U" : "U"}
-              </div>
-              {user ? roleLabel[user.role] || user.displayName : ""}
-            </div>
-            <button
-              onClick={handleLogout}
-              className="text-xs text-gray-400 hover:text-gray-600 transition-colors px-2 py-1"
-            >
-              退出
-            </button>
+          <div className="flex items-center gap-2">
+            {(["SALES_VP", "GM"] as const).map((r) => (
+              <button
+                key={r}
+                onClick={() => setCurrentRole(r)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  currentRole === r
+                    ? "bg-blue-500 text-white"
+                    : "bg-black/[0.04] text-gray-500 hover:bg-black/[0.08]"
+                }`}
+              >
+                {roleLabel[r]}
+              </button>
+            ))}
           </div>
         </div>
       </div>

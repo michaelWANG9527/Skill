@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { ROLES, ORDER_STATUS } from "@/lib/constants";
 
 export async function GET(request: NextRequest) {
-  const role = request.headers.get("x-user-role");
+  const role = request.headers.get("x-test-role") || request.headers.get("x-user-role");
 
   let where = {};
 

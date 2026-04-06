@@ -7,8 +7,15 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const userId = request.headers.get("x-user-id");
-    const role = request.headers.get("x-user-role");
+    const testRole = request.headers.get("x-test-role");
+    const role = testRole || request.headers.get("x-user-role");
+
+    // In test mode, look up user by role
+    let userId = request.headers.get("x-user-id");
+    if (!userId && testRole) {
+      const testUser = await prisma.user.findFirst({ where: { role: testRole } });
+      userId = testUser?.id || null;
+    }
 
     if (!userId || !role) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
