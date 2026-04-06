@@ -1,0 +1,17 @@
+export const ROLES = {
+  SALES_VP: "SALES_VP",
+  RD_VP: "RD_VP",
+  GM: "GM",
+  ADMIN: "ADMIN",
+} as const;
+
+export const ORDER_STATUS = {
+  PENDING: "PENDING",
+  VP_APPROVED: "VP_APPROVED",
+  ESCALATED: "ESCALATED",
+  REJECTED: "REJECTED",
+  GM_APPROVED: "GM_APPROVED",
+  GM_REJECTED: "GM_REJECTED",
+} as const;
+
+export const MARGIN_THRESHOLD = 15;
