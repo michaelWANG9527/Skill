@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #e8f0fe 0%, #dae8f8 35%, #c9ddf2 65%, #e0ecf8 100%);
+  background-attachment: fixed;
+  color: #1d1d1f;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 25% 40%, rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(circle at 75% 60%, rgba(255,255,255,0.4) 1px, transparent 1px);
+  background-size: 44px 44px, 66px 66px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#__next,
+main,
+body > div {
+  position: relative;
+  z-index: 1;
+}
+
+/* Toast animation */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Timeline node animation */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+/* ── Responsive ── */
+
+/* Desktop: show all 3 panels */
+@media (min-width: 769px) {
+  .order-list-panel {
+    display: block !important;
+  }
+  .order-detail-panel {
+    display: flex !important;
+    flex: 1;
+  }
+  .order-timeline-panel {
+    display: block !important;
+  }
+  .mobile-tab-bar {
+    display: none !important;
+  }
+}
+
+/* Mobile: show only active panel + tab bar */
+@media (max-width: 768px) {
+  .order-list-panel,
+  .order-detail-panel,
+  .order-timeline-panel {
+    display: none !important;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  .order-list-panel.mobile-active,
+  .order-detail-panel.mobile-active,
+  .order-timeline-panel.mobile-active {
+    display: block !important;
+  }
+  .mobile-tab-bar {
+    display: flex !important;
+  }
+}
