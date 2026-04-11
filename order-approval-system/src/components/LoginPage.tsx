@@ -12,154 +12,282 @@ interface LoginPageProps {
 
 /* ── Product application SVG icons as line-art illustrations ── */
 function ProductIcons() {
+  const s = "#0071e3";
   return (
     <svg
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        overflow: "hidden",
-        pointerEvents: "none",
-      }}
-      viewBox="0 0 1440 900"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid slice"
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "hidden", pointerEvents: "none" }}
+      viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
     >
-      {/* WiFi signal — hero element, top-right, large */}
-      <g opacity="0.12" transform="translate(1120, 80) scale(2.2)">
-        <path d="M50 70a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" stroke="#0071e3" strokeWidth="2"/>
-        <path d="M30 50c11-11 29-11 40 0" stroke="#0071e3" strokeWidth="2" strokeLinecap="round" fill="none"/>
-        <path d="M20 40c16.5-16.5 43.5-16.5 60 0" stroke="#0071e3" strokeWidth="2" strokeLinecap="round" fill="none"/>
-        <path d="M10 30c22-22 58-22 80 0" stroke="#0071e3" strokeWidth="2" strokeLinecap="round" fill="none"/>
+      {/* ═══ HERO — WiFi signal with "6" badge, top-right ═══ */}
+      <g opacity="0.13" transform="translate(1100, 50) scale(2.4)">
+        <circle cx="50" cy="68" r="5" stroke={s} strokeWidth="2"/>
+        <path d="M30 48c11-11 29-11 40 0" stroke={s} strokeWidth="2" strokeLinecap="round" fill="none"/>
+        <path d="M20 38c16.5-16.5 43.5-16.5 60 0" stroke={s} strokeWidth="2" strokeLinecap="round" fill="none"/>
+        <path d="M10 28c22-22 58-22 80 0" stroke={s} strokeWidth="2" strokeLinecap="round" fill="none"/>
+        {/* "6" badge */}
+        <rect x="68" y="55" width="18" height="18" rx="4" stroke={s} strokeWidth="1.5"/>
+        <text x="77" y="68" textAnchor="middle" fill={s} fontSize="12" fontWeight="700" fontFamily="system-ui">6</text>
       </g>
 
-      {/* Chip / MCU — hero element, bottom-left, large */}
-      <g opacity="0.10" transform="translate(60, 600) scale(2)">
-        <rect x="20" y="20" width="50" height="50" rx="6" stroke="#0071e3" strokeWidth="1.5" fill="none"/>
-        <rect x="35" y="35" width="20" height="20" rx="3" stroke="#0071e3" strokeWidth="1.5" fill="none"/>
-        {/* pins */}
-        <line x1="30" y1="20" x2="30" y2="10" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="45" y1="20" x2="45" y2="10" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="60" y1="20" x2="60" y2="10" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="30" y1="70" x2="30" y2="80" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="45" y1="70" x2="45" y2="80" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="60" y1="70" x2="60" y2="80" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="20" y1="35" x2="10" y2="35" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="20" y1="55" x2="10" y2="55" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="70" y1="35" x2="80" y2="35" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="70" y1="55" x2="80" y2="55" stroke="#0071e3" strokeWidth="1.5"/>
+      {/* ═══ HERO — Chip / MCU with internal traces, bottom-left ═══ */}
+      <g opacity="0.11" transform="translate(40, 580) scale(2.2)">
+        <rect x="20" y="20" width="50" height="50" rx="6" stroke={s} strokeWidth="1.5" fill="none"/>
+        <rect x="32" y="32" width="26" height="26" rx="4" stroke={s} strokeWidth="1.2" fill="none"/>
+        <circle cx="45" cy="45" r="6" stroke={s} strokeWidth="0.8" fill="none"/>
+        <circle cx="45" cy="45" r="2" stroke={s} strokeWidth="0.8"/>
+        {/* pins — top */}
+        {[28,37,45,53,62].map(x=><line key={`t${x}`} x1={x} y1="20" x2={x} y2="8" stroke={s} strokeWidth="1.5"/>)}
+        {/* pins — bottom */}
+        {[28,37,45,53,62].map(x=><line key={`b${x}`} x1={x} y1="70" x2={x} y2="82" stroke={s} strokeWidth="1.5"/>)}
+        {/* pins — left */}
+        {[28,37,45,53,62].map(y=><line key={`l${y}`} x1="20" y1={y} x2="8" y2={y} stroke={s} strokeWidth="1.5"/>)}
+        {/* pins — right */}
+        {[28,37,45,53,62].map(y=><line key={`r${y}`} x1="70" y1={y} x2="82" y2={y} stroke={s} strokeWidth="1.5"/>)}
+        {/* internal traces */}
+        <path d="M38 38 L42 42" stroke={s} strokeWidth="0.6"/>
+        <path d="M52 38 L48 42" stroke={s} strokeWidth="0.6"/>
+        <path d="M38 52 L42 48" stroke={s} strokeWidth="0.6"/>
+        <path d="M52 52 L48 48" stroke={s} strokeWidth="0.6"/>
       </g>
 
-      {/* Router — medium, top-left area */}
-      <g opacity="0.08" transform="translate(100, 140) scale(1.4)">
-        <rect x="10" y="30" width="60" height="20" rx="4" stroke="#0071e3" strokeWidth="1.5" fill="none"/>
-        <line x1="25" y1="30" x2="20" y2="10" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round"/>
-        <line x1="55" y1="30" x2="60" y2="10" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="20" cy="40" r="2" stroke="#0071e3" strokeWidth="1"/>
-        <circle cx="30" cy="40" r="2" stroke="#0071e3" strokeWidth="1"/>
+      {/* ═══ WiFi 7 badge — medium, left edge ═══ */}
+      <g opacity="0.09" transform="translate(50, 260) scale(1.6)">
+        <path d="M30 40c5.5-5.5 14.5-5.5 20 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M23 33c9.5-9.5 25-9.5 34 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M16 26c13.5-13.5 35-35.5 48 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <circle cx="40" cy="46" r="3" stroke={s} strokeWidth="1.5"/>
+        <rect x="52" y="22" width="20" height="16" rx="4" stroke={s} strokeWidth="1.3"/>
+        <text x="62" y="34" textAnchor="middle" fill={s} fontSize="11" fontWeight="700" fontFamily="system-ui">7</text>
       </g>
 
-      {/* Smart TV — medium, right side */}
-      <g opacity="0.07" transform="translate(1200, 400) scale(1.5)">
-        <rect x="5" y="5" width="70" height="45" rx="4" stroke="#0071e3" strokeWidth="1.5" fill="none"/>
-        <rect x="10" y="10" width="60" height="35" rx="2" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <line x1="30" y1="50" x2="30" y2="60" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="50" y1="50" x2="50" y2="60" stroke="#0071e3" strokeWidth="1.5"/>
-        <line x1="20" y1="60" x2="60" y2="60" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* ═══ Bluetooth logo — medium, right edge ═══ */}
+      <g opacity="0.09" transform="translate(1300, 260) scale(1.8)">
+        <path d="M30 10 L30 60 L50 45 L20 20 L50 45 L50 15 L20 40 L50 15 L30 10z" stroke={s} strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+        <text x="30" y="78" textAnchor="middle" fill={s} fontSize="8" fontWeight="600" fontFamily="system-ui" letterSpacing="1">BT</text>
       </g>
 
-      {/* Drone — small, scattered */}
-      <g opacity="0.06" transform="translate(320, 80) scale(1.1)">
-        <ellipse cx="40" cy="40" rx="8" ry="4" stroke="#0071e3" strokeWidth="1.2" fill="none"/>
-        <line x1="32" y1="38" x2="18" y2="28" stroke="#0071e3" strokeWidth="1.2"/>
-        <line x1="48" y1="38" x2="62" y2="28" stroke="#0071e3" strokeWidth="1.2"/>
-        <line x1="32" y1="42" x2="18" y2="52" stroke="#0071e3" strokeWidth="1.2"/>
-        <line x1="48" y1="42" x2="62" y2="52" stroke="#0071e3" strokeWidth="1.2"/>
-        <circle cx="18" cy="28" r="10" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <circle cx="62" cy="28" r="10" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <circle cx="18" cy="52" r="10" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <circle cx="62" cy="52" r="10" stroke="#0071e3" strokeWidth="1" fill="none"/>
+      {/* ═══ ISO 9001 — quality seal, bottom-right ═══ */}
+      <g opacity="0.07" transform="translate(1200, 680) scale(1.4)">
+        <circle cx="40" cy="40" r="30" stroke={s} strokeWidth="1.3" fill="none"/>
+        <circle cx="40" cy="40" r="24" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* globe lines */}
+        <ellipse cx="40" cy="40" rx="12" ry="24" stroke={s} strokeWidth="0.6" fill="none"/>
+        <line x1="16" y1="32" x2="64" y2="32" stroke={s} strokeWidth="0.6"/>
+        <line x1="16" y1="48" x2="64" y2="48" stroke={s} strokeWidth="0.6"/>
+        <text x="40" y="82" textAnchor="middle" fill={s} fontSize="8" fontWeight="600" fontFamily="system-ui">ISO 9001</text>
       </g>
 
-      {/* Smart Watch — small */}
-      <g opacity="0.06" transform="translate(1300, 700) scale(1.2)">
-        <rect x="20" y="10" width="30" height="40" rx="8" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <line x1="28" y1="10" x2="28" y2="2" stroke="#0071e3" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="42" y1="10" x2="42" y2="2" stroke="#0071e3" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="28" y1="50" x2="28" y2="58" stroke="#0071e3" strokeWidth="2.5" strokeLinecap="round"/>
-        <line x1="42" y1="50" x2="42" y2="58" stroke="#0071e3" strokeWidth="2.5" strokeLinecap="round"/>
-        <circle cx="35" cy="30" r="8" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <line x1="35" y1="25" x2="35" y2="30" stroke="#0071e3" strokeWidth="1"/>
-        <line x1="35" y1="30" x2="39" y2="33" stroke="#0071e3" strokeWidth="1"/>
+      {/* ═══ Router — medium, top-left ═══ */}
+      <g opacity="0.08" transform="translate(120, 110) scale(1.5)">
+        <rect x="10" y="30" width="65" height="22" rx="5" stroke={s} strokeWidth="1.4" fill="none"/>
+        <line x1="25" y1="30" x2="18" y2="8" stroke={s} strokeWidth="1.4" strokeLinecap="round"/>
+        <line x1="55" y1="30" x2="62" y2="8" stroke={s} strokeWidth="1.4" strokeLinecap="round"/>
+        {/* wifi arcs from antennas */}
+        <path d="M14 6a6 6 0 0 0 8 0" stroke={s} strokeWidth="0.8" fill="none"/>
+        <path d="M58 6a6 6 0 0 0 8 0" stroke={s} strokeWidth="0.8" fill="none"/>
+        <circle cx="20" cy="41" r="2.5" stroke={s} strokeWidth="1"/>
+        <circle cx="30" cy="41" r="2.5" stroke={s} strokeWidth="1"/>
+        <circle cx="40" cy="41" r="2.5" stroke={s} strokeWidth="1"/>
+        <rect x="55" y="38" width="12" height="6" rx="1.5" stroke={s} strokeWidth="0.8" fill="none"/>
       </g>
 
-      {/* Camera (IP Cam / Sports Cam) — small */}
-      <g opacity="0.07" transform="translate(200, 720) scale(1.3)">
-        <rect x="10" y="20" width="50" height="30" rx="5" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <circle cx="35" cy="35" r="10" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <circle cx="35" cy="35" r="5" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <rect x="45" y="22" width="8" height="5" rx="1" stroke="#0071e3" strokeWidth="1" fill="none"/>
+      {/* ═══ Smart TV — medium, right ═══ */}
+      <g opacity="0.07" transform="translate(1180, 420) scale(1.6)">
+        <rect x="5" y="5" width="75" height="48" rx="4" stroke={s} strokeWidth="1.4" fill="none"/>
+        <rect x="9" y="9" width="67" height="38" rx="2" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* screen content — play button */}
+        <polygon points="35,22 35,36 47,29" stroke={s} strokeWidth="0.8" fill="none"/>
+        <line x1="32" y1="53" x2="32" y2="62" stroke={s} strokeWidth="1.4"/>
+        <line x1="53" y1="53" x2="53" y2="62" stroke={s} strokeWidth="1.4"/>
+        <line x1="22" y1="62" x2="63" y2="62" stroke={s} strokeWidth="1.4" strokeLinecap="round"/>
       </g>
 
-      {/* Smart Speaker — small */}
-      <g opacity="0.06" transform="translate(950, 150) scale(1.2)">
-        <path d="M25 55 Q25 10 40 10 Q55 10 55 55" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <ellipse cx="40" cy="55" rx="15" ry="5" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <path d="M33 25 a7 7 0 0 1 14 0" stroke="#0071e3" strokeWidth="1" fill="none"/>
+      {/* ═══ Drone — detailed, upper area ═══ */}
+      <g opacity="0.065" transform="translate(340, 60) scale(1.3)">
+        <ellipse cx="40" cy="40" rx="10" ry="5" stroke={s} strokeWidth="1.2" fill="none"/>
+        {/* camera underneath */}
+        <circle cx="40" cy="48" r="3" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* arms */}
+        <line x1="30" y1="37" x2="14" y2="24" stroke={s} strokeWidth="1.2"/>
+        <line x1="50" y1="37" x2="66" y2="24" stroke={s} strokeWidth="1.2"/>
+        <line x1="30" y1="43" x2="14" y2="56" stroke={s} strokeWidth="1.2"/>
+        <line x1="50" y1="43" x2="66" y2="56" stroke={s} strokeWidth="1.2"/>
+        {/* motors */}
+        <circle cx="14" cy="24" r="4" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="66" cy="24" r="4" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="14" cy="56" r="4" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="66" cy="56" r="4" stroke={s} strokeWidth="1" fill="none"/>
+        {/* propellers */}
+        <ellipse cx="14" cy="24" rx="12" ry="3" stroke={s} strokeWidth="0.6" fill="none"/>
+        <ellipse cx="66" cy="24" rx="12" ry="3" stroke={s} strokeWidth="0.6" fill="none"/>
+        <ellipse cx="14" cy="56" rx="12" ry="3" stroke={s} strokeWidth="0.6" fill="none"/>
+        <ellipse cx="66" cy="56" rx="12" ry="3" stroke={s} strokeWidth="0.6" fill="none"/>
       </g>
 
-      {/* Notebook / Laptop — small */}
-      <g opacity="0.06" transform="translate(500, 780) scale(1)">
-        <path d="M15 45 L15 15 Q15 10 20 10 L70 10 Q75 10 75 15 L75 45" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <path d="M5 45 L85 45 Q90 50 85 55 L5 55 Q0 50 5 45z" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
+      {/* ═══ Smart Watch — detailed ═══ */}
+      <g opacity="0.065" transform="translate(1310, 680) scale(1.3)">
+        <rect x="18" y="8" width="34" height="48" rx="10" stroke={s} strokeWidth="1.3" fill="none"/>
+        {/* strap */}
+        <path d="M22 8 Q22 0 28 0 L42 0 Q48 0 48 8" stroke={s} strokeWidth="1.8" fill="none"/>
+        <path d="M22 56 Q22 64 28 64 L42 64 Q48 64 48 56" stroke={s} strokeWidth="1.8" fill="none"/>
+        {/* screen */}
+        <rect x="22" y="14" width="26" height="36" rx="6" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* clock hands */}
+        <circle cx="35" cy="32" r="10" stroke={s} strokeWidth="0.7" fill="none"/>
+        <line x1="35" y1="25" x2="35" y2="32" stroke={s} strokeWidth="1"/>
+        <line x1="35" y1="32" x2="41" y2="36" stroke={s} strokeWidth="1"/>
+        <circle cx="35" cy="32" r="1.5" fill={s}/>
+        {/* side button */}
+        <rect x="52" y="28" width="4" height="8" rx="2" stroke={s} strokeWidth="0.8" fill="none"/>
       </g>
 
-      {/* VR Headset — small */}
-      <g opacity="0.05" transform="translate(800, 750) scale(1.1)">
-        <path d="M10 30 Q10 15 25 15 L55 15 Q70 15 70 30 L70 40 Q70 50 60 50 L50 50 Q45 50 40 45 Q35 50 30 50 L20 50 Q10 50 10 40z" stroke="#0071e3" strokeWidth="1.3" fill="none"/>
-        <circle cx="28" cy="32" r="6" stroke="#0071e3" strokeWidth="1" fill="none"/>
-        <circle cx="52" cy="32" r="6" stroke="#0071e3" strokeWidth="1" fill="none"/>
+      {/* ═══ Camera / Sports Camera — detailed ═══ */}
+      <g opacity="0.07" transform="translate(180, 700) scale(1.4)">
+        <rect x="8" y="16" width="55" height="35" rx="6" stroke={s} strokeWidth="1.3" fill="none"/>
+        <circle cx="35" cy="33" r="12" stroke={s} strokeWidth="1.3" fill="none"/>
+        <circle cx="35" cy="33" r="7" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="35" cy="33" r="3" stroke={s} strokeWidth="0.7" fill="none"/>
+        {/* flash */}
+        <rect x="48" y="18" width="10" height="6" rx="1.5" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* viewfinder */}
+        <rect x="28" y="10" width="14" height="8" rx="2" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* grip */}
+        <rect x="8" y="16" width="8" height="14" rx="2" stroke={s} strokeWidth="0.6" fill="none"/>
       </g>
 
-      {/* Printer — tiny accent */}
-      <g opacity="0.05" transform="translate(1100, 600) scale(1)">
-        <rect x="10" y="20" width="50" height="25" rx="3" stroke="#0071e3" strokeWidth="1.2" fill="none"/>
-        <path d="M18 20 L18 8 L52 8 L52 20" stroke="#0071e3" strokeWidth="1.2" fill="none"/>
-        <path d="M18 45 L18 55 L52 55 L52 45" stroke="#0071e3" strokeWidth="1.2" fill="none"/>
+      {/* ═══ Smart Speaker — detailed ═══ */}
+      <g opacity="0.065" transform="translate(940, 120) scale(1.3)">
+        <path d="M24 58 Q24 8 40 8 Q56 8 56 58" stroke={s} strokeWidth="1.3" fill="none"/>
+        <ellipse cx="40" cy="58" rx="16" ry="6" stroke={s} strokeWidth="1.3" fill="none"/>
+        {/* speaker grille lines */}
+        <line x1="30" y1="35" x2="50" y2="35" stroke={s} strokeWidth="0.5"/>
+        <line x1="29" y1="39" x2="51" y2="39" stroke={s} strokeWidth="0.5"/>
+        <line x1="28" y1="43" x2="52" y2="43" stroke={s} strokeWidth="0.5"/>
+        <line x1="28" y1="47" x2="52" y2="47" stroke={s} strokeWidth="0.5"/>
+        {/* light ring */}
+        <path d="M32 14 a8 8 0 0 1 16 0" stroke={s} strokeWidth="1.2" fill="none"/>
+        <circle cx="40" cy="14" r="2" fill={s} opacity="0.3"/>
       </g>
 
-      {/* Game Console controller — tiny accent */}
-      <g opacity="0.05" transform="translate(60, 400) scale(1)">
-        <path d="M10 30 Q10 10 30 15 L50 15 Q70 10 70 30 Q70 50 55 45 L50 40 L30 40 L25 45 Q10 50 10 30z" stroke="#0071e3" strokeWidth="1.2" fill="none"/>
-        <line x1="25" y1="25" x2="25" y2="33" stroke="#0071e3" strokeWidth="1"/>
-        <line x1="21" y1="29" x2="29" y2="29" stroke="#0071e3" strokeWidth="1"/>
-        <circle cx="50" cy="25" r="2" stroke="#0071e3" strokeWidth="0.8" fill="none"/>
-        <circle cx="55" cy="30" r="2" stroke="#0071e3" strokeWidth="0.8" fill="none"/>
+      {/* ═══ Notebook / Laptop — detailed ═══ */}
+      <g opacity="0.06" transform="translate(480, 770) scale(1.1)">
+        <path d="M15 45 L15 14 Q15 9 20 9 L72 9 Q77 9 77 14 L77 45" stroke={s} strokeWidth="1.3" fill="none"/>
+        {/* screen content */}
+        <rect x="20" y="14" width="52" height="28" rx="1" stroke={s} strokeWidth="0.5" fill="none"/>
+        <line x1="20" y1="20" x2="50" y2="20" stroke={s} strokeWidth="0.4"/>
+        <line x1="20" y1="24" x2="42" y2="24" stroke={s} strokeWidth="0.4"/>
+        {/* keyboard base */}
+        <path d="M5 45 L87 45 Q92 50 87 55 L5 55 Q0 50 5 45z" stroke={s} strokeWidth="1.3" fill="none"/>
+        {/* trackpad */}
+        <rect x="36" y="47" width="20" height="6" rx="2" stroke={s} strokeWidth="0.6" fill="none"/>
       </g>
 
-      {/* Decorative WiFi waves — scattered small accents */}
-      <g opacity="0.04" transform="translate(700, 100) scale(0.8)">
-        <path d="M20 30c5.5-5.5 14.5-5.5 20 0" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M15 24c8.25-8.25 21.75-8.25 30 0" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-      </g>
-      <g opacity="0.04" transform="translate(400, 500) scale(0.6)">
-        <path d="M20 30c5.5-5.5 14.5-5.5 20 0" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M15 24c8.25-8.25 21.75-8.25 30 0" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M10 18c11-11 29-11 40 0" stroke="#0071e3" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      {/* ═══ VR Headset — detailed ═══ */}
+      <g opacity="0.055" transform="translate(780, 740) scale(1.2)">
+        <path d="M8 28 Q8 12 25 12 L58 12 Q75 12 75 28 L75 42 Q75 54 62 54 L52 52 Q46 52 42 46 Q38 52 32 52 L22 54 Q8 54 8 42z" stroke={s} strokeWidth="1.3" fill="none"/>
+        <circle cx="28" cy="32" r="8" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="28" cy="32" r="4" stroke={s} strokeWidth="0.6" fill="none"/>
+        <circle cx="55" cy="32" r="8" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="55" cy="32" r="4" stroke={s} strokeWidth="0.6" fill="none"/>
+        {/* strap */}
+        <path d="M8 30 Q0 30 0 24" stroke={s} strokeWidth="1" fill="none"/>
+        <path d="M75 30 Q83 30 83 24" stroke={s} strokeWidth="1" fill="none"/>
       </g>
 
-      {/* Circuit traces — subtle connecting lines */}
-      <g opacity="0.03" stroke="#0071e3" strokeWidth="1">
-        <path d="M0 300 L120 300 L120 380 L200 380" fill="none"/>
-        <path d="M1440 500 L1320 500 L1320 560 L1250 560" fill="none"/>
-        <path d="M600 0 L600 60 L680 60" fill="none"/>
-        <path d="M900 900 L900 820 L980 820" fill="none"/>
-        <circle cx="120" cy="300" r="3" fill="#0071e3"/>
-        <circle cx="200" cy="380" r="3" fill="#0071e3"/>
-        <circle cx="1320" cy="500" r="3" fill="#0071e3"/>
-        <circle cx="600" cy="60" r="3" fill="#0071e3"/>
+      {/* ═══ Printer — detailed ═══ */}
+      <g opacity="0.055" transform="translate(1080, 580) scale(1.1)">
+        <rect x="8" y="20" width="54" height="26" rx="3" stroke={s} strokeWidth="1.2" fill="none"/>
+        <path d="M16 20 L16 6 L54 6 L54 20" stroke={s} strokeWidth="1.2" fill="none"/>
+        <path d="M16 46 L16 58 L54 58 L54 46" stroke={s} strokeWidth="1.2" fill="none"/>
+        {/* paper coming out */}
+        <line x1="22" y1="52" x2="48" y2="52" stroke={s} strokeWidth="0.5"/>
+        <line x1="22" y1="55" x2="40" y2="55" stroke={s} strokeWidth="0.5"/>
+        {/* buttons */}
+        <circle cx="50" cy="30" r="2" stroke={s} strokeWidth="0.8" fill="none"/>
+        <rect x="44" y="34" width="10" height="3" rx="1" stroke={s} strokeWidth="0.6" fill="none"/>
+      </g>
+
+      {/* ═══ Game Controller — detailed ═══ */}
+      <g opacity="0.055" transform="translate(50, 390) scale(1.1)">
+        <path d="M8 28 Q8 8 28 13 L52 13 Q72 8 72 28 Q72 52 56 46 L52 40 L28 40 L24 46 Q8 52 8 28z" stroke={s} strokeWidth="1.2" fill="none"/>
+        {/* d-pad */}
+        <line x1="24" y1="22" x2="24" y2="34" stroke={s} strokeWidth="1.2" strokeLinecap="round"/>
+        <line x1="18" y1="28" x2="30" y2="28" stroke={s} strokeWidth="1.2" strokeLinecap="round"/>
+        {/* action buttons */}
+        <circle cx="52" cy="22" r="2.5" stroke={s} strokeWidth="0.8" fill="none"/>
+        <circle cx="58" cy="28" r="2.5" stroke={s} strokeWidth="0.8" fill="none"/>
+        <circle cx="52" cy="34" r="2.5" stroke={s} strokeWidth="0.8" fill="none"/>
+        <circle cx="46" cy="28" r="2.5" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* thumbsticks */}
+        <circle cx="34" cy="34" r="3.5" stroke={s} strokeWidth="0.6" fill="none"/>
+        <circle cx="44" cy="22" r="3.5" stroke={s} strokeWidth="0.6" fill="none"/>
+      </g>
+
+      {/* ═══ Projector — small ═══ */}
+      <g opacity="0.05" transform="translate(700, 800) scale(1)">
+        <rect x="10" y="15" width="60" height="30" rx="5" stroke={s} strokeWidth="1.2" fill="none"/>
+        <circle cx="35" cy="30" r="10" stroke={s} strokeWidth="1" fill="none"/>
+        <circle cx="35" cy="30" r="5" stroke={s} strokeWidth="0.7" fill="none"/>
+        {/* light beam */}
+        <path d="M70 22 L95 10 L95 50 L70 38" stroke={s} strokeWidth="0.6" fill="none" strokeDasharray="3,2"/>
+      </g>
+
+      {/* ═══ Smart POS — small ═══ */}
+      <g opacity="0.05" transform="translate(560, 100) scale(1)">
+        <rect x="10" y="5" width="35" height="55" rx="4" stroke={s} strokeWidth="1.2" fill="none"/>
+        <rect x="14" y="10" width="27" height="20" rx="2" stroke={s} strokeWidth="0.8" fill="none"/>
+        {/* keypad */}
+        {[36,42,48].map(y => [18,27,36].map(x => <circle key={`${x}${y}`} cx={x} cy={y} r="2" stroke={s} strokeWidth="0.5" fill="none"/>))}
+        {/* card slot */}
+        <rect x="18" y="54" width="20" height="3" rx="1" stroke={s} strokeWidth="0.6" fill="none"/>
+      </g>
+
+      {/* ═══ Tablet — small ═══ */}
+      <g opacity="0.05" transform="translate(1100, 160) scale(1)">
+        <rect x="5" y="5" width="50" height="65" rx="5" stroke={s} strokeWidth="1.2" fill="none"/>
+        <rect x="9" y="12" width="42" height="50" rx="2" stroke={s} strokeWidth="0.6" fill="none"/>
+        <circle cx="30" cy="68" r="2" stroke={s} strokeWidth="0.6" fill="none"/>
+      </g>
+
+      {/* ═══ IP Phone — tiny ═══ */}
+      <g opacity="0.04" transform="translate(880, 800) scale(0.9)">
+        <rect x="10" y="10" width="45" height="50" rx="4" stroke={s} strokeWidth="1.1" fill="none"/>
+        <rect x="14" y="14" width="37" height="18" rx="2" stroke={s} strokeWidth="0.7" fill="none"/>
+        {/* keypad grid */}
+        {[37,43,49].map(y=>[20,30,40].map(x=><rect key={`p${x}${y}`} x={x} y={y} width="6" height="4" rx="1" stroke={s} strokeWidth="0.4" fill="none"/>))}
+        {/* handset */}
+        <path d="M58 15 Q68 15 68 25 L68 40 Q68 50 58 50" stroke={s} strokeWidth="1" fill="none"/>
+      </g>
+
+      {/* ═══ Scattered WiFi waves ═══ */}
+      <g opacity="0.04" transform="translate(700, 130) scale(0.7)">
+        <path d="M20 30c5.5-5.5 14.5-5.5 20 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M15 24c8.25-8.25 21.75-8.25 30 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      </g>
+      <g opacity="0.035" transform="translate(380, 480) scale(0.6)">
+        <path d="M20 30c5.5-5.5 14.5-5.5 20 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M15 24c8.25-8.25 21.75-8.25 30 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M10 18c11-11 29-11 40 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      </g>
+      <g opacity="0.03" transform="translate(1050, 500) scale(0.5)">
+        <path d="M20 30c5.5-5.5 14.5-5.5 20 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M15 24c8.25-8.25 21.75-8.25 30 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      </g>
+
+      {/* ═══ Circuit traces ═══ */}
+      <g opacity="0.03" stroke={s} strokeWidth="0.8">
+        <path d="M0 320 L140 320 L140 400 L220 400" fill="none"/>
+        <path d="M1440 520 L1300 520 L1300 580 L1220 580" fill="none"/>
+        <path d="M620 0 L620 70 L700 70" fill="none"/>
+        <path d="M880 900 L880 830 L960 830" fill="none"/>
+        <path d="M300 900 L300 860 L380 860 L380 830" fill="none"/>
+        <path d="M1440 200 L1380 200 L1380 260" fill="none"/>
+        <circle cx="140" cy="320" r="3" fill={s}/>
+        <circle cx="220" cy="400" r="3" fill={s}/>
+        <circle cx="1300" cy="520" r="3" fill={s}/>
+        <circle cx="620" cy="70" r="3" fill={s}/>
+        <circle cx="960" cy="830" r="3" fill={s}/>
+        <circle cx="380" cy="830" r="3" fill={s}/>
       </g>
     </svg>
   );

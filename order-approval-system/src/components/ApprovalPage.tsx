@@ -103,8 +103,8 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 20px",
-          height: 48,
+          padding: "0 28px",
+          height: 64,
           background: "rgba(0,0,0,0.8)",
           backdropFilter: "saturate(180%) blur(20px)",
           WebkitBackdropFilter: "saturate(180%) blur(20px)",
@@ -113,21 +113,21 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
         }}
       >
         {/* Left: Logo + Title */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <img
             src="/logo.png"
             alt="SeekWave"
-            style={{ height: 24, filter: "brightness(10)" }}
+            style={{ height: 36, filter: "brightness(10)" }}
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
           <span
             style={{
-              fontSize: 14,
+              fontSize: 18,
               fontWeight: 600,
               color: "#ffffff",
-              letterSpacing: -0.224,
+              letterSpacing: -0.28,
             }}
           >
             希微科技销售订单审批系统
@@ -135,13 +135,13 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
         </div>
 
         {/* Right: Stats + User + Logout */}
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           {/* Pending count */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.48)" }}>待审批</span>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+            <span style={{ fontSize: 14, color: "rgba(255,255,255,0.56)" }}>待审批</span>
             <span
               style={{
-                fontSize: 21,
+                fontSize: 26,
                 fontWeight: 600,
                 color: "#ff453a",
                 fontVariantNumeric: "tabular-nums",
@@ -157,7 +157,7 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <div
             style={{
               width: 1,
-              height: 20,
+              height: 28,
               background: "rgba(255,255,255,0.16)",
             }}
           />
@@ -166,8 +166,8 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div
               style={{
-                width: 28,
-                height: 28,
+                width: 34,
+                height: 34,
                 borderRadius: "50%",
                 background: "#272729",
                 display: "flex",
@@ -181,10 +181,10 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
               {currentUser.name.charAt(0)}
             </div>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 400, color: "#ffffff" }}>
+              <div style={{ fontSize: 14, fontWeight: 400, color: "#ffffff" }}>
                 {currentUser.name}
               </div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.48)" }}>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.48)" }}>
                 {currentUser.role}
               </div>
             </div>
@@ -197,7 +197,7 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
               background: "none",
               border: "none",
               color: "#2997ff",
-              fontSize: 12,
+              fontSize: 14,
               cursor: "pointer",
               fontWeight: 400,
               padding: "4px 8px",
