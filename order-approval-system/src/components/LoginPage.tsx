@@ -20,6 +20,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const [rememberPassword, setRememberPassword] = useState(false);
   const [error, setError] = useState("");
   const [pressed, setPressed] = useState(false);
+  const [focusField, setFocusField] = useState<string | null>(null);
 
   useEffect(() => {
     if (countdown <= 0) return;
@@ -55,23 +56,24 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const inputStyle = useCallback(
     (focused: boolean) => ({
       width: "100%",
-      padding: "13px 16px 13px 42px",
-      border: focused
-        ? "1px solid rgba(0,122,255,0.5)"
-        : "1px solid rgba(0,0,0,0.06)",
-      borderRadius: 12,
-      background: focused ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.6)",
-      fontSize: 15,
+      padding: "12px 16px 12px 44px",
+      border: "none",
+      borderRadius: 8,
+      background: focused ? "#ffffff" : "#f5f5f7",
+      fontSize: 17,
+      fontWeight: 400 as const,
       color: "#1d1d1f",
+      letterSpacing: -0.374,
+      lineHeight: "1.47",
       outline: "none",
       transition: "all 0.2s ease",
-      boxShadow: focused ? "0 0 0 4px rgba(0,122,255,0.08)" : "none",
+      boxShadow: focused
+        ? "0 0 0 2px #0071e3"
+        : "inset 0 0 0 1px rgba(0,0,0,0.08)",
       boxSizing: "border-box" as const,
     }),
     []
   );
-
-  const [focusField, setFocusField] = useState<string | null>(null);
 
   return (
     <div
@@ -82,68 +84,68 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         alignItems: "center",
         justifyContent: "center",
         padding: "24px 16px",
+        background: "#000000",
       }}
     >
-      {/* Glass Card */}
+      {/* Card */}
       <div
         style={{
           width: 420,
           maxWidth: "92vw",
-          background: "rgba(255,255,255,0.68)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-          borderRadius: 24,
-          border: "1px solid rgba(255,255,255,0.6)",
-          boxShadow:
-            "0 8px 40px rgba(0,40,100,0.08), 0 2px 6px rgba(0,0,0,0.03)",
-          padding: "36px 32px 28px",
+          background: "#ffffff",
+          borderRadius: 18,
+          boxShadow: "rgba(0, 0, 0, 0.22) 3px 5px 30px 0px",
+          padding: "40px 36px 32px",
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
           <img
             src="/logo.png"
             alt="SeekWave 希微科技"
-            style={{ height: 40, margin: "0 auto 10px", display: "block" }}
+            style={{ height: 44, margin: "0 auto 14px", display: "block" }}
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
           <div
             style={{
-              fontSize: 26,
-              fontWeight: 700,
-              color: "#1a5ca8",
-              letterSpacing: 3,
+              fontSize: 28,
+              fontWeight: 600,
+              color: "#1d1d1f",
+              letterSpacing: -0.28,
+              lineHeight: 1.14,
             }}
           >
             希微科技
           </div>
           <div
             style={{
-              fontSize: 11,
-              color: "#3bb8c3",
-              letterSpacing: 6,
-              marginTop: 2,
-              fontWeight: 500,
+              fontSize: 12,
+              color: "rgba(0,0,0,0.48)",
+              letterSpacing: 4,
+              marginTop: 4,
+              fontWeight: 400,
+              textTransform: "uppercase",
             }}
           >
             SEEKWAVE TECHNOLOGY
           </div>
           <div
             style={{
-              height: 2,
-              margin: "14px auto",
-              width: 60,
-              background: "linear-gradient(90deg, #1a5ca8, #3bb8c3)",
-              borderRadius: 1,
+              height: 1,
+              margin: "20px auto 16px",
+              width: 48,
+              background: "rgba(0,0,0,0.12)",
             }}
           />
           <div
             style={{
-              fontSize: 18,
-              fontWeight: 700,
+              fontSize: 21,
+              fontWeight: 600,
               color: "#1d1d1f",
+              letterSpacing: 0.231,
+              lineHeight: 1.19,
             }}
           >
             销售订单审批系统
@@ -151,7 +153,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         </div>
 
         {/* Form */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {/* Username */}
           <div style={{ position: "relative" }}>
             <span
@@ -161,6 +163,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 top: "50%",
                 transform: "translateY(-50%)",
                 fontSize: 16,
+                opacity: 0.5,
                 zIndex: 1,
               }}
             >
@@ -186,6 +189,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 top: "50%",
                 transform: "translateY(-50%)",
                 fontSize: 16,
+                opacity: 0.5,
                 zIndex: 1,
               }}
             >
@@ -211,6 +215,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 top: "50%",
                 transform: "translateY(-50%)",
                 fontSize: 16,
+                opacity: 0.5,
                 zIndex: 1,
               }}
             >
@@ -237,6 +242,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   top: "50%",
                   transform: "translateY(-50%)",
                   fontSize: 16,
+                  opacity: 0.5,
                   zIndex: 1,
                 }}
               >
@@ -261,17 +267,15 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               disabled={countdown > 0}
               style={{
                 padding: "0 18px",
-                borderRadius: 12,
-                border: "none",
-                fontSize: 13,
-                fontWeight: 600,
+                borderRadius: 8,
+                border: countdown > 0 ? "1px solid rgba(0,0,0,0.08)" : "1px solid transparent",
+                fontSize: 14,
+                fontWeight: 400,
+                letterSpacing: -0.224,
                 whiteSpace: "nowrap",
                 cursor: countdown > 0 ? "default" : "pointer",
-                background:
-                  countdown > 0
-                    ? "rgba(0,0,0,0.04)"
-                    : "linear-gradient(135deg, #007AFF, #0055d4)",
-                color: countdown > 0 ? "#86868b" : "#fff",
+                background: countdown > 0 ? "#f5f5f7" : "#0071e3",
+                color: countdown > 0 ? "rgba(0,0,0,0.48)" : "#ffffff",
                 transition: "all 0.2s ease",
               }}
             >
@@ -284,7 +288,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              padding: "4px 0",
+              padding: "2px 0",
             }}
           >
             <Toggle
@@ -304,8 +308,9 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             <div
               style={{
                 textAlign: "center",
-                fontSize: 13,
-                color: "#FF3B30",
+                fontSize: 14,
+                color: "#ff3b30",
+                letterSpacing: -0.224,
                 padding: "2px 0",
               }}
             >
@@ -321,21 +326,20 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             onClick={handleLogin}
             style={{
               width: "100%",
-              padding: 15,
-              borderRadius: 14,
-              border: "none",
-              background: "linear-gradient(135deg, #007AFF, #0055d4)",
-              color: "#fff",
+              padding: "12px 15px",
+              borderRadius: 8,
+              border: "1px solid transparent",
+              background: "#0071e3",
+              color: "#ffffff",
               fontSize: 17,
-              fontWeight: 600,
-              letterSpacing: 2,
+              fontWeight: 400,
+              letterSpacing: -0.374,
               cursor: "pointer",
-              boxShadow: "0 4px 14px rgba(0,122,255,0.25)",
               transition: "all 0.2s ease",
               transform: pressed ? "scale(0.97)" : "scale(1)",
             }}
           >
-            登 录
+            登录
           </button>
 
           {/* Security notice */}
@@ -343,9 +347,10 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             style={{
               textAlign: "center",
               fontSize: 12,
-              color: "#FF3B30",
+              color: "rgba(0,0,0,0.48)",
               marginTop: 4,
-              lineHeight: 1.5,
+              lineHeight: 1.33,
+              letterSpacing: -0.12,
             }}
           >
             密码信息至关重要，请不要向其他人透露该信息。建议密码每个月更换一次。

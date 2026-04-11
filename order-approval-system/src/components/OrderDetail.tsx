@@ -30,17 +30,16 @@ function nowStr(): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-/* ── Section title ── */
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
         fontSize: 12,
         fontWeight: 600,
-        color: "#86868b",
-        letterSpacing: 0.5,
+        color: "rgba(0,0,0,0.48)",
+        letterSpacing: -0.12,
         marginBottom: 8,
-        marginTop: 20,
+        marginTop: 24,
       }}
     >
       {children}
@@ -48,16 +47,18 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ── Grid Cell ── */
 function Cell({ label, value, danger }: { label: string; value: string; danger?: boolean }) {
   return (
-    <div style={{ padding: "12px 16px", background: "rgba(255,255,255,0.85)" }}>
-      <div style={{ fontSize: 11, color: "#86868b", marginBottom: 3 }}>{label}</div>
+    <div style={{ padding: "14px 16px" }}>
+      <div style={{ fontSize: 12, color: "rgba(0,0,0,0.48)", marginBottom: 4, letterSpacing: -0.12 }}>
+        {label}
+      </div>
       <div
         style={{
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: 600,
-          color: danger ? "#FF3B30" : "#1d1d1f",
+          color: danger ? "#ff3b30" : "#1d1d1f",
+          letterSpacing: -0.224,
         }}
       >
         {value}
@@ -66,16 +67,14 @@ function Cell({ label, value, danger }: { label: string; value: string; danger?:
   );
 }
 
-/* ── Info Grid ── */
 function InfoGrid({ cols, children }: { cols: number; children: React.ReactNode }) {
   return (
     <div
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        gap: 1,
-        background: "rgba(0,0,0,0.04)",
-        borderRadius: 12,
+        background: "#f5f5f7",
+        borderRadius: 8,
         overflow: "hidden",
       }}
     >
@@ -105,8 +104,9 @@ export default function OrderDetail({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#86868b",
-          fontSize: 15,
+          color: "rgba(0,0,0,0.48)",
+          fontSize: 17,
+          letterSpacing: -0.374,
         }}
       >
         请从左侧选择一笔订单
@@ -188,13 +188,10 @@ export default function OrderDetail({
     >
       <div
         style={{
-          background: "rgba(255,255,255,0.68)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-          borderRadius: 20,
-          border: "1px solid rgba(255,255,255,0.6)",
-          boxShadow: "0 8px 40px rgba(0,40,100,0.08), 0 2px 6px rgba(0,0,0,0.03)",
-          padding: 24,
+          background: "#ffffff",
+          borderRadius: 12,
+          boxShadow: "rgba(0, 0, 0, 0.22) 3px 5px 30px 0px",
+          padding: 28,
         }}
       >
         {/* ── Header ── */}
@@ -203,14 +200,30 @@ export default function OrderDetail({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-start",
-            marginBottom: 20,
+            marginBottom: 24,
           }}
         >
           <div>
-            <div style={{ fontSize: 21, fontWeight: 700, color: "#1d1d1f" }}>
+            <div
+              style={{
+                fontSize: 28,
+                fontWeight: 600,
+                color: "#1d1d1f",
+                letterSpacing: -0.28,
+                lineHeight: 1.14,
+              }}
+            >
               {order.customer}
             </div>
-            <div style={{ fontSize: 12, color: "#86868b", marginTop: 3 }}>
+            <div
+              style={{
+                fontSize: 14,
+                color: "rgba(0,0,0,0.48)",
+                marginTop: 6,
+                letterSpacing: -0.224,
+                lineHeight: 1.29,
+              }}
+            >
               ERP: {order.id} &middot; {order.syncedAt}
             </div>
           </div>
@@ -258,14 +271,14 @@ export default function OrderDetail({
         {(order.isSpecialPrice || order.grossMargin < 15) && (
           <div
             style={{
-              marginTop: 16,
-              padding: "13px 16px",
-              borderRadius: 12,
-              background: "rgba(255,149,0,0.07)",
-              border: "1px solid rgba(255,149,0,0.15)",
-              fontSize: 13,
+              marginTop: 20,
+              padding: "14px 16px",
+              borderRadius: 8,
+              background: "#fff3e0",
+              fontSize: 14,
               color: "#8a5500",
-              lineHeight: 1.6,
+              lineHeight: 1.47,
+              letterSpacing: -0.224,
             }}
           >
             {order.isSpecialPrice && (
@@ -279,20 +292,21 @@ export default function OrderDetail({
 
         {/* ── Approval Actions (only when pending) ── */}
         {isPending && (
-          <div style={{ marginTop: 24 }}>
+          <div style={{ marginTop: 28 }}>
             <div
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 600,
                 color: "#1d1d1f",
-                marginBottom: 10,
+                marginBottom: 12,
+                letterSpacing: -0.224,
               }}
             >
               审批操作
             </div>
 
             {/* Quick pills */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
               {QUICK_OPTIONS.map((opt) => {
                 const isActive = selectedPills.has(opt);
                 return (
@@ -300,19 +314,18 @@ export default function OrderDetail({
                     key={opt}
                     onClick={() => togglePill(opt)}
                     style={{
-                      padding: "7px 18px",
-                      borderRadius: 22,
+                      padding: "6px 16px",
+                      borderRadius: 980,
                       border: isActive
-                        ? "1.5px solid #007AFF"
-                        : "1px solid rgba(0,0,0,0.06)",
-                      background: isActive
-                        ? "rgba(0,122,255,0.08)"
-                        : "rgba(255,255,255,0.8)",
-                      color: isActive ? "#007AFF" : "#3c3c43",
-                      fontSize: 13,
+                        ? "1px solid #0071e3"
+                        : "1px solid rgba(0,0,0,0.08)",
+                      background: isActive ? "rgba(0,113,227,0.08)" : "#f5f5f7",
+                      color: isActive ? "#0071e3" : "rgba(0,0,0,0.8)",
+                      fontSize: 14,
                       cursor: "pointer",
                       transition: "all 0.2s ease",
                       fontWeight: isActive ? 600 : 400,
+                      letterSpacing: -0.224,
                     }}
                   >
                     {isActive ? "✓ " : ""}
@@ -331,31 +344,32 @@ export default function OrderDetail({
                 width: "100%",
                 minHeight: 68,
                 padding: "12px 16px",
-                border: "1px solid rgba(0,0,0,0.06)",
-                borderRadius: 12,
-                background: "rgba(255,255,255,0.6)",
-                fontSize: 14,
+                border: "none",
+                borderRadius: 8,
+                background: "#f5f5f7",
+                fontSize: 17,
                 color: "#1d1d1f",
                 outline: "none",
                 resize: "vertical",
                 transition: "all 0.2s ease",
                 boxSizing: "border-box",
                 fontFamily: "inherit",
+                letterSpacing: -0.374,
+                lineHeight: 1.47,
+                boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.04)",
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = "rgba(0,122,255,0.5)";
-                e.target.style.boxShadow = "0 0 0 4px rgba(0,122,255,0.08)";
-                e.target.style.background = "rgba(255,255,255,0.9)";
+                e.target.style.boxShadow = "0 0 0 2px #0071e3";
+                e.target.style.background = "#ffffff";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = "rgba(0,0,0,0.06)";
-                e.target.style.boxShadow = "none";
-                e.target.style.background = "rgba(255,255,255,0.6)";
+                e.target.style.boxShadow = "inset 0 0 0 1px rgba(0,0,0,0.04)";
+                e.target.style.background = "#f5f5f7";
               }}
             />
 
             {/* Email CC */}
-            <div style={{ marginTop: 12 }}>
+            <div style={{ marginTop: 14 }}>
               <Toggle
                 checked={emailEnabled}
                 onChange={setEmailEnabled}
@@ -379,14 +393,15 @@ export default function OrderDetail({
                         onClick={() => toggleEmail(email)}
                         style={{
                           padding: "5px 14px",
-                          borderRadius: 20,
-                          border: isActive ? "none" : "1px solid rgba(0,0,0,0.08)",
-                          background: isActive ? "#007AFF" : "rgba(0,0,0,0.03)",
-                          color: isActive ? "#fff" : "#3c3c43",
+                          borderRadius: 980,
+                          border: isActive ? "1px solid transparent" : "1px solid rgba(0,0,0,0.08)",
+                          background: isActive ? "#0071e3" : "#f5f5f7",
+                          color: isActive ? "#ffffff" : "rgba(0,0,0,0.8)",
                           fontSize: 12,
                           cursor: "pointer",
                           transition: "all 0.2s ease",
                           fontWeight: isActive ? 600 : 400,
+                          letterSpacing: -0.12,
                         }}
                       >
                         {isActive ? "✓ " : ""}
@@ -399,7 +414,7 @@ export default function OrderDetail({
             </div>
 
             {/* Action Buttons */}
-            <div style={{ display: "flex", gap: 12, marginTop: 18 }}>
+            <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
               {/* Reject */}
               <button
                 onMouseDown={() => setPressedBtn("reject")}
@@ -408,16 +423,17 @@ export default function OrderDetail({
                 onClick={handleReject}
                 style={{
                   flex: 1,
-                  padding: "13px 0",
-                  borderRadius: 14,
-                  border: "none",
-                  background: "rgba(255,59,48,0.08)",
-                  color: "#FF3B30",
-                  fontSize: 16,
-                  fontWeight: 600,
+                  padding: "12px 15px",
+                  borderRadius: 8,
+                  border: "1px solid transparent",
+                  background: "#1d1d1f",
+                  color: "#ffffff",
+                  fontSize: 17,
+                  fontWeight: 400,
                   cursor: "pointer",
                   transition: "all 0.2s ease",
                   transform: pressedBtn === "reject" ? "scale(0.97)" : "scale(1)",
+                  letterSpacing: -0.374,
                 }}
               >
                 拒绝
@@ -431,17 +447,17 @@ export default function OrderDetail({
                 onClick={handleApprove}
                 style={{
                   flex: 2,
-                  padding: "13px 0",
-                  borderRadius: 14,
-                  border: "none",
-                  background: "linear-gradient(135deg, #007AFF, #0055d4)",
-                  color: "#fff",
-                  fontSize: 16,
-                  fontWeight: 600,
+                  padding: "12px 15px",
+                  borderRadius: 8,
+                  border: "1px solid transparent",
+                  background: "#0071e3",
+                  color: "#ffffff",
+                  fontSize: 17,
+                  fontWeight: 400,
                   cursor: "pointer",
-                  boxShadow: "0 4px 14px rgba(0,122,255,0.25)",
                   transition: "all 0.2s ease",
                   transform: pressedBtn === "approve" ? "scale(0.97)" : "scale(1)",
+                  letterSpacing: -0.374,
                 }}
               >
                 {needsEscalation ? "同意并上报" : "同意"}

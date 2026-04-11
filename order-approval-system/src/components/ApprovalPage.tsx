@@ -92,20 +92,22 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
+        background: "#f5f5f7",
       }}
     >
-      {/* ── Header ── */}
+      {/* ── Header — Apple dark translucent glass nav ── */}
       <header
         style={{
+          position: "sticky",
+          top: 0,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 20px",
-          height: 56,
-          background: "rgba(255,255,255,0.55)",
-          backdropFilter: "blur(40px)",
-          WebkitBackdropFilter: "blur(40px)",
-          borderBottom: "0.5px solid rgba(0,0,0,0.06)",
+          height: 48,
+          background: "rgba(0,0,0,0.8)",
+          backdropFilter: "saturate(180%) blur(20px)",
+          WebkitBackdropFilter: "saturate(180%) blur(20px)",
           flexShrink: 0,
           zIndex: 10,
         }}
@@ -115,16 +117,17 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <img
             src="/logo.png"
             alt="SeekWave"
-            style={{ height: 28 }}
+            style={{ height: 24, filter: "brightness(10)" }}
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
           <span
             style={{
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: 600,
-              color: "#1d1d1f",
+              color: "#ffffff",
+              letterSpacing: -0.224,
             }}
           >
             希微科技销售订单审批系统
@@ -132,16 +135,18 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
         </div>
 
         {/* Right: Stats + User + Logout */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           {/* Pending count */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-            <span style={{ fontSize: 13, color: "#86868b" }}>待审批：</span>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.48)" }}>待审批</span>
             <span
               style={{
-                fontSize: 26,
-                fontWeight: 800,
-                color: "#FF3B30",
+                fontSize: 21,
+                fontWeight: 600,
+                color: "#ff453a",
                 fontVariantNumeric: "tabular-nums",
+                letterSpacing: 0.231,
+                lineHeight: 1.19,
               }}
             >
               {pendingCount}
@@ -152,8 +157,8 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <div
             style={{
               width: 1,
-              height: 24,
-              background: "rgba(0,0,0,0.08)",
+              height: 20,
+              background: "rgba(255,255,255,0.16)",
             }}
           />
 
@@ -161,25 +166,25 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div
               style={{
-                width: 32,
-                height: 32,
+                width: 28,
+                height: 28,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #1a5ca8, #3bb8c3)",
+                background: "#272729",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#fff",
-                fontSize: 13,
-                fontWeight: 700,
+                color: "#ffffff",
+                fontSize: 12,
+                fontWeight: 600,
               }}
             >
               {currentUser.name.charAt(0)}
             </div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#1d1d1f" }}>
+              <div style={{ fontSize: 12, fontWeight: 400, color: "#ffffff" }}>
                 {currentUser.name}
               </div>
-              <div style={{ fontSize: 11, color: "#86868b" }}>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.48)" }}>
                 {currentUser.role}
               </div>
             </div>
@@ -191,11 +196,12 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
             style={{
               background: "none",
               border: "none",
-              color: "#007AFF",
-              fontSize: 13,
+              color: "#2997ff",
+              fontSize: 12,
               cursor: "pointer",
-              fontWeight: 500,
+              fontWeight: 400,
               padding: "4px 8px",
+              letterSpacing: -0.12,
             }}
           >
             退出登录
@@ -211,7 +217,6 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           overflow: "hidden",
         }}
       >
-        {/* Desktop: all 3 panels. Mobile: show mobilePanel via CSS class */}
         <div
           className={`order-list-panel${mobilePanel === "list" ? " mobile-active" : ""}`}
         >
@@ -250,10 +255,10 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           left: 0,
           right: 0,
           display: "none",
-          background: "rgba(255,255,255,0.75)",
-          backdropFilter: "blur(30px)",
-          WebkitBackdropFilter: "blur(30px)",
-          borderTop: "0.5px solid rgba(0,0,0,0.08)",
+          background: "rgba(0,0,0,0.8)",
+          backdropFilter: "saturate(180%) blur(20px)",
+          WebkitBackdropFilter: "saturate(180%) blur(20px)",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
           zIndex: 20,
         }}
       >
@@ -268,9 +273,10 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
               border: "none",
               fontSize: 12,
               fontWeight: mobilePanel === tab.key ? 600 : 400,
-              color: mobilePanel === tab.key ? "#007AFF" : "#86868b",
+              color: mobilePanel === tab.key ? "#2997ff" : "rgba(255,255,255,0.48)",
               cursor: "pointer",
               transition: "color 0.2s ease",
+              letterSpacing: -0.12,
             }}
           >
             {tab.label}

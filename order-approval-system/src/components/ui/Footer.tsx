@@ -7,8 +7,9 @@ export default function Footer() {
         textAlign: "center",
         padding: "18px 0 14px",
         fontSize: 12,
-        color: "#86868b",
-        letterSpacing: 0.2,
+        color: "rgba(0,0,0,0.48)",
+        letterSpacing: -0.12,
+        lineHeight: 1.33,
       }}
     >
       Copyright &copy; 2026. Shanghai SeekWave Technology Co., Ltd.

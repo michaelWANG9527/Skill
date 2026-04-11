@@ -17,14 +17,6 @@ const PRIORITY: Record<OrderStatus, number> = {
   rejected: 3,
 };
 
-const CARD_BG: Record<OrderStatus, string> = {
-  pending: "rgba(255,255,255,0.65)",
-  vp_approved: "rgba(52,199,89,0.08)",
-  gm_approved: "rgba(52,199,89,0.08)",
-  rejected: "rgba(255,59,48,0.08)",
-  escalated: "rgba(255,149,0,0.08)",
-};
-
 function sortOrders(orders: Order[]): Order[] {
   return [...orders].sort((a, b) => {
     const pd = PRIORITY[a.status] - PRIORITY[b.status];
@@ -48,25 +40,26 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
         minWidth: 300,
         height: "100%",
         overflowY: "auto",
-        padding: "14px 10px",
+        padding: "16px 12px",
+        background: "#ffffff",
+        borderRight: "1px solid rgba(0,0,0,0.06)",
         WebkitOverflowScrolling: "touch",
       }}
     >
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 600,
-          color: "#86868b",
-          textTransform: "uppercase",
-          letterSpacing: 0.5,
-          marginBottom: 10,
+          color: "rgba(0,0,0,0.48)",
+          letterSpacing: -0.12,
+          marginBottom: 12,
           paddingLeft: 4,
         }}
       >
         订单列表 &middot; {pendingCount} 笔待审
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {sorted.map((order) => {
           const isSelected = order.id === selectedId;
           const hasRisk = order.isSpecialPrice || order.grossMargin < 15;
@@ -75,19 +68,11 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
               key={order.id}
               onClick={() => onSelect(order.id)}
               style={{
-                padding: "13px 14px",
-                borderRadius: 14,
+                padding: "12px 14px",
+                borderRadius: 8,
                 cursor: "pointer",
-                background: isSelected
-                  ? "rgba(0,122,255,0.07)"
-                  : CARD_BG[order.status],
-                border: isSelected
-                  ? "1.5px solid rgba(0,122,255,0.25)"
-                  : "1px solid rgba(255,255,255,0.5)",
-                boxShadow: isSelected
-                  ? "0 2px 12px rgba(0,122,255,0.06)"
-                  : "0 1px 4px rgba(0,0,0,0.03)",
-                transition: "all 0.2s ease",
+                background: isSelected ? "#0071e3" : "transparent",
+                transition: "all 0.15s ease",
               }}
             >
               {/* Row 1: Order ID + Badge */}
@@ -102,14 +87,15 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
                 <span
                   style={{
                     fontSize: 12,
-                    fontWeight: 700,
+                    fontWeight: 600,
                     fontFamily: "ui-monospace, SFMono-Regular, monospace",
-                    color: "#1d1d1f",
+                    color: isSelected ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.48)",
+                    letterSpacing: -0.12,
                   }}
                 >
                   {order.id}
                 </span>
-                <Badge status={order.status} />
+                {!isSelected && <Badge status={order.status} />}
               </div>
 
               {/* Row 2: Customer */}
@@ -117,11 +103,12 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: "#1d1d1f",
+                  color: isSelected ? "#ffffff" : "#1d1d1f",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                   marginBottom: 3,
+                  letterSpacing: -0.224,
                 }}
               >
                 {order.customer}
@@ -134,12 +121,13 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
                   justifyContent: "space-between",
                   alignItems: "center",
                   fontSize: 12,
-                  color: "#3c3c43",
+                  color: isSelected ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.48)",
                   marginBottom: 3,
+                  letterSpacing: -0.12,
                 }}
               >
                 <span>{order.partNumber}</span>
-                <span style={{ fontWeight: 600 }}>
+                <span style={{ fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>
                   ¥{formatAmount(order.totalAmountTax)}
                 </span>
               </div>
@@ -147,28 +135,30 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
               {/* Row 4: End customer */}
               <div
                 style={{
-                  fontSize: 11,
-                  color: "#86868b",
+                  fontSize: 12,
+                  color: isSelected ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.35)",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  letterSpacing: -0.12,
                 }}
               >
                 {order.endCustomer}
               </div>
 
               {/* Row 5: Risk tags */}
-              {hasRisk && (
+              {hasRisk && !isSelected && (
                 <div style={{ display: "flex", gap: 4, marginTop: 6 }}>
                   {order.isSpecialPrice && (
                     <span
                       style={{
                         fontSize: 10,
                         padding: "2px 7px",
-                        borderRadius: 6,
+                        borderRadius: 5,
                         background: "rgba(255,149,0,0.10)",
                         color: "#8a5500",
                         fontWeight: 600,
+                        letterSpacing: -0.08,
                       }}
                     >
                       特殊价格
@@ -179,10 +169,11 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
                       style={{
                         fontSize: 10,
                         padding: "2px 7px",
-                        borderRadius: 6,
+                        borderRadius: 5,
                         background: "rgba(255,59,48,0.08)",
-                        color: "#c0392b",
+                        color: "#ff3b30",
                         fontWeight: 600,
+                        letterSpacing: -0.08,
                       }}
                     >
                       低毛利 {order.grossMargin}%

@@ -10,24 +10,12 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(160deg, #e8f0fe 0%, #dae8f8 35%, #c9ddf2 65%, #e0ecf8 100%);
-  background-attachment: fixed;
+  background: #f5f5f7;
   color: #1d1d1f;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 25% 40%, rgba(255,255,255,0.6) 1px, transparent 1px),
-    radial-gradient(circle at 75% 60%, rgba(255,255,255,0.4) 1px, transparent 1px);
-  background-size: 44px 44px, 66px 66px;
-  pointer-events: none;
-  z-index: 0;
+  letter-spacing: -0.374px;
 }
 
 #__next,

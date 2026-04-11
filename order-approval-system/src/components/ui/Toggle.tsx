@@ -24,7 +24,7 @@ export default function Toggle({ checked, onChange, label }: ToggleProps) {
           width: 44,
           height: 26,
           borderRadius: 13,
-          background: checked ? "#34C759" : "#e5e5ea",
+          background: checked ? "#34c759" : "#e5e5ea",
           transition: "background 0.2s ease",
           flexShrink: 0,
         }}
@@ -37,14 +37,14 @@ export default function Toggle({ checked, onChange, label }: ToggleProps) {
             width: 22,
             height: 22,
             borderRadius: "50%",
-            background: "#fff",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.06)",
+            background: "#ffffff",
+            boxShadow: "rgba(0, 0, 0, 0.22) 3px 5px 30px 0px, 0 0 1px rgba(0,0,0,0.06)",
             transition: "left 0.2s ease",
           }}
         />
       </span>
       {label && (
-        <span style={{ fontSize: 13, color: "#3c3c43" }}>{label}</span>
+        <span style={{ fontSize: 14, color: "rgba(0,0,0,0.8)", letterSpacing: -0.224 }}>{label}</span>
       )}
     </label>
   );

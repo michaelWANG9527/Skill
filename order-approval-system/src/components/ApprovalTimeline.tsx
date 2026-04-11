@@ -10,11 +10,11 @@ const ACTION_CONFIG: Record<
   ApprovalAction,
   { color: string; label: string }
 > = {
-  submit:   { color: "#007AFF", label: "提交审批" },
-  approve:  { color: "#34C759", label: "审批通过" },
-  reject:   { color: "#FF3B30", label: "驳回" },
-  escalate: { color: "#5856D6", label: "上报审批" },
-  comment:  { color: "#86868b", label: "备注" },
+  submit:   { color: "#0071e3", label: "提交审批" },
+  approve:  { color: "#34c759", label: "审批通过" },
+  reject:   { color: "#ff3b30", label: "驳回" },
+  escalate: { color: "#af52de", label: "上报审批" },
+  comment:  { color: "#8e8e93", label: "备注" },
 };
 
 export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
@@ -27,29 +27,26 @@ export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
         minWidth: 260,
         height: "100%",
         overflowY: "auto",
-        padding: "14px 16px",
-        borderLeft: "0.5px solid rgba(0,0,0,0.06)",
-        background: "rgba(255,255,255,0.35)",
-        WebkitBackdropFilter: "blur(30px)",
-        backdropFilter: "blur(30px)",
+        padding: "16px 16px",
+        borderLeft: "1px solid rgba(0,0,0,0.06)",
+        background: "#ffffff",
         WebkitOverflowScrolling: "touch",
       }}
     >
       <div
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 600,
-          color: "#86868b",
-          textTransform: "uppercase",
-          letterSpacing: 1,
-          marginBottom: 16,
+          color: "rgba(0,0,0,0.48)",
+          letterSpacing: -0.12,
+          marginBottom: 20,
         }}
       >
         审批记录
       </div>
 
       {reversed.length === 0 && (
-        <div style={{ fontSize: 13, color: "#86868b", textAlign: "center", padding: 20 }}>
+        <div style={{ fontSize: 14, color: "rgba(0,0,0,0.48)", textAlign: "center", padding: 24, letterSpacing: -0.224 }}>
           暂无记录
         </div>
       )}
@@ -64,7 +61,7 @@ export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
               style={{
                 display: "flex",
                 gap: 12,
-                paddingBottom: isLast ? 0 : 20,
+                paddingBottom: isLast ? 0 : 24,
                 position: "relative",
                 animation: i === 0 ? "fadeSlideIn 0.3s ease" : undefined,
               }}
@@ -76,27 +73,25 @@ export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
                   flexDirection: "column",
                   alignItems: "center",
                   flexShrink: 0,
-                  width: 12,
+                  width: 10,
                 }}
               >
                 <div
                   style={{
-                    width: 12,
-                    height: 12,
+                    width: 10,
+                    height: 10,
                     borderRadius: "50%",
                     background: cfg.color,
-                    border: "2.5px solid rgba(255,255,255,0.95)",
-                    boxShadow: `0 0 0 1.5px ${cfg.color}35, 0 1px 3px rgba(0,0,0,0.06)`,
                     flexShrink: 0,
                   }}
                 />
                 {!isLast && (
                   <div
                     style={{
-                      width: 1.5,
+                      width: 1,
                       flex: 1,
                       marginTop: 4,
-                      background: `linear-gradient(180deg, ${cfg.color}40, rgba(0,0,0,0.04))`,
+                      background: "rgba(0,0,0,0.08)",
                     }}
                   />
                 )}
@@ -106,10 +101,11 @@ export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div
                   style={{
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: 600,
                     color: cfg.color,
                     marginBottom: 2,
+                    letterSpacing: -0.224,
                   }}
                 >
                   {cfg.label}
@@ -117,18 +113,20 @@ export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#3c3c43",
+                    color: "#1d1d1f",
                     marginBottom: 1,
+                    letterSpacing: -0.12,
                   }}
                 >
                   {record.user}
                 </div>
                 <div
                   style={{
-                    fontSize: 11,
-                    color: "#8e8e93",
+                    fontSize: 12,
+                    color: "rgba(0,0,0,0.48)",
                     fontVariantNumeric: "tabular-nums",
-                    marginBottom: record.comment ? 6 : 0,
+                    marginBottom: record.comment ? 8 : 0,
+                    letterSpacing: -0.12,
                   }}
                 >
                   {record.time}
@@ -137,12 +135,12 @@ export default function ApprovalTimeline({ records }: ApprovalTimelineProps) {
                   <div
                     style={{
                       fontSize: 12,
-                      color: "#3c3c43",
-                      background: "rgba(0,0,0,0.03)",
-                      borderRadius: 8,
-                      padding: "6px 10px",
-                      borderLeft: `2px solid ${cfg.color}50`,
-                      lineHeight: 1.5,
+                      color: "rgba(0,0,0,0.8)",
+                      background: "#f5f5f7",
+                      borderRadius: 6,
+                      padding: "8px 10px",
+                      lineHeight: 1.43,
+                      letterSpacing: -0.12,
                     }}
                   >
                     {record.comment}
