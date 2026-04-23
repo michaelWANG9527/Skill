@@ -103,11 +103,12 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 28px",
+          padding: "0 32px",
           height: 64,
-          background: "rgba(0,0,0,0.8)",
-          backdropFilter: "saturate(180%) blur(20px)",
-          WebkitBackdropFilter: "saturate(180%) blur(20px)",
+          background: "rgba(22,22,23,0.82)",
+          backdropFilter: "saturate(200%) blur(24px)",
+          WebkitBackdropFilter: "saturate(200%) blur(24px)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
           flexShrink: 0,
           zIndex: 10,
         }}
@@ -122,31 +123,52 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
-          <span
-            style={{
-              fontSize: 18,
-              fontWeight: 600,
-              color: "#ffffff",
-              letterSpacing: -0.28,
-            }}
-          >
-            希微科技销售订单审批系统
-          </span>
+          <div>
+            <span
+              style={{
+                fontSize: 18,
+                fontWeight: 600,
+                color: "#f5f5f7",
+                letterSpacing: -0.3,
+              }}
+            >
+              希微科技
+            </span>
+            <span
+              style={{
+                fontSize: 14,
+                fontWeight: 400,
+                color: "rgba(255,255,255,0.56)",
+                letterSpacing: -0.1,
+                marginLeft: 8,
+              }}
+            >
+              销售订单审批系统
+            </span>
+          </div>
         </div>
 
         {/* Right: Stats + User + Logout */}
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          {/* Pending count */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-            <span style={{ fontSize: 14, color: "rgba(255,255,255,0.56)" }}>待审批</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          {/* Pending count capsule */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "5px 14px",
+              borderRadius: 980,
+              background: "rgba(255,69,58,0.12)",
+            }}
+          >
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", letterSpacing: -0.08 }}>待审批</span>
             <span
               style={{
-                fontSize: 26,
-                fontWeight: 600,
+                fontSize: 22,
+                fontWeight: 700,
                 color: "#ff453a",
                 fontVariantNumeric: "tabular-nums",
-                letterSpacing: 0.231,
-                lineHeight: 1.19,
+                lineHeight: 1,
               }}
             >
               {pendingCount}
@@ -157,34 +179,35 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <div
             style={{
               width: 1,
-              height: 28,
-              background: "rgba(255,255,255,0.16)",
+              height: 24,
+              background: "rgba(255,255,255,0.12)",
             }}
           />
 
           {/* User capsule */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
                 width: 34,
                 height: 34,
                 borderRadius: "50%",
-                background: "#272729",
+                background: "linear-gradient(135deg, #667eea, #764ba2)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#ffffff",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
+                letterSpacing: -0.1,
               }}
             >
               {currentUser.name.charAt(0)}
             </div>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 400, color: "#ffffff" }}>
+              <div style={{ fontSize: 14, fontWeight: 500, color: "#f5f5f7", letterSpacing: -0.1 }}>
                 {currentUser.name}
               </div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.48)" }}>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.42)", letterSpacing: -0.06 }}>
                 {currentUser.role}
               </div>
             </div>
@@ -194,14 +217,22 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
           <button
             onClick={onLogout}
             style={{
-              background: "none",
+              background: "rgba(255,255,255,0.08)",
               border: "none",
-              color: "#2997ff",
-              fontSize: 14,
+              color: "#64d2ff",
+              fontSize: 13,
               cursor: "pointer",
-              fontWeight: 400,
-              padding: "4px 8px",
-              letterSpacing: -0.12,
+              fontWeight: 500,
+              padding: "6px 14px",
+              borderRadius: 980,
+              letterSpacing: -0.08,
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.14)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
             }}
           >
             退出登录

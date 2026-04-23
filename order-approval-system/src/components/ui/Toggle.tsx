@@ -21,11 +21,11 @@ export default function Toggle({ checked, onChange, label }: ToggleProps) {
         onClick={() => onChange(!checked)}
         style={{
           position: "relative",
-          width: 44,
+          width: 42,
           height: 26,
           borderRadius: 13,
-          background: checked ? "#34c759" : "#e5e5ea",
-          transition: "background 0.2s ease",
+          background: checked ? "#34c759" : "rgba(0,0,0,0.12)",
+          transition: "background 0.25s cubic-bezier(0.25,0.1,0.25,1)",
           flexShrink: 0,
         }}
       >
@@ -33,18 +33,18 @@ export default function Toggle({ checked, onChange, label }: ToggleProps) {
           style={{
             position: "absolute",
             top: 2,
-            left: checked ? 20 : 2,
+            left: checked ? 18 : 2,
             width: 22,
             height: 22,
             borderRadius: "50%",
             background: "#ffffff",
-            boxShadow: "rgba(0, 0, 0, 0.22) 3px 5px 30px 0px, 0 0 1px rgba(0,0,0,0.06)",
-            transition: "left 0.2s ease",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.06)",
+            transition: "left 0.25s cubic-bezier(0.25,0.1,0.25,1)",
           }}
         />
       </span>
       {label && (
-        <span style={{ fontSize: 14, color: "rgba(0,0,0,0.8)", letterSpacing: -0.224 }}>{label}</span>
+        <span style={{ fontSize: 13, color: "rgba(0,0,0,0.72)", letterSpacing: -0.1 }}>{label}</span>
       )}
     </label>
   );

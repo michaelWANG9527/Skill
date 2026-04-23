@@ -293,6 +293,41 @@ function ProductIcons() {
   );
 }
 
+/* ── SVG icon components for form fields (Apple style — no emoji) ── */
+function IconUser({ focused }: { focused: boolean }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ transition: "all 0.25s ease" }}>
+      <circle cx="9" cy="6" r="3.5" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5"/>
+      <path d="M2.5 16.5C2.5 13 5 11 9 11s6.5 2 6.5 5.5" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+function IconLock({ focused }: { focused: boolean }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ transition: "all 0.25s ease" }}>
+      <rect x="3" y="8" width="12" height="8" rx="2" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5"/>
+      <path d="M5.5 8V5.5a3.5 3.5 0 0 1 7 0V8" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="9" cy="12.5" r="1.2" fill={focused ? "#0071e3" : "#86868b"}/>
+    </svg>
+  );
+}
+function IconPhone({ focused }: { focused: boolean }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ transition: "all 0.25s ease" }}>
+      <rect x="4.5" y="1" width="9" height="16" rx="2" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5"/>
+      <line x1="7" y1="14" x2="11" y2="14" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+function IconShield({ focused }: { focused: boolean }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ transition: "all 0.25s ease" }}>
+      <path d="M9 1.5L3 4v4.5c0 4 2.5 6.5 6 8 3.5-1.5 6-4 6-8V4L9 1.5z" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M6.5 9.5l2 2 3.5-4" stroke={focused ? "#0071e3" : "#86868b"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 export default function LoginPage({ onLogin }: LoginPageProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -304,6 +339,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const [error, setError] = useState("");
   const [pressed, setPressed] = useState(false);
   const [focusField, setFocusField] = useState<string | null>(null);
+  const [codeHover, setCodeHover] = useState(false);
+  const [loginHover, setLoginHover] = useState(false);
 
   useEffect(() => {
     if (countdown <= 0) return;
@@ -339,20 +376,20 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const inputStyle = useCallback(
     (focused: boolean) => ({
       width: "100%",
-      padding: "12px 16px 12px 44px",
+      padding: "13px 16px 13px 44px",
       border: "none",
-      borderRadius: 8,
-      background: focused ? "#ffffff" : "rgba(255,255,255,0.7)",
-      fontSize: 17,
+      borderRadius: 10,
+      background: focused ? "#ffffff" : "rgba(255,255,255,0.65)",
+      fontSize: 16,
       fontWeight: 400 as const,
       color: "#1d1d1f",
       letterSpacing: -0.374,
       lineHeight: "1.47",
       outline: "none",
-      transition: "all 0.2s ease",
+      transition: "all 0.25s cubic-bezier(0.25,0.1,0.25,1)",
       boxShadow: focused
-        ? "0 0 0 2px #0071e3"
-        : "inset 0 0 0 1px rgba(0,0,0,0.06)",
+        ? "0 0 0 3px rgba(0,113,227,0.3), inset 0 0 0 1px rgba(0,113,227,0.4)"
+        : "inset 0 0 0 1px rgba(0,0,0,0.08)",
       boxSizing: "border-box" as const,
     }),
     []
@@ -372,7 +409,6 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         overflow: "hidden",
       }}
     >
-      {/* Product application illustrations */}
       <ProductIcons />
 
       {/* Card */}
@@ -382,20 +418,22 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           zIndex: 2,
           width: 420,
           maxWidth: "92vw",
-          background: "rgba(255,255,255,0.85)",
-          backdropFilter: "saturate(180%) blur(20px)",
-          WebkitBackdropFilter: "saturate(180%) blur(20px)",
-          borderRadius: 18,
-          boxShadow: "rgba(0, 0, 0, 0.08) 0px 8px 40px, rgba(0, 0, 0, 0.02) 0px 2px 8px",
-          padding: "40px 36px 32px",
+          background: "rgba(255,255,255,0.82)",
+          backdropFilter: "saturate(200%) blur(24px)",
+          WebkitBackdropFilter: "saturate(200%) blur(24px)",
+          borderRadius: 20,
+          border: "1px solid rgba(255,255,255,0.5)",
+          boxShadow: "0 12px 48px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.03)",
+          padding: "44px 40px 36px",
+          animation: "cardEntrance 0.6s cubic-bezier(0.25,0.1,0.25,1) both",
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
+        <div style={{ textAlign: "center", marginBottom: 34 }}>
           <img
             src="/logo.png"
             alt="SeekWave 希微科技"
-            style={{ height: 44, margin: "0 auto 14px", display: "block" }}
+            style={{ height: 48, margin: "0 auto 16px", display: "block" }}
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
@@ -403,9 +441,9 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           <div
             style={{
               fontSize: 28,
-              fontWeight: 600,
+              fontWeight: 700,
               color: "#1d1d1f",
-              letterSpacing: -0.28,
+              letterSpacing: -0.5,
               lineHeight: 1.14,
             }}
           >
@@ -413,11 +451,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           </div>
           <div
             style={{
-              fontSize: 12,
-              color: "rgba(0,0,0,0.48)",
-              letterSpacing: 4,
-              marginTop: 4,
-              fontWeight: 400,
+              fontSize: 11,
+              color: "rgba(0,0,0,0.38)",
+              letterSpacing: 5,
+              marginTop: 6,
+              fontWeight: 500,
               textTransform: "uppercase",
             }}
           >
@@ -426,18 +464,19 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           <div
             style={{
               height: 1,
-              margin: "20px auto 16px",
-              width: 48,
+              margin: "22px auto 18px",
+              width: 40,
               background: "rgba(0,0,0,0.08)",
+              borderRadius: 1,
             }}
           />
           <div
             style={{
-              fontSize: 21,
+              fontSize: 20,
               fontWeight: 600,
               color: "#1d1d1f",
-              letterSpacing: 0.231,
-              lineHeight: 1.19,
+              letterSpacing: 0.2,
+              lineHeight: 1.2,
             }}
           >
             销售订单审批系统
@@ -445,11 +484,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         </div>
 
         {/* Form */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {/* Username */}
           <div style={{ position: "relative" }}>
-            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.5, zIndex: 1 }}>
-              👤
+            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", zIndex: 1, display: "flex" }}>
+              <IconUser focused={focusField === "username"} />
             </span>
             <input
               type="text"
@@ -464,8 +503,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
           {/* Password */}
           <div style={{ position: "relative" }}>
-            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.5, zIndex: 1 }}>
-              🔒
+            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", zIndex: 1, display: "flex" }}>
+              <IconLock focused={focusField === "password"} />
             </span>
             <input
               type="password"
@@ -480,8 +519,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
           {/* Phone */}
           <div style={{ position: "relative" }}>
-            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.5, zIndex: 1 }}>
-              📱
+            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", zIndex: 1, display: "flex" }}>
+              <IconPhone focused={focusField === "phone"} />
             </span>
             <input
               type="text"
@@ -497,8 +536,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           {/* Verification Code Row */}
           <div style={{ display: "flex", gap: 10 }}>
             <div style={{ position: "relative", flex: 1 }}>
-              <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.5, zIndex: 1 }}>
-                ✉️
+              <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", zIndex: 1, display: "flex" }}>
+                <IconShield focused={focusField === "code"} />
               </span>
               <input
                 type="text"
@@ -516,34 +555,49 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             </div>
             <button
               onClick={sendCode}
+              onMouseEnter={() => setCodeHover(true)}
+              onMouseLeave={() => setCodeHover(false)}
               disabled={countdown > 0}
               style={{
-                padding: "0 18px",
-                borderRadius: 8,
-                border: countdown > 0 ? "1px solid rgba(0,0,0,0.08)" : "1px solid transparent",
+                padding: "0 20px",
+                borderRadius: 10,
+                border: "none",
                 fontSize: 14,
-                fontWeight: 400,
-                letterSpacing: -0.224,
+                fontWeight: 500,
+                letterSpacing: -0.1,
                 whiteSpace: "nowrap",
                 cursor: countdown > 0 ? "default" : "pointer",
-                background: countdown > 0 ? "rgba(255,255,255,0.6)" : "#0071e3",
-                color: countdown > 0 ? "rgba(0,0,0,0.48)" : "#ffffff",
-                transition: "all 0.2s ease",
+                background: countdown > 0
+                  ? "rgba(0,0,0,0.04)"
+                  : codeHover ? "#005bbd" : "#0071e3",
+                color: countdown > 0 ? "rgba(0,0,0,0.38)" : "#ffffff",
+                transition: "all 0.25s cubic-bezier(0.25,0.1,0.25,1)",
               }}
             >
-              {countdown > 0 ? `${countdown}s 后重发` : "获取验证码"}
+              {countdown > 0 ? `${countdown}s` : "获取验证码"}
             </button>
           </div>
 
           {/* Toggles */}
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "2px 0" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "4px 0" }}>
             <Toggle checked={rememberAccount} onChange={setRememberAccount} label="记住账号" />
             <Toggle checked={rememberPassword} onChange={setRememberPassword} label="记住密码" />
           </div>
 
           {/* Error */}
           {error && (
-            <div style={{ textAlign: "center", fontSize: 14, color: "#ff3b30", letterSpacing: -0.224, padding: "2px 0" }}>
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: 13,
+                color: "#ff3b30",
+                letterSpacing: -0.1,
+                padding: "8px 12px",
+                background: "rgba(255,59,48,0.06)",
+                borderRadius: 8,
+                animation: "fadeSlideIn 0.2s ease",
+              }}
+            >
               {error}
             </div>
           )}
@@ -552,21 +606,23 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           <button
             onMouseDown={() => setPressed(true)}
             onMouseUp={() => setPressed(false)}
-            onMouseLeave={() => setPressed(false)}
+            onMouseLeave={() => { setPressed(false); setLoginHover(false); }}
+            onMouseEnter={() => setLoginHover(true)}
             onClick={handleLogin}
             style={{
               width: "100%",
-              padding: "12px 15px",
-              borderRadius: 8,
-              border: "1px solid transparent",
-              background: "#0071e3",
+              padding: "13px 15px",
+              borderRadius: 10,
+              border: "none",
+              background: loginHover ? "#005bbd" : "#0071e3",
               color: "#ffffff",
               fontSize: 17,
-              fontWeight: 400,
-              letterSpacing: -0.374,
+              fontWeight: 500,
+              letterSpacing: -0.2,
               cursor: "pointer",
-              transition: "all 0.2s ease",
-              transform: pressed ? "scale(0.97)" : "scale(1)",
+              transition: "all 0.25s cubic-bezier(0.25,0.1,0.25,1)",
+              transform: pressed ? "scale(0.975)" : "scale(1)",
+              boxShadow: "0 2px 8px rgba(0,113,227,0.3)",
             }}
           >
             登录
@@ -577,13 +633,15 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             style={{
               textAlign: "center",
               fontSize: 12,
-              color: "rgba(0,0,0,0.48)",
-              marginTop: 4,
-              lineHeight: 1.33,
-              letterSpacing: -0.12,
+              color: "rgba(0,0,0,0.36)",
+              marginTop: 6,
+              lineHeight: 1.5,
+              letterSpacing: -0.08,
             }}
           >
-            密码信息至关重要，请不要向其他人透露该信息。建议密码每个月更换一次。
+            密码信息至关重要，请不要向其他人透露该信息。
+            <br />
+            建议密码每个月更换一次。
           </div>
         </div>
       </div>

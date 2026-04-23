@@ -34,12 +34,13 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: 600,
-        color: "rgba(0,0,0,0.48)",
-        letterSpacing: -0.12,
-        marginBottom: 8,
-        marginTop: 24,
+        color: "rgba(0,0,0,0.38)",
+        letterSpacing: 0.6,
+        textTransform: "uppercase",
+        marginBottom: 10,
+        marginTop: 28,
       }}
     >
       {children}
@@ -50,7 +51,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function Cell({ label, value, danger }: { label: string; value: string; danger?: boolean }) {
   return (
     <div style={{ padding: "14px 16px" }}>
-      <div style={{ fontSize: 12, color: "rgba(0,0,0,0.48)", marginBottom: 4, letterSpacing: -0.12 }}>
+      <div style={{ fontSize: 12, color: "rgba(0,0,0,0.42)", marginBottom: 5, letterSpacing: -0.08 }}>
         {label}
       </div>
       <div
@@ -58,7 +59,7 @@ function Cell({ label, value, danger }: { label: string; value: string; danger?:
           fontSize: 14,
           fontWeight: 600,
           color: danger ? "#ff3b30" : "#1d1d1f",
-          letterSpacing: -0.224,
+          letterSpacing: -0.2,
         }}
       >
         {value}
@@ -74,8 +75,9 @@ function InfoGrid({ cols, children }: { cols: number; children: React.ReactNode 
         display: "grid",
         gridTemplateColumns: `repeat(${cols}, 1fr)`,
         background: "#f5f5f7",
-        borderRadius: 8,
+        borderRadius: 10,
         overflow: "hidden",
+        border: "1px solid rgba(0,0,0,0.04)",
       }}
     >
       {children}
@@ -182,16 +184,18 @@ export default function OrderDetail({
         flex: 1,
         height: "100%",
         overflowY: "auto",
-        padding: "20px 24px",
+        padding: "22px 28px",
         WebkitOverflowScrolling: "touch",
       }}
     >
       <div
         style={{
           background: "#ffffff",
-          borderRadius: 12,
-          boxShadow: "rgba(0, 0, 0, 0.22) 3px 5px 30px 0px",
-          padding: 28,
+          borderRadius: 14,
+          boxShadow: "0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.03)",
+          border: "1px solid rgba(0,0,0,0.04)",
+          padding: 32,
+          animation: "fadeSlideIn 0.3s ease",
         }}
       >
         {/* ── Header ── */}
@@ -200,31 +204,34 @@ export default function OrderDetail({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-start",
-            marginBottom: 24,
+            marginBottom: 28,
+            paddingBottom: 24,
+            borderBottom: "1px solid rgba(0,0,0,0.06)",
           }}
         >
           <div>
             <div
               style={{
-                fontSize: 28,
-                fontWeight: 600,
+                fontSize: 26,
+                fontWeight: 700,
                 color: "#1d1d1f",
-                letterSpacing: -0.28,
-                lineHeight: 1.14,
+                letterSpacing: -0.5,
+                lineHeight: 1.15,
               }}
             >
               {order.customer}
             </div>
             <div
               style={{
-                fontSize: 14,
-                color: "rgba(0,0,0,0.48)",
-                marginTop: 6,
-                letterSpacing: -0.224,
-                lineHeight: 1.29,
+                fontSize: 13,
+                color: "rgba(0,0,0,0.42)",
+                marginTop: 8,
+                letterSpacing: -0.1,
+                lineHeight: 1.3,
+                fontFamily: "ui-monospace, SFMono-Regular, monospace",
               }}
             >
-              ERP: {order.id} &middot; {order.syncedAt}
+              {order.id} &middot; 同步于 {order.syncedAt}
             </div>
           </div>
           <Badge status={order.status} />
@@ -271,21 +278,31 @@ export default function OrderDetail({
         {(order.isSpecialPrice || order.grossMargin < 15) && (
           <div
             style={{
-              marginTop: 20,
-              padding: "14px 16px",
-              borderRadius: 8,
-              background: "#fff3e0",
-              fontSize: 14,
+              marginTop: 24,
+              padding: "14px 18px",
+              borderRadius: 10,
+              background: "linear-gradient(135deg, rgba(255,149,0,0.08), rgba(255,179,64,0.06))",
+              border: "1px solid rgba(255,149,0,0.15)",
+              fontSize: 13,
               color: "#8a5500",
-              lineHeight: 1.47,
-              letterSpacing: -0.224,
+              lineHeight: 1.5,
+              letterSpacing: -0.1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
             }}
           >
             {order.isSpecialPrice && (
-              <div>⚠ 风险提示：特殊价格订单，审批后将自动上报总经理终审。</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L1 14h14L8 1.5z" stroke="#ff9500" strokeWidth="1.3" fill="rgba(255,149,0,0.1)"/><line x1="8" y1="6" x2="8" y2="10" stroke="#ff9500" strokeWidth="1.3" strokeLinecap="round"/><circle cx="8" cy="12" r="0.8" fill="#ff9500"/></svg>
+                特殊价格订单，审批后将自动上报总经理终审
+              </div>
             )}
             {order.grossMargin < 15 && (
-              <div>⚠ 风险提示：毛利率 {order.grossMargin}% 低于15%标准阈值。</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L1 14h14L8 1.5z" stroke="#ff9500" strokeWidth="1.3" fill="rgba(255,149,0,0.1)"/><line x1="8" y1="6" x2="8" y2="10" stroke="#ff9500" strokeWidth="1.3" strokeLinecap="round"/><circle cx="8" cy="12" r="0.8" fill="#ff9500"/></svg>
+                毛利率 {order.grossMargin}% 低于 15% 标准阈值
+              </div>
             )}
           </div>
         )}
@@ -306,26 +323,32 @@ export default function OrderDetail({
             </div>
 
             {/* Quick pills */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
               {QUICK_OPTIONS.map((opt) => {
                 const isActive = selectedPills.has(opt);
                 return (
                   <button
                     key={opt}
                     onClick={() => togglePill(opt)}
+                    onMouseEnter={(e) => {
+                      if (!isActive) e.currentTarget.style.background = "rgba(0,0,0,0.04)";
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) e.currentTarget.style.background = "#f5f5f7";
+                    }}
                     style={{
-                      padding: "6px 16px",
+                      padding: "7px 18px",
                       borderRadius: 980,
                       border: isActive
-                        ? "1px solid #0071e3"
-                        : "1px solid rgba(0,0,0,0.08)",
+                        ? "1px solid rgba(0,113,227,0.4)"
+                        : "1px solid rgba(0,0,0,0.06)",
                       background: isActive ? "rgba(0,113,227,0.08)" : "#f5f5f7",
-                      color: isActive ? "#0071e3" : "rgba(0,0,0,0.8)",
-                      fontSize: 14,
+                      color: isActive ? "#0071e3" : "rgba(0,0,0,0.72)",
+                      fontSize: 13,
                       cursor: "pointer",
-                      transition: "all 0.2s ease",
+                      transition: "all 0.2s cubic-bezier(0.25,0.1,0.25,1)",
                       fontWeight: isActive ? 600 : 400,
-                      letterSpacing: -0.224,
+                      letterSpacing: -0.1,
                     }}
                   >
                     {isActive ? "✓ " : ""}
@@ -414,26 +437,32 @@ export default function OrderDetail({
             </div>
 
             {/* Action Buttons */}
-            <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+            <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
               {/* Reject */}
               <button
                 onMouseDown={() => setPressedBtn("reject")}
                 onMouseUp={() => setPressedBtn(null)}
-                onMouseLeave={() => setPressedBtn(null)}
+                onMouseLeave={(e) => {
+                  setPressedBtn(null);
+                  e.currentTarget.style.background = "#1d1d1f";
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#333336";
+                }}
                 onClick={handleReject}
                 style={{
                   flex: 1,
-                  padding: "12px 15px",
-                  borderRadius: 8,
-                  border: "1px solid transparent",
+                  padding: "13px 15px",
+                  borderRadius: 10,
+                  border: "none",
                   background: "#1d1d1f",
                   color: "#ffffff",
-                  fontSize: 17,
-                  fontWeight: 400,
+                  fontSize: 16,
+                  fontWeight: 500,
                   cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  transform: pressedBtn === "reject" ? "scale(0.97)" : "scale(1)",
-                  letterSpacing: -0.374,
+                  transition: "all 0.25s cubic-bezier(0.25,0.1,0.25,1)",
+                  transform: pressedBtn === "reject" ? "scale(0.975)" : "scale(1)",
+                  letterSpacing: -0.2,
                 }}
               >
                 拒绝
@@ -443,21 +472,28 @@ export default function OrderDetail({
               <button
                 onMouseDown={() => setPressedBtn("approve")}
                 onMouseUp={() => setPressedBtn(null)}
-                onMouseLeave={() => setPressedBtn(null)}
+                onMouseLeave={(e) => {
+                  setPressedBtn(null);
+                  e.currentTarget.style.background = "#0071e3";
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#005bbd";
+                }}
                 onClick={handleApprove}
                 style={{
                   flex: 2,
-                  padding: "12px 15px",
-                  borderRadius: 8,
-                  border: "1px solid transparent",
+                  padding: "13px 15px",
+                  borderRadius: 10,
+                  border: "none",
                   background: "#0071e3",
                   color: "#ffffff",
-                  fontSize: 17,
-                  fontWeight: 400,
+                  fontSize: 16,
+                  fontWeight: 500,
                   cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  transform: pressedBtn === "approve" ? "scale(0.97)" : "scale(1)",
-                  letterSpacing: -0.374,
+                  transition: "all 0.25s cubic-bezier(0.25,0.1,0.25,1)",
+                  transform: pressedBtn === "approve" ? "scale(0.975)" : "scale(1)",
+                  letterSpacing: -0.2,
+                  boxShadow: "0 2px 8px rgba(0,113,227,0.25)",
                 }}
               >
                 {needsEscalation ? "同意并上报" : "同意"}

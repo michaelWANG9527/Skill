@@ -40,20 +40,21 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
         minWidth: 300,
         height: "100%",
         overflowY: "auto",
-        padding: "16px 12px",
-        background: "#ffffff",
+        padding: "18px 14px",
+        background: "#fbfbfd",
         borderRight: "1px solid rgba(0,0,0,0.06)",
         WebkitOverflowScrolling: "touch",
       }}
     >
       <div
         style={{
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: 600,
-          color: "rgba(0,0,0,0.48)",
-          letterSpacing: -0.12,
-          marginBottom: 12,
-          paddingLeft: 4,
+          color: "rgba(0,0,0,0.38)",
+          letterSpacing: 0.6,
+          textTransform: "uppercase",
+          marginBottom: 14,
+          paddingLeft: 6,
         }}
       >
         订单列表 &middot; {pendingCount} 笔待审
@@ -67,12 +68,19 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
             <div
               key={order.id}
               onClick={() => onSelect(order.id)}
+              onMouseEnter={(e) => {
+                if (!isSelected) e.currentTarget.style.background = "rgba(0,0,0,0.03)";
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected) e.currentTarget.style.background = "transparent";
+              }}
               style={{
-                padding: "12px 14px",
-                borderRadius: 8,
+                padding: "13px 14px",
+                borderRadius: 10,
                 cursor: "pointer",
                 background: isSelected ? "#0071e3" : "transparent",
-                transition: "all 0.15s ease",
+                transition: "all 0.2s cubic-bezier(0.25,0.1,0.25,1)",
+                boxShadow: isSelected ? "0 2px 10px rgba(0,113,227,0.3)" : "none",
               }}
             >
               {/* Row 1: Order ID + Badge */}
@@ -81,16 +89,16 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  marginBottom: 4,
+                  marginBottom: 5,
                 }}
               >
                 <span
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 600,
                     fontFamily: "ui-monospace, SFMono-Regular, monospace",
-                    color: isSelected ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.48)",
-                    letterSpacing: -0.12,
+                    color: isSelected ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.38)",
+                    letterSpacing: 0.2,
                   }}
                 >
                   {order.id}
@@ -101,14 +109,14 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
               {/* Row 2: Customer */}
               <div
                 style={{
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: 600,
                   color: isSelected ? "#ffffff" : "#1d1d1f",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                  marginBottom: 3,
-                  letterSpacing: -0.224,
+                  marginBottom: 4,
+                  letterSpacing: -0.3,
                 }}
               >
                 {order.customer}
@@ -136,7 +144,7 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
               <div
                 style={{
                   fontSize: 12,
-                  color: isSelected ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.35)",
+                  color: isSelected ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.3)",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
@@ -148,13 +156,13 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
 
               {/* Row 5: Risk tags */}
               {hasRisk && !isSelected && (
-                <div style={{ display: "flex", gap: 4, marginTop: 6 }}>
+                <div style={{ display: "flex", gap: 4, marginTop: 7 }}>
                   {order.isSpecialPrice && (
                     <span
                       style={{
                         fontSize: 10,
-                        padding: "2px 7px",
-                        borderRadius: 5,
+                        padding: "2px 8px",
+                        borderRadius: 980,
                         background: "rgba(255,149,0,0.10)",
                         color: "#8a5500",
                         fontWeight: 600,
@@ -168,8 +176,8 @@ export default function OrderList({ orders, selectedId, onSelect }: OrderListPro
                     <span
                       style={{
                         fontSize: 10,
-                        padding: "2px 7px",
-                        borderRadius: 5,
+                        padding: "2px 8px",
+                        borderRadius: 980,
                         background: "rgba(255,59,48,0.08)",
                         color: "#ff3b30",
                         fontWeight: 600,

@@ -8,6 +8,11 @@
   padding: 0;
 }
 
+::selection {
+  background: rgba(0,113,227,0.18);
+  color: inherit;
+}
+
 body {
   min-height: 100vh;
   background: #f5f5f7;
@@ -16,6 +21,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.374px;
+  text-rendering: optimizeLegibility;
 }
 
 #__next,
@@ -25,19 +31,19 @@ body > div {
   z-index: 1;
 }
 
-/* Toast animation */
+/* ── Animations ── */
+
 @keyframes toastIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(-12px);
+    transform: translateX(-50%) translateY(-12px) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
-/* Timeline node animation */
 @keyframes fadeSlideIn {
   from {
     opacity: 0;
@@ -49,24 +55,53 @@ body > div {
   }
 }
 
-/* Scrollbar */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,113,227,0.2); }
+  50% { box-shadow: 0 0 0 6px rgba(0,113,227,0); }
+}
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.1);
-  border-radius: 2px;
+  background: rgba(0,0,0,0.08);
+  border-radius: 3px;
+  transition: background 0.2s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.18);
+}
+
+/* ── Focus ring — Apple style ── */
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0,113,227,0.3) !important;
 }
 
 /* ── Responsive ── */
 
-/* Desktop: show all 3 panels */
 @media (min-width: 769px) {
   .order-list-panel {
     display: block !important;
@@ -83,7 +118,6 @@ body > div {
   }
 }
 
-/* Mobile: show only active panel + tab bar */
 @media (max-width: 768px) {
   .order-list-panel,
   .order-detail-panel,
