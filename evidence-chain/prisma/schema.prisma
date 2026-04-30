@@ -1,0 +1,127 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  SALES
+  CS
+  FINANCE
+  LEGAL
+  AUDITOR
+  VIEWER
+}
+
+enum BizType {
+  ORDER
+  CUSTOMER
+  CONTRACT
+  QUOTATION
+  RECONCILIATION
+  REBATE
+}
+
+model User {
+  id           String     @id @default(cuid())
+  username     String     @unique
+  email        String     @unique
+  passwordHash String
+  fullName     String
+  department   String
+  role         Role       @default(VIEWER)
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  documents    Document[]
+  auditLogs    AuditLog[]
+}
+
+model Document {
+  id             String         @id @default(cuid())
+  filename       String
+  originalName   String
+  mimeType       String
+  size           Int
+  sha256         String
+  storageKey     String
+  uploadedById   String
+  uploadedBy     User           @relation(fields: [uploadedById], references: [id])
+  uploadedAt     DateTime       @default(now())
+  uploadedFromIp String?
+  description    String?
+  version        Int            @default(1)
+  parentId       String?
+  parent         Document?      @relation("DocumentVersions", fields: [parentId], references: [id])
+  versions       Document[]     @relation("DocumentVersions")
+  links          DocumentLink[]
+  auditLogs      AuditLog[]
+
+  @@index([sha256])
+  @@index([uploadedAt])
+}
+
+model DocumentLink {
+  id         String   @id @default(cuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  bizType    BizType
+  bizId      String
+  bizNo      String
+  createdAt  DateTime @default(now())
+
+  @@unique([documentId, bizType, bizId])
+  @@index([bizType, bizNo])
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  customerCode String   @unique
+  name         String
+  shortName    String?
+  country      String?
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Order {
+  id         String   @id @default(cuid())
+  orderNo    String   @unique
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  orderDate  DateTime
+  amount     Decimal? @db.Decimal(18, 2)
+  currency   String?  @default("CNY")
+  status     String
+  remark     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  action     String
+  targetType String?
+  targetId   String?
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id])
+  ip         String?
+  userAgent  String?
+  metadata   Json?
+  timestamp  DateTime  @default(now())
+
+  @@index([userId, timestamp])
+  @@index([action, timestamp])
+  @@index([timestamp])
+}
