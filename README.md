@@ -1,6 +1,7 @@
 <div align="center">
 
 # 女娲.skill
+![Uploading image.png…]()
 
 > *「你想蒸馏的下一个员工，何必是同事」*
 
