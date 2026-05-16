@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #FAFAF7;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #0D0D0D;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .kicker {
+    position: absolute;
+    top: 88px; left: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+  }
+  .slide-num {
+    position: absolute;
+    top: 88px; right: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #C4C1BA;
+  }
+  /* Kenya Hara: one giant stat floating in white */
+  .center-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .stat {
+    font-size: 320px;
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: #0D0D0D;
+    /* Paula Scher: the number IS the design */
+  }
+  .stat-unit {
+    font-size: 120px;
+    font-weight: 400;
+    font-style: italic;
+    color: #B5192A;
+    letter-spacing: -0.04em;
+    margin-left: -20px;
+    display: inline;
+  }
+  .stat-label {
+    margin-top: 32px;
+    font-size: 22px;
+    font-style: italic;
+    color: #6B6B6B;
+    line-height: 1.55;
+    max-width: 620px;
+    text-align: center;
+  }
+  .rule-center {
+    width: 40px; height: 2px;
+    background: #B5192A;
+    margin: 28px auto 0;
+  }
+  .footnote {
+    position: absolute;
+    bottom: 80px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: #B0ADA5;
+    text-transform: uppercase;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Part 02 · Algorithmic Trust</div>
+  <div class="slide-num">03 / 08</div>
+
+  <div class="center-content">
+    <div>
+      <span class="stat">85</span><span class="stat-unit">%</span>
+    </div>
+    <div class="stat-label">
+      的用户会接受算法推荐的决策——<br>
+      即使他们的直觉告诉他们不要。
+    </div>
+    <div class="rule-center"></div>
+  </div>
+
+  <div class="footnote">Source · MIT Media Lab · Human-Algorithm Decision Making Study · 2024</div>
+</div>
+</body>
+</html>

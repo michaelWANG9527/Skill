@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #FAFAF7;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #0D0D0D;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 280px;
+  }
+  .kicker {
+    position: absolute;
+    top: 88px; left: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+  }
+  .slide-num {
+    position: absolute;
+    top: 88px; right: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #C4C1BA;
+  }
+  /* Kenya Hara: quote is the only thing on the page */
+  .open-quote {
+    font-size: 200px;
+    line-height: 0.5;
+    color: #E8E4DC;
+    font-weight: 800;
+    margin-bottom: 0;
+    margin-left: -24px;
+    font-style: normal;
+    display: block;
+  }
+  blockquote {
+    font-size: 56px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: #0D0D0D;
+    max-width: 1200px;
+  }
+  blockquote em {
+    font-style: normal;
+    color: #B5192A;
+    font-weight: 600;
+  }
+  .rule {
+    width: 56px; height: 3px;
+    background: #B5192A;
+    margin: 48px 0 32px;
+  }
+  cite {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8A8780;
+    font-style: normal;
+  }
+  .annotation {
+    position: absolute;
+    bottom: 100px;
+    right: 200px;
+    max-width: 360px;
+    text-align: right;
+  }
+  .annotation p {
+    font-size: 18px;
+    color: #8A8780;
+    line-height: 1.65;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Part 03 · Filter Bubble &amp; Mirror Effect</div>
+  <div class="slide-num">04 / 08</div>
+
+  <span class="open-quote">&ldquo;</span>
+  <blockquote>
+    推荐算法是一面镜子——<br>
+    它只能<em>反射</em>，<br>
+    不能纠正。
+  </blockquote>
+  <div class="rule"></div>
+  <cite>Eli Pariser · The Filter Bubble · 2011</cite>
+
+  <div class="annotation">
+    <p>过滤气泡不是技术问题，<br>是心理问题——我们选择<br>看见自己想看见的。</p>
+  </div>
+</div>
+</body>
+</html>

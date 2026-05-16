@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #FAFAF7;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #0D0D0D;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+  }
+  .kicker {
+    position: absolute;
+    top: 88px; left: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+    z-index: 2;
+  }
+  .slide-num {
+    position: absolute;
+    top: 88px; right: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #C4C1BA;
+    z-index: 2;
+  }
+  /* Paula Scher: two words in contrast, split layout */
+  .col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 200px;
+  }
+  .col.right {
+    background: #0D0D0D;
+    padding-left: 140px;
+    padding-right: 140px;
+  }
+  .col-label {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #B5192A;
+    margin-bottom: 40px;
+  }
+  .col.right .col-label {
+    color: #6B3B42;
+  }
+  .big-word {
+    font-size: 160px;
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    margin-bottom: 48px;
+  }
+  .col.right .big-word {
+    color: #FAFAF7;
+  }
+  .big-word em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 80px;
+    color: #B5192A;
+    letter-spacing: -0.02em;
+  }
+  .col.right .big-word em {
+    color: #D4697A;
+  }
+  .rule {
+    width: 40px; height: 2px;
+    background: #B5192A;
+    margin-bottom: 32px;
+  }
+  .col.right .rule {
+    background: #6B3B42;
+  }
+  .desc {
+    font-size: 22px;
+    line-height: 1.65;
+    color: #5A5754;
+    font-style: italic;
+    max-width: 440px;
+  }
+  .col.right .desc {
+    color: #888480;
+  }
+  /* Center divider label */
+  .divider {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    z-index: 10;
+  }
+  .divider-line {
+    width: 1px;
+    height: 200px;
+    background: #C4C1BA;
+  }
+  .divider-label {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #C4C1BA;
+    text-transform: uppercase;
+    padding: 14px 0;
+    writing-mode: horizontal-tb;
+  }
+  .bottom-note {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    font-style: italic;
+    color: #8A8780;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .bottom-note strong {
+    color: #B5192A;
+    font-style: normal;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Part 04 · Affective Computing</div>
+  <div class="slide-num">05 / 08</div>
+
+  <div class="col">
+    <div class="col-label">Machine Can Do</div>
+    <div class="big-word">
+      识别
+      <em>Recognition</em>
+    </div>
+    <div class="rule"></div>
+    <p class="desc">它知道你在哭——<br>通过面部肌肉的微表情，<br>通过声音的颤抖频率。</p>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">vs</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="col right">
+    <div class="col-label">Machine Cannot Do</div>
+    <div class="big-word">
+      感受
+      <em>Feeling</em>
+    </div>
+    <div class="rule"></div>
+    <p class="desc">但它不知道——<br>也永远不会知道——<br>那究竟是什么感觉。</p>
+  </div>
+
+  <div class="bottom-note">
+    情感计算的天花板：<strong>识别情绪</strong>，不等于<strong>理解情绪</strong>
+  </div>
+</div>
+</body>
+</html>

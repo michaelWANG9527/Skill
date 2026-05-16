@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI 心理学 · Lecture Deck</title>
+<script>
+  window.DECK_MANIFEST = [
+    { file: "slides/01-title.html",    label: "封面" },
+    { file: "slides/02-bias.html",     label: "01 · 偏见的起源" },
+    { file: "slides/03-trust.html",    label: "02 · 算法信任" },
+    { file: "slides/04-mirror.html",   label: "03 · 镜像效应" },
+    { file: "slides/05-emotion.html",  label: "04 · 情感边界" },
+    { file: "slides/06-memory.html",   label: "05 · 认知外包" },
+    { file: "slides/07-spectrum.html", label: "06 · 共生临界" },
+    { file: "slides/08-close.html",    label: "结语" },
+  ];
+  window.DECK_WIDTH  = 1920;
+  window.DECK_HEIGHT = 1080;
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #111;
+    overflow: hidden;
+    font-family: -apple-system, "PingFang SC", sans-serif;
+  }
+  #stage {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform-origin: top left;
+    will-change: transform;
+    background: #FAFAF7;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+  }
+  iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .counter {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    z-index: 100;
+    opacity: 0.65;
+    transition: opacity 0.2s;
+  }
+  .counter:hover { opacity: 1; }
+  .counter .label { color: rgba(255,255,255,0.6); margin-left: 10px; }
+  .nav-zone {
+    position: fixed; top: 0; bottom: 0;
+    width: 12%; cursor: pointer; z-index: 50;
+  }
+  .nav-zone.left  { left: 0; }
+  .nav-zone.right { right: 0; }
+  .nav-hint {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; opacity: 0; transition: opacity 0.2s;
+  }
+  .nav-zone.left  .nav-hint { left: 16px; }
+  .nav-zone.right .nav-hint { right: 16px; }
+  .nav-zone:hover .nav-hint { opacity: 1; }
+  /* Help hint bottom-left */
+  .help {
+    position: fixed;
+    bottom: 20px; left: 20px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.25);
+    z-index: 100;
+  }
+  @media print {
+    @page { size: 1920px 1080px; margin: 0; }
+    html, body { background: #fff; overflow: visible; height: auto; }
+    #stage { position: static; transform: none !important; box-shadow: none; }
+    .counter, .nav-zone, .help { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="stage"><iframe id="frame" src="about:blank"></iframe></div>
+<div class="nav-zone left"  id="navL"><div class="nav-hint">‹</div></div>
+<div class="nav-zone right" id="navR"><div class="nav-hint">›</div></div>
+<div class="counter" id="counter">1 / 8</div>
+<div class="help">← → 翻页 · P 打印</div>
+
+<script>
+(function () {
+  const W = window.DECK_WIDTH, H = window.DECK_HEIGHT;
+  const deck = window.DECK_MANIFEST;
+  const stage = document.getElementById('stage');
+  const frame = document.getElementById('frame');
+  const counter = document.getElementById('counter');
+  const key = 'ai-psych-deck-' + location.pathname;
+  let cur = 0;
+
+  stage.style.width  = W + 'px';
+  stage.style.height = H + 'px';
+
+  function fit() {
+    const s = Math.min(innerWidth / W, innerHeight / H);
+    const x = (innerWidth  - W * s) / 2;
+    const y = (innerHeight - H * s) / 2;
+    stage.style.transform = `translate(${x}px,${y}px) scale(${s})`;
+    stage.style.top = '0'; stage.style.left = '0';
+  }
+
+  function show(i) {
+    if (i < 0 || i >= deck.length) return;
+    cur = i;
+    frame.src = deck[i].file;
+    counter.innerHTML = `${i + 1} / ${deck.length}<span class="label">${deck[i].label}</span>`;
+    try { localStorage.setItem(key, String(i)); } catch(_) {}
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  document.addEventListener('keydown', e => {
+    switch (e.key) {
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); show(cur + 1); break;
+      case 'ArrowLeft':  case 'PageUp':              e.preventDefault(); show(cur - 1); break;
+      case 'Home': e.preventDefault(); show(0); break;
+      case 'End':  e.preventDefault(); show(deck.length - 1); break;
+      case 'p': case 'P': window.print(); break;
+      default:
+        if (e.key >= '1' && e.key <= '9') { e.preventDefault(); show(+e.key - 1); }
+    }
+  });
+  document.getElementById('navL').addEventListener('click', () => show(cur - 1));
+  document.getElementById('navR').addEventListener('click', () => show(cur + 1));
+  window.addEventListener('resize', fit);
+
+  const h = location.hash.match(/^#(\d+)$/);
+  if (h) cur = Math.min(+h[1] - 1, deck.length - 1);
+  else try {
+    const v = +localStorage.getItem(key);
+    if (!isNaN(v) && v >= 0 && v < deck.length) cur = v;
+  } catch(_) {}
+
+  fit();
+  show(cur);
+})();
+</script>
+</body>
+</html>

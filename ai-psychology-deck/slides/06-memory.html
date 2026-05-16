@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #FAFAF7;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #0D0D0D;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 200px;
+  }
+  .kicker {
+    position: absolute;
+    top: 88px; left: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+  }
+  .slide-num {
+    position: absolute;
+    top: 88px; right: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #C4C1BA;
+  }
+  /* Kenya Hara extreme: just the question, nothing else */
+  .label {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #B0ADA5;
+    margin-bottom: 60px;
+  }
+  .question {
+    font-size: 88px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: #0D0D0D;
+    max-width: 1320px;
+  }
+  .question em {
+    font-style: normal;
+    color: #B5192A;
+    font-weight: 700;
+  }
+  .period {
+    color: #B5192A;
+    font-style: normal;
+  }
+  /* Sub-question bottom */
+  .sub {
+    position: absolute;
+    bottom: 120px;
+    left: 200px;
+    right: 200px;
+    display: flex;
+    gap: 120px;
+    align-items: flex-start;
+  }
+  .sub-item {
+    flex: 1;
+  }
+  .sub-rule {
+    width: 32px; height: 2px;
+    background: #D8D5CE;
+    margin-bottom: 20px;
+  }
+  .sub-item p {
+    font-size: 20px;
+    font-style: italic;
+    color: #8A8780;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Part 05 · Cognitive Outsourcing</div>
+  <div class="slide-num">06 / 08</div>
+
+  <div class="label">The Central Question</div>
+  <p class="question">
+    当 AI 比你<em>更了解</em>你，<br>
+    你还需要了解<em>自己</em>吗<span class="period">？</span>
+  </p>
+
+  <div class="sub">
+    <div class="sub-item">
+      <div class="sub-rule"></div>
+      <p>推荐系统记住了你的每次点击，<br>但它记住的，是你吗？</p>
+    </div>
+    <div class="sub-item">
+      <div class="sub-rule"></div>
+      <p>记忆外包给云端后，<br>什么还留在你自己身上？</p>
+    </div>
+    <div class="sub-item">
+      <div class="sub-rule"></div>
+      <p>认知外包是效率工具，<br>还是自我侵蚀的开始？</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

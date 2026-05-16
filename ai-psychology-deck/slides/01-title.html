@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #FAFAF7;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #0D0D0D;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 200px;
+  }
+  .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .kicker {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+    margin-bottom: 52px;
+  }
+  h1 {
+    font-size: 172px;
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    margin-bottom: 52px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: #B5192A;
+  }
+  .rule {
+    width: 56px; height: 3px;
+    background: #B5192A;
+    margin-bottom: 40px;
+  }
+  .subtitle {
+    font-size: 26px;
+    font-style: italic;
+    color: #6B6B6B;
+    line-height: 1.55;
+    font-weight: 400;
+    max-width: 680px;
+  }
+  .right {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: stretch;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+  }
+  .meta {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: #B0ADA5;
+    text-align: right;
+    line-height: 2;
+  }
+  /* Vertical rule divider */
+  .vline {
+    position: absolute;
+    left: 960px;
+    top: 140px; bottom: 140px;
+    width: 1px;
+    background: #E2DFD8;
+  }
+  .right-content {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 80px;
+  }
+  .chapter-num {
+    font-size: 200px;
+    font-weight: 800;
+    line-height: 1;
+    color: #F0EDE6;
+    letter-spacing: -0.06em;
+    font-style: italic;
+    margin-bottom: 32px;
+    margin-left: -10px;
+  }
+  .chapter-label {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #B0ADA5;
+    margin-bottom: 24px;
+  }
+  .toc {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .toc li {
+    font-size: 18px;
+    color: #8A8780;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .toc li .n {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    color: #B5192A;
+    letter-spacing: 0.1em;
+    min-width: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="left">
+    <div class="kicker">Lecture Series · Psychology × Technology</div>
+    <h1>AI<br><em>心理学</em></h1>
+    <div class="rule"></div>
+    <div class="subtitle">机器、意识，与<br>人类偏见的边界</div>
+  </div>
+
+  <div class="vline"></div>
+
+  <div class="right-content">
+    <div class="chapter-num">01</div>
+    <div class="chapter-label">Today's Agenda</div>
+    <ul class="toc">
+      <li><span class="n">—</span>机器习得的偏见</li>
+      <li><span class="n">—</span>算法信任与认知外包</li>
+      <li><span class="n">—</span>过滤气泡与镜像效应</li>
+      <li><span class="n">—</span>情感计算的边界</li>
+      <li><span class="n">—</span>共生还是依赖</li>
+    </ul>
+  </div>
+
+  <div class="right">
+    <div class="meta">
+      AI 心理学<br>
+      2026
+    </div>
+  </div>
+</div>
+</body>
+</html>

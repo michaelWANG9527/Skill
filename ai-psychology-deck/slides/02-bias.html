@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #FAFAF7;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #0D0D0D;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 200px;
+  }
+  /* Paula Scher: kicker floats top-left */
+  .kicker {
+    position: absolute;
+    top: 88px; left: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+  }
+  .slide-num {
+    position: absolute;
+    top: 88px; right: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #C4C1BA;
+  }
+  /* Giant Paula Scher number — ghost behind */
+  .ghost-num {
+    position: absolute;
+    right: 160px;
+    top: -60px;
+    font-size: 520px;
+    font-weight: 800;
+    font-style: italic;
+    color: #F0EDE6;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    user-select: none;
+    pointer-events: none;
+  }
+  .content {
+    position: relative;
+    z-index: 2;
+  }
+  .label {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #B0ADA5;
+    margin-bottom: 36px;
+  }
+  h2 {
+    font-size: 120px;
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 0;
+    max-width: 900px;
+  }
+  h2 em {
+    font-style: italic;
+    color: #B5192A;
+    font-weight: 400;
+  }
+  .rule {
+    width: 56px; height: 3px;
+    background: #B5192A;
+    margin: 52px 0 44px;
+  }
+  .body-text {
+    font-size: 28px;
+    line-height: 1.6;
+    color: #4A4845;
+    max-width: 780px;
+    font-weight: 400;
+  }
+  .body-text strong {
+    color: #0D0D0D;
+    font-weight: 600;
+  }
+  /* Bottom pull-quote floating right */
+  .pull-quote {
+    position: absolute;
+    bottom: 100px;
+    right: 200px;
+    max-width: 440px;
+    text-align: right;
+  }
+  .pull-quote p {
+    font-size: 20px;
+    font-style: italic;
+    color: #8A8780;
+    line-height: 1.6;
+  }
+  .pull-quote cite {
+    display: block;
+    margin-top: 14px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #B5192A;
+    font-style: normal;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Part 01 · Origin of Bias</div>
+  <div class="slide-num">02 / 08</div>
+  <div class="ghost-num">1</div>
+
+  <div class="content">
+    <div class="label">机器习得的偏见</div>
+    <h2>不是<br><em>Bug</em>，<br>是 Feature</h2>
+    <div class="rule"></div>
+    <p class="body-text">
+      数据集是人类历史的<strong>压缩文件</strong>。<br>
+      机器学到的，是我们放进去的——<br>包括我们从未想被看见的那部分。
+    </p>
+  </div>
+
+  <div class="pull-quote">
+    <p>「Garbage in, garbage out. 但当 garbage 足够多，它看起来就像真相。」</p>
+    <cite>计算偏见研究 · Obermeyer et al.</cite>
+  </div>
+</div>
+</body>
+</html>

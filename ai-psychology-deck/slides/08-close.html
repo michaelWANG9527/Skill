@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: #0D0D0D;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: #FAFAF7;
+  }
+  .slide {
+    width: 1920px; height: 1080px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 300px;
+  }
+  .kicker {
+    position: absolute;
+    top: 88px; left: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B5192A;
+  }
+  .slide-num {
+    position: absolute;
+    top: 88px; right: 200px;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: #3A3835;
+  }
+  /* Kenya Hara maximum: one sentence in the dark */
+  .closer {
+    font-size: 72px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: #FAFAF7;
+    max-width: 1200px;
+  }
+  .closer em {
+    font-style: normal;
+    color: #B5192A;
+    font-weight: 700;
+  }
+  .rule {
+    width: 40px; height: 2px;
+    background: #B5192A;
+    margin: 52px auto 44px;
+  }
+  .tag {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #3A3835;
+  }
+  /* Corner branding */
+  .brand {
+    position: absolute;
+    bottom: 80px;
+    right: 200px;
+    text-align: right;
+  }
+  .brand p {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: #3A3835;
+    text-transform: uppercase;
+    line-height: 2;
+  }
+  /* Ghost text background */
+  .ghost {
+    position: absolute;
+    font-size: 400px;
+    font-weight: 800;
+    font-style: italic;
+    color: rgba(255,255,255,0.025);
+    letter-spacing: -0.06em;
+    user-select: none;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Closing</div>
+  <div class="slide-num">08 / 08</div>
+  <div class="ghost">AI</div>
+
+  <p class="closer">
+    AI 是一面<em>镜子</em>。<br>
+    问题从来不是镜子，<br>
+    而是<em>照镜子的人</em>。
+  </p>
+  <div class="rule"></div>
+  <div class="tag">AI 心理学 · End</div>
+
+  <div class="brand">
+    <p>AI 心理学<br>2026</p>
+  </div>
+</div>
+</body>
+</html>
