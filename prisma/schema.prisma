@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String        @id @default(cuid())
+  username    String        @unique
+  password    String
+  role        String
+  displayName String
+  createdAt   DateTime      @default(now())
+  logs        ApprovalLog[]
+}
+
+model Order {
+  id             String        @id @default(cuid())
+  erpOrderNo     String        @unique
+  customer       String
+  customerCode   String
+  partNumber     String
+  quantity       Int
+  unitPrice      Float
+  totalAmount    Float
+  currency       String
+  grossMargin    Float
+  isSpecialPrice Boolean       @default(false)
+  status         String        @default("PENDING")
+  salesRep       String
+  syncedAt       DateTime
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  logs           ApprovalLog[]
+}
+
+model ApprovalLog {
+  id        String   @id @default(cuid())
+  orderId   String
+  userId    String
+  action    String
+  comment   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
