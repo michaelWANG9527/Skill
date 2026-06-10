@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { NewCustomerDialog } from "@/components/NewCustomerDialog";
 
 interface Customer {
   id: string;
@@ -47,9 +48,12 @@ export default function CustomersPage() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-semibold">客户管理</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">共 {total} 家客户</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-semibold">客户管理</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">共 {total} 家客户</p>
+        </div>
+        <NewCustomerDialog onCreated={fetchCustomers} />
       </div>
 
       <div className="relative max-w-sm">

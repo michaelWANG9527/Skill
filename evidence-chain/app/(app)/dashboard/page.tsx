@@ -113,13 +113,23 @@ export default async function DashboardPage() {
     },
   ];
 
+  // 按上海时区显示问候语
+  const hour = parseInt(
+    new Intl.DateTimeFormat("zh-CN", {
+      hour: "numeric",
+      hour12: false,
+      timeZone: "Asia/Shanghai",
+    }).format(new Date())
+  );
+  const greeting =
+    hour < 6 ? "夜深了" : hour < 12 ? "早上好" : hour < 18 ? "下午好" : "晚上好";
+
   return (
     <div className="space-y-6">
       {/* 页头 */}
       <div>
         <h1 className="text-2xl font-semibold text-foreground">
-          早上好，{session?.user?.name?.split("")[0]}
-          {session?.user?.name?.slice(1)} 👋
+          {greeting}，{session?.user?.name} 👋
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
           {format(new Date(), "yyyy年M月d日 EEEE", { locale: zhCN })}

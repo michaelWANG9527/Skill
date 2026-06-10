@@ -11,6 +11,7 @@ import {
   Upload,
   ScrollText,
   Settings,
+  UserCog,
   LogOut,
   FileStack,
   ChevronRight,
@@ -24,19 +25,24 @@ const navItems = [
   { href: "/customers", icon: Users, label: "客户管理" },
   { href: "/documents", icon: FolderOpen, label: "文档库" },
   { href: "/upload", icon: Upload, label: "上传文档" },
-];
-
-const adminNavItems = [
-  { href: "/audit-logs", icon: ScrollText, label: "审计日志" },
-  { href: "/admin/users", icon: Settings, label: "用户管理" },
+  { href: "/settings", icon: Settings, label: "个人设置" },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const isAdmin =
-    session?.user?.role === "ADMIN" || session?.user?.role === "AUDITOR";
+  const role = session?.user?.role;
+  // 审计日志：管理员 + 审计员可见；用户管理：仅管理员
+  const adminNavItems = [
+    ...(role === "ADMIN" || role === "AUDITOR"
+      ? [{ href: "/audit-logs", icon: ScrollText, label: "审计日志" }]
+      : []),
+    ...(role === "ADMIN"
+      ? [{ href: "/admin/users", icon: UserCog, label: "用户管理" }]
+      : []),
+  ];
+  const isAdmin = adminNavItems.length > 0;
 
   return (
     <aside

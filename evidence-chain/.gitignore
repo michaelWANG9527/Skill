@@ -39,3 +39,9 @@ next-env.d.ts
 node_modules/
 .env
 .next/
+
+# 本地数据（SQLite 数据库与上传文件）
+prisma/dev.db
+prisma/dev.db-journal
+*.db-journal
+storage/

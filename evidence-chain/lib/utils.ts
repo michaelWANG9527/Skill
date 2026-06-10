@@ -45,6 +45,29 @@ export function getMimeTypeLabel(mimeType: string): string {
   return "文件";
 }
 
+// 业务类型取值（替代数据库枚举，兼容 SQLite；API 层用 Zod 校验）
+export const BIZ_TYPES = [
+  "ORDER",
+  "CUSTOMER",
+  "CONTRACT",
+  "QUOTATION",
+  "RECONCILIATION",
+  "REBATE",
+] as const;
+export type BizType = (typeof BIZ_TYPES)[number];
+
+// 角色取值
+export const ROLES = [
+  "ADMIN",
+  "SALES",
+  "CS",
+  "FINANCE",
+  "LEGAL",
+  "AUDITOR",
+  "VIEWER",
+] as const;
+export type Role = (typeof ROLES)[number];
+
 // 业务类型中文名
 export const BIZ_TYPE_LABELS: Record<string, string> = {
   ORDER: "销售订单",
@@ -76,6 +99,7 @@ export const ACTION_LABELS: Record<string, string> = {
   LOGOUT: "用户登出",
   CREATE_USER: "创建用户",
   UPDATE_USER: "更新用户",
+  CHANGE_PASSWORD: "修改密码",
   LINK_DOCUMENT: "关联文档",
 };
 

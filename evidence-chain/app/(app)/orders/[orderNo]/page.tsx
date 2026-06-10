@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { BizType } from "@prisma/client";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import Link from "next/link";
@@ -31,7 +30,7 @@ async function getOrderData(orderNo: string) {
   if (!order) return null;
 
   const links = await prisma.documentLink.findMany({
-    where: { bizType: BizType.ORDER, bizNo: orderNo },
+    where: { bizType: "ORDER", bizNo: orderNo },
     include: {
       document: {
         include: {

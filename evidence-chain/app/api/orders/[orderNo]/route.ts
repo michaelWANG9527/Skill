@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { apiSuccess, apiError } from "@/lib/utils";
-import { BizType } from "@prisma/client";
 
 export async function GET(
   _request: NextRequest,
@@ -23,7 +22,7 @@ export async function GET(
 
   // 查询所有关联到该订单的文档
   const links = await prisma.documentLink.findMany({
-    where: { bizType: BizType.ORDER, bizNo: params.orderNo },
+    where: { bizType: "ORDER", bizNo: params.orderNo },
     include: {
       document: {
         include: {

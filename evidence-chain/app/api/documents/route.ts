@@ -2,16 +2,15 @@ import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { uploadFile } from "@/lib/minio";
-import { calculateSHA256, generateStorageKey, apiSuccess, apiError } from "@/lib/utils";
+import { uploadFile } from "@/lib/storage";
+import { calculateSHA256, generateStorageKey, apiSuccess, apiError, BIZ_TYPES } from "@/lib/utils";
 import { writeAuditLog, getClientIp } from "@/lib/audit";
 import { z } from "zod";
-import { BizType } from "@prisma/client";
 
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE || "52428800"); // 50MB
 
 const LinkSchema = z.object({
-  bizType: z.nativeEnum(BizType),
+  bizType: z.enum(BIZ_TYPES),
   bizId: z.string().min(1),
   bizNo: z.string().min(1),
 });
@@ -166,8 +165,8 @@ export async function GET(request: NextRequest) {
 
   if (keyword) {
     where.OR = [
-      { originalName: { contains: keyword, mode: "insensitive" } },
-      { description: { contains: keyword, mode: "insensitive" } },
+      { originalName: { contains: keyword } },
+      { description: { contains: keyword } },
     ];
   }
 
@@ -175,7 +174,7 @@ export async function GET(request: NextRequest) {
     where.links = {
       some: {
         ...(bizType ? { bizType } : {}),
-        ...(bizNo ? { bizNo: { contains: bizNo, mode: "insensitive" } } : {}),
+        ...(bizNo ? { bizNo: { contains: bizNo } } : {}),
       },
     };
   }

@@ -12,7 +12,6 @@ import {
   Clock,
   Link2,
   History,
-  Trash2,
   Eye,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,6 +20,9 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatFileSize, BIZ_TYPE_LABELS, ACTION_LABELS } from "@/lib/utils";
 import { writeAuditLog } from "@/lib/audit";
+import { DeleteDocumentButton } from "@/components/DeleteDocumentButton";
+
+export const dynamic = "force-dynamic";
 
 async function getDocument(id: string) {
   return prisma.document.findUnique({
@@ -51,6 +53,18 @@ export default async function DocumentDetailPage({
   const doc = await getDocument(params.id);
 
   if (!doc) notFound();
+
+  // 记录查看操作（IPO 合规：每次访问文档详情均留痕）
+  if (session?.user?.id) {
+    await writeAuditLog({
+      userId: session.user.id,
+      action: "VIEW",
+      targetType: "DOCUMENT",
+      targetId: doc.id,
+      documentId: doc.id,
+      metadata: { filename: doc.originalName, via: "detail-page" },
+    });
+  }
 
   const isPDF = doc.mimeType === "application/pdf";
   const isImage = doc.mimeType.startsWith("image/");
@@ -90,10 +104,10 @@ export default async function DocumentDetailPage({
             </Button>
           </a>
           {canDelete && (
-            <Button variant="destructive" size="sm">
-              <Trash2 className="w-4 h-4" strokeWidth={1.5} />
-              删除
-            </Button>
+            <DeleteDocumentButton
+              documentId={doc.id}
+              documentName={doc.originalName}
+            />
           )}
         </div>
       </div>

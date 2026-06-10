@@ -1,4 +1,4 @@
-import { Role, BizType } from "@prisma/client";
+import type { Role, BizType } from "@/lib/utils";
 
 export type { Role, BizType };
 

@@ -3,12 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Search, Plus, ChevronRight, ShoppingCart } from "lucide-react";
+import { Search, ChevronRight, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { NewOrderDialog } from "@/components/NewOrderDialog";
 
 interface Order {
   id: string;
@@ -69,12 +70,7 @@ export default function OrdersPage() {
             共 {total} 个订单
           </p>
         </div>
-        <Link href="/orders/new">
-          <Button size="sm">
-            <Plus className="w-4 h-4" strokeWidth={2} />
-            新建订单
-          </Button>
-        </Link>
+        <NewOrderDialog onCreated={fetchOrders} />
       </div>
 
       {/* 搜索栏 */}

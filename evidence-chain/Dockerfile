@@ -1,8 +1,9 @@
-FROM node:22-alpine AS base
+# 生产镜像：PostgreSQL + MinIO 模式
+# 使用 node:22-slim（Debian）而非 alpine，避免 better-sqlite3 等原生模块编译问题
+FROM node:22-slim AS base
 
 # 安装依赖阶段
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -13,7 +14,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npx prisma generate
+# 生产环境使用 PostgreSQL schema 生成客户端（与 SQLite 开发模式区分）
+RUN npx prisma generate --schema prisma/schema.postgresql.prisma
 RUN npm run build
 
 # 生产阶段
@@ -22,8 +24,8 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN groupadd --system --gid 1001 nodejs && \
+    useradd --system --uid 1001 --gid nodejs nextjs
 
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./

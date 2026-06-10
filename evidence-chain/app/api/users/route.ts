@@ -2,8 +2,7 @@ import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { apiSuccess, apiError } from "@/lib/utils";
-import { Role } from "@prisma/client";
+import { apiSuccess, apiError, ROLES } from "@/lib/utils";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
@@ -13,7 +12,7 @@ const CreateUserSchema = z.object({
   password: z.string().min(8, "密码至少 8 位"),
   fullName: z.string().min(1, "姓名不能为空"),
   department: z.string().min(1, "部门不能为空"),
-  role: z.nativeEnum(Role).default(Role.VIEWER),
+  role: z.enum(ROLES).default("VIEWER"),
 });
 
 export async function GET(request: NextRequest) {

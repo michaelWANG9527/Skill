@@ -1,5 +1,5 @@
-// 证据链系统数据模型（SQLite 版 — 默认，零依赖开发与轻量部署）
-// 生产环境 PostgreSQL 版见 schema.postgresql.prisma（模型完全一致，仅 provider 不同）
+// 证据链系统数据模型（PostgreSQL 版 — 生产环境，配合 Docker Compose 使用）
+// 默认 SQLite 版见 schema.prisma（模型完全一致，仅 provider 不同）
 //
 // 为同时兼容 SQLite 与 PostgreSQL：
 // - 角色 role / 业务类型 bizType 使用 String（取值由 Zod 在 API 层校验）
@@ -11,7 +11,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model User {

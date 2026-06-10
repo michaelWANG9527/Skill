@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 import {
   Upload,
@@ -50,12 +50,17 @@ function getFileIcon(mimeType: string) {
   return FileText;
 }
 
-export default function UploadPage() {
+function UploadPageContent() {
   const router = useRouter();
+  // 从 URL 读取预填参数（如订单页「上传文档」按钮跳转：/upload?bizType=ORDER&bizNo=SO-2026-001）
+  const searchParams = useSearchParams();
+  const presetType = searchParams.get("bizType") || "ORDER";
+  const presetNo = searchParams.get("bizNo") || "";
+
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
   const [links, setLinks] = useState<LinkItem[]>([
-    { bizType: "ORDER", bizId: "", bizNo: "" },
+    { bizType: presetType, bizId: presetNo, bizNo: presetNo },
   ]);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [progress, setProgress] = useState(0);
@@ -379,5 +384,14 @@ export default function UploadPage() {
         </Button>
       </div>
     </div>
+  );
+}
+
+// useSearchParams 需要 Suspense 边界（Next.js App Router 要求）
+export default function UploadPage() {
+  return (
+    <Suspense fallback={<div className="max-w-2xl space-y-5"><div className="skeleton h-8 w-40" /><div className="skeleton h-48 w-full" /></div>}>
+      <UploadPageContent />
+    </Suspense>
   );
 }

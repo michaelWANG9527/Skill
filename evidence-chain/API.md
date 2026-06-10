@@ -1,6 +1,6 @@
 # API 文档
 
-所有 API 均需登录认证（Cookie-based Session），返回统一格式：
+除 `/api/erp/*`（X-API-Key 鉴权）和 `/api/health`（公开）外，所有 API 均需登录认证（Cookie-based Session）。统一返回格式：
 
 ```json
 {
@@ -21,21 +21,69 @@
 
 ---
 
-## ERP 集成接口
+## 鼎捷 T100 ERP 集成接口 ⭐
 
-### 订单文档查询（核心接口）
+### 集成方式一：URL 跳转（浏览器端，零开发量）
 
-ERP 跳转 URL 格式（浏览器端直接访问）：
+在 T100 销售订单界面添加超链接按钮，格式：
 
 ```
-GET /orders/{orderNo}
+http://<本系统地址>/orders/{订单号}
 ```
 
 **示例**：`http://evidence.seekwave.internal/orders/SO-2026-001`
 
-系统展示该订单的基本信息与所有关联文档列表。
+销售点击后跳转到本系统，自动展示该订单的全部归档文档（用户需已登录本系统，未登录会先到登录页，登录后回跳）。
 
-**API 接口版本**（供 ERP 系统调用，需登录态）：
+### 集成方式二：订单自动同步（ERP 服务端 → 本系统）
+
+T100 在订单核准/状态变更时调用，自动同步订单（客户不存在时自动建档；订单已存在时更新状态与金额）。**无需登录会话，使用 API-Key 鉴权**：
+
+```
+POST /api/erp/orders
+Content-Type: application/json
+X-API-Key: <部署时配置在 ERP_API_KEY 环境变量中的密钥>
+
+{
+  "orderNo": "SO-2026-005",
+  "customerCode": "C001",
+  "customerName": "深圳市华强电子有限公司",
+  "orderDate": "2026-06-01",
+  "amount": 320000,
+  "currency": "CNY",
+  "status": "已确认",
+  "remark": "Wi-Fi 6E 量产订单"
+}
+```
+
+> 安全说明：`ERP_API_KEY` 未配置时该接口整体关闭（返回 401）。
+> 密钥生成：`openssl rand -hex 32`，只交给鼎捷实施顾问配置在 T100 的调用程序中。
+
+### 集成方式三：ERP 反查文档归档情况
+
+T100 可查询某订单已归档的文档数量与清单（如在 ERP 界面显示「已归档 3 份」标记）：
+
+```
+GET /api/erp/orders?orderNo=SO-2026-001
+X-API-Key: <密钥>
+```
+
+响应：
+
+```json
+{
+  "success": true,
+  "data": {
+    "order": { "orderNo": "SO-2026-001", "status": "已确认", "customer": { "customerCode": "C001", "name": "..." } },
+    "documentCount": 2,
+    "documents": [
+      { "id": "...", "originalName": "采购订单PO-HQ-20260115.pdf", "sha256": "...", "version": 1, "uploadedAt": "..." }
+    ]
+  }
+}
+```
+
+### 浏览器会话版订单查询（本系统前端使用）
 
 ```
 GET /api/orders/{orderNo}

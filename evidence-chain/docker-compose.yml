@@ -53,12 +53,14 @@ services:
       DATABASE_URL: "postgresql://evidence_user:evidence_pass@postgres:5432/evidence_chain?schema=public"
       NEXTAUTH_URL: "${NEXTAUTH_URL:-http://localhost:3000}"
       NEXTAUTH_SECRET: "${NEXTAUTH_SECRET}"
+      STORAGE_DRIVER: "minio"
       MINIO_ENDPOINT: "minio"
       MINIO_PORT: "9000"
       MINIO_USE_SSL: "false"
       MINIO_ACCESS_KEY: "${MINIO_ACCESS_KEY:-minioadmin}"
       MINIO_SECRET_KEY: "${MINIO_SECRET_KEY:-minioadmin123}"
       MINIO_BUCKET: "evidence-docs"
+      ERP_API_KEY: "${ERP_API_KEY:-}"
     ports:
       - "3000:3000"
 

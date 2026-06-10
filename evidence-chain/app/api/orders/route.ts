@@ -29,9 +29,9 @@ export async function GET(request: NextRequest) {
   const where: Record<string, unknown> = {};
   if (keyword) {
     where.OR = [
-      { orderNo: { contains: keyword, mode: "insensitive" } },
-      { customer: { name: { contains: keyword, mode: "insensitive" } } },
-      { remark: { contains: keyword, mode: "insensitive" } },
+      { orderNo: { contains: keyword } },
+      { customer: { name: { contains: keyword } } },
+      { remark: { contains: keyword } },
     ];
   }
   if (customerId) where.customerId = customerId;

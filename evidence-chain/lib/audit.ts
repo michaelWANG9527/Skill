@@ -12,6 +12,7 @@ interface AuditParams {
 }
 
 // 写入审计日志（append-only，不可删除修改）
+// metadata 以 JSON 文本存储，兼容 SQLite 与 PostgreSQL
 export async function writeAuditLog(params: AuditParams): Promise<void> {
   try {
     await prisma.auditLog.create({
@@ -23,7 +24,7 @@ export async function writeAuditLog(params: AuditParams): Promise<void> {
         documentId: params.documentId,
         ip: params.ip,
         userAgent: params.userAgent,
-        metadata: (params.metadata ?? {}) as Record<string, string | number | boolean | null>,
+        metadata: JSON.stringify(params.metadata ?? {}),
       },
     });
   } catch (error) {

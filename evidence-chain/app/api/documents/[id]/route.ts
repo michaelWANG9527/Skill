@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { deleteFile } from "@/lib/minio";
+import { deleteFile } from "@/lib/storage";
 import { apiSuccess, apiError } from "@/lib/utils";
 import { writeAuditLog, getClientIp } from "@/lib/audit";
 
