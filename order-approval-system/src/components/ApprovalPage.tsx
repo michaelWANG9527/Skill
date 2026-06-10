@@ -36,17 +36,24 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
       setOrders((prev) =>
         prev.map((o) => {
           if (o.id !== orderId) return o;
-          const needsEscalation = o.isSpecialPrice || o.grossMargin < 15;
+          // 已上报订单由总经理终审 → 终审通过；待审批订单按风险规则流转
+          const nextStatus =
+            o.status === "escalated"
+              ? ("gm_approved" as const)
+              : o.isSpecialPrice || o.grossMargin < 15
+                ? ("escalated" as const)
+                : ("vp_approved" as const);
           return {
             ...o,
-            status: needsEscalation ? "escalated" as const : "vp_approved" as const,
+            status: nextStatus,
             approvalHistory: [...o.approvalHistory, record],
           };
         })
       );
       const order = orders.find((o) => o.id === orderId);
-      const needsEscalation = order && (order.isSpecialPrice || order.grossMargin < 15);
-      if (needsEscalation) {
+      if (order?.status === "escalated") {
+        showToast("终审通过");
+      } else if (order && (order.isSpecialPrice || order.grossMargin < 15)) {
         showToast("已审批并自动上报至总经理");
       } else {
         showToast("审批通过");

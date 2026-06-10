@@ -92,12 +92,14 @@ body > div {
   background: rgba(0,0,0,0.18);
 }
 
-/* ── Focus ring — Apple style ── */
-input:focus-visible,
-textarea:focus-visible,
+/* ── Focus ring — Apple style (buttons only; inputs/textarea have inline rings) ── */
 button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(0,113,227,0.3) !important;
+  box-shadow: 0 0 0 4px rgba(0,113,227,0.3);
+}
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
 }
 
 /* ── Responsive ── */

@@ -118,6 +118,11 @@ export default function OrderDetail({
 
   const needsEscalation = order.isSpecialPrice || order.grossMargin < 15;
   const isPending = order.status === "pending";
+  const isEscalated = order.status === "escalated";
+  const isGM = currentUser.role === "总经理";
+  // 待审批订单任何审批人可操作；已上报订单仅总经理可终审
+  const canAct = isPending || (isEscalated && isGM);
+  const isFinalReview = isEscalated && isGM;
 
   const togglePill = (text: string) => {
     if (manualEdit) return;
@@ -146,12 +151,17 @@ export default function OrderDetail({
   };
 
   const handleApprove = () => {
-    const action = needsEscalation ? "escalate" : "approve";
+    const action = isFinalReview ? "approve" : needsEscalation ? "escalate" : "approve";
+    const defaultComment = isFinalReview
+      ? "总经理终审通过"
+      : needsEscalation
+        ? "同意并上报总经理"
+        : "审批通过";
     const record: ApprovalRecord = {
       action: action as ApprovalRecord["action"],
       user: currentUser.name,
       time: nowStr(),
-      comment: comment || (needsEscalation ? "同意并上报总经理" : "审批通过"),
+      comment: comment || defaultComment,
     };
     onApprove(order.id, record, Array.from(selectedEmails));
     resetForm();
@@ -295,7 +305,7 @@ export default function OrderDetail({
             {order.isSpecialPrice && (
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L1 14h14L8 1.5z" stroke="#ff9500" strokeWidth="1.3" fill="rgba(255,149,0,0.1)"/><line x1="8" y1="6" x2="8" y2="10" stroke="#ff9500" strokeWidth="1.3" strokeLinecap="round"/><circle cx="8" cy="12" r="0.8" fill="#ff9500"/></svg>
-                特殊价格订单，审批后将自动上报总经理终审
+                {isPending ? "特殊价格订单，审批后将自动上报总经理终审" : "特殊价格订单"}
               </div>
             )}
             {order.grossMargin < 15 && (
@@ -307,8 +317,30 @@ export default function OrderDetail({
           </div>
         )}
 
-        {/* ── Approval Actions (only when pending) ── */}
-        {isPending && (
+        {/* ── Waiting banner: escalated order, viewer is not GM ── */}
+        {isEscalated && !isGM && (
+          <div
+            style={{
+              marginTop: 24,
+              padding: "14px 18px",
+              borderRadius: 10,
+              background: "rgba(175,82,222,0.06)",
+              border: "1px solid rgba(175,82,222,0.16)",
+              fontSize: 13,
+              color: "#6f3391",
+              letterSpacing: -0.1,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#af52de" strokeWidth="1.3"/><path d="M8 4.5V8l2.5 1.5" stroke="#af52de" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            该订单已上报，等待总经理终审
+          </div>
+        )}
+
+        {/* ── Approval Actions (pending, or escalated + GM final review) ── */}
+        {canAct && (
           <div style={{ marginTop: 28 }}>
             <div
               style={{
@@ -319,7 +351,7 @@ export default function OrderDetail({
                 letterSpacing: -0.224,
               }}
             >
-              审批操作
+              {isFinalReview ? "总经理终审" : "审批操作"}
             </div>
 
             {/* Quick pills */}
@@ -496,7 +528,7 @@ export default function OrderDetail({
                   boxShadow: "0 2px 8px rgba(0,113,227,0.25)",
                 }}
               >
-                {needsEscalation ? "同意并上报" : "同意"}
+                {isFinalReview ? "终审通过" : needsEscalation ? "同意并上报" : "同意"}
               </button>
             </div>
           </div>

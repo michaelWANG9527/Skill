@@ -54,7 +54,7 @@ function ProductIcons() {
       <g opacity="0.09" transform="translate(50, 260) scale(1.6)">
         <path d="M30 40c5.5-5.5 14.5-5.5 20 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
         <path d="M23 33c9.5-9.5 25-9.5 34 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M16 26c13.5-13.5 35-35.5 48 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+        <path d="M16 26c13.5-13.5 34.5-13.5 48 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"/>
         <circle cx="40" cy="46" r="3" stroke={s} strokeWidth="1.5"/>
         <rect x="52" y="22" width="20" height="16" rx="4" stroke={s} strokeWidth="1.3"/>
         <text x="62" y="34" textAnchor="middle" fill={s} fontSize="11" fontWeight="700" fontFamily="system-ui">7</text>
