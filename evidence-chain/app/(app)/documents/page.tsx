@@ -56,6 +56,8 @@ export default function DocumentsPage() {
   const [keyword, setKeyword] = useState("");
   const [bizType, setBizType] = useState("");
   const [bizNo, setBizNo] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
@@ -69,6 +71,8 @@ export default function DocumentsPage() {
       ...(keyword ? { keyword } : {}),
       ...(bizType ? { bizType } : {}),
       ...(bizNo ? { bizNo } : {}),
+      ...(dateFrom ? { dateFrom } : {}),
+      ...(dateTo ? { dateTo } : {}),
     });
     try {
       const res = await fetch(`/api/documents?${params}`);
@@ -80,7 +84,7 @@ export default function DocumentsPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, keyword, bizType, bizNo]);
+  }, [page, keyword, bizType, bizNo, dateFrom, dateTo]);
 
   useEffect(() => {
     const t = setTimeout(fetchDocs, 300);
@@ -127,7 +131,7 @@ export default function DocumentsPage() {
       {showFilters && (
         <Card>
           <CardContent className="pt-4 pb-4">
-            <div className="flex gap-3 items-end">
+            <div className="flex flex-wrap gap-3 items-end">
               <div className="w-40">
                 <p className="text-xs text-muted-foreground mb-1.5">业务类型</p>
                 <Select value={bizType} onValueChange={(v) => { setBizType(v === "ALL" ? "" : v); setPage(1); }}>
@@ -151,10 +155,28 @@ export default function DocumentsPage() {
                   onChange={(e) => { setBizNo(e.target.value); setPage(1); }}
                 />
               </div>
+              <div>
+                <p className="text-xs text-muted-foreground mb-1.5">上传日期（起）</p>
+                <Input
+                  type="date"
+                  className="h-8 text-xs"
+                  value={dateFrom}
+                  onChange={(e) => { setDateFrom(e.target.value); setPage(1); }}
+                />
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground mb-1.5">上传日期（止）</p>
+                <Input
+                  type="date"
+                  className="h-8 text-xs"
+                  value={dateTo}
+                  onChange={(e) => { setDateTo(e.target.value); setPage(1); }}
+                />
+              </div>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => { setBizType(""); setBizNo(""); setKeyword(""); }}
+                onClick={() => { setBizType(""); setBizNo(""); setKeyword(""); setDateFrom(""); setDateTo(""); }}
                 className="text-xs"
               >
                 清空筛选

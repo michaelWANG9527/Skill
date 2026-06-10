@@ -18,6 +18,7 @@ interface Order {
   status: string;
   amount?: number;
   currency?: string;
+  documentCount: number;
   customer: { id: string; name: string; customerCode: string };
 }
 
@@ -140,6 +141,15 @@ export default function OrdersPage() {
                       >
                         {order.status}
                       </Badge>
+                      {order.documentCount > 0 ? (
+                        <Badge variant="secondary" className="text-[10px]">
+                          📎 {order.documentCount} 份
+                        </Badge>
+                      ) : (
+                        <Badge variant="warning" className="text-[10px]">
+                          无归档
+                        </Badge>
+                      )}
                     </div>
                     <p className="text-xs text-muted-foreground mt-0.5">
                       {order.customer.name} ·{" "}

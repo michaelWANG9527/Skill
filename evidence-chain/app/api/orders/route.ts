@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
   if (customerId) where.customerId = customerId;
   if (status) where.status = status;
 
-  const [items, total] = await Promise.all([
+  const [orders, total] = await Promise.all([
     prisma.order.findMany({
       where,
       skip: (page - 1) * pageSize,
@@ -49,6 +49,19 @@ export async function GET(request: NextRequest) {
     }),
     prisma.order.count({ where }),
   ]);
+
+  // 查询每个订单的归档文档数量
+  const orderNos = orders.map((o) => o.orderNo);
+  const docCounts = orderNos.length > 0
+    ? await prisma.documentLink.groupBy({
+        by: ["bizNo"],
+        where: { bizType: "ORDER", bizNo: { in: orderNos } },
+        _count: { id: true },
+      })
+    : [];
+
+  const docCountMap = Object.fromEntries(docCounts.map((d) => [d.bizNo, d._count.id]));
+  const items = orders.map((o) => ({ ...o, documentCount: docCountMap[o.orderNo] || 0 }));
 
   return apiSuccess({ items, total, page, pageSize, totalPages: Math.ceil(total / pageSize) });
 }
