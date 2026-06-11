@@ -30,6 +30,11 @@ function nowStr(): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+function daysSince(dateStr: string): number {
+  const then = new Date(dateStr.replace(" ", "T"));
+  return Math.max(0, Math.floor((Date.now() - then.getTime()) / 86400000));
+}
+
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div
@@ -244,7 +249,27 @@ export default function OrderDetail({
               {order.id} &middot; 同步于 {order.syncedAt}
             </div>
           </div>
-          <Badge status={order.status} />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+            <Badge status={order.status} />
+            {(isPending || isEscalated) && (() => {
+              const days = daysSince(order.syncedAt);
+              return (
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    padding: "2px 10px",
+                    borderRadius: 980,
+                    background: days >= 3 ? "rgba(255,59,48,0.08)" : days >= 1 ? "rgba(255,149,0,0.08)" : "rgba(0,0,0,0.04)",
+                    color: days >= 3 ? "#ff3b30" : days >= 1 ? "#ff9500" : "rgba(0,0,0,0.42)",
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  {days === 0 ? "今日提交" : `等待 ${days} 天`}
+                </span>
+              );
+            })()}
+          </div>
         </div>
 
         {/* ── Section 1: 终端信息 ── */}
@@ -274,7 +299,14 @@ export default function OrderDetail({
         <InfoGrid cols={3}>
           <Cell label="客户账期" value={order.paymentTerms} />
           <Cell label="订单日期" value={order.orderDate} />
-          <Cell label="需要到货日期" value={order.requiredDeliveryDate} />
+          <Cell
+            label="需要到货日期"
+            value={order.requiredDeliveryDate}
+            danger={(() => {
+              const d = new Date(order.requiredDeliveryDate);
+              return d.getTime() - Date.now() < 14 * 86400000;
+            })()}
+          />
         </InfoGrid>
 
         {/* ── Section 4: 销售信息 ── */}
