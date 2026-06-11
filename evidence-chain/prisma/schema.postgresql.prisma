@@ -1,0 +1,118 @@
+// 证据链系统数据模型（PostgreSQL 版 — 生产环境，配合 Docker Compose 使用）
+// 默认 SQLite 版见 schema.prisma（模型完全一致，仅 provider 不同）
+//
+// 为同时兼容 SQLite 与 PostgreSQL：
+// - 角色 role / 业务类型 bizType 使用 String（取值由 Zod 在 API 层校验）
+// - 审计日志 metadata 使用 String 存 JSON 文本
+// - 金额 amount 使用 Float（权威财务数据以 ERP 为准，此处仅作展示）
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String     @id @default(cuid())
+  username     String     @unique
+  email        String     @unique
+  passwordHash String
+  fullName     String
+  department   String
+  // 角色：ADMIN | SALES | CS | FINANCE | LEGAL | AUDITOR | VIEWER
+  role         String     @default("VIEWER")
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  documents    Document[]
+  auditLogs    AuditLog[]
+}
+
+model Document {
+  id             String         @id @default(cuid())
+  filename       String
+  originalName   String
+  mimeType       String
+  size           Int
+  sha256         String
+  storageKey     String
+  uploadedById   String
+  uploadedBy     User           @relation(fields: [uploadedById], references: [id])
+  uploadedAt     DateTime       @default(now())
+  uploadedFromIp String?
+  description    String?
+  version        Int            @default(1)
+  parentId       String?
+  parent         Document?      @relation("DocumentVersions", fields: [parentId], references: [id])
+  versions       Document[]     @relation("DocumentVersions")
+  links          DocumentLink[]
+  auditLogs      AuditLog[]
+
+  @@index([sha256])
+  @@index([uploadedAt])
+}
+
+model DocumentLink {
+  id         String   @id @default(cuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  // 业务类型：ORDER | CUSTOMER | CONTRACT | QUOTATION | RECONCILIATION | REBATE
+  bizType    String
+  bizId      String
+  bizNo      String
+  createdAt  DateTime @default(now())
+
+  @@unique([documentId, bizType, bizId])
+  @@index([bizType, bizNo])
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  customerCode String   @unique
+  name         String
+  shortName    String?
+  country      String?
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Order {
+  id         String   @id @default(cuid())
+  orderNo    String   @unique
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  orderDate  DateTime
+  amount     Float?
+  currency   String?  @default("CNY")
+  status     String
+  remark     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  action     String
+  targetType String?
+  targetId   String?
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id])
+  ip         String?
+  userAgent  String?
+  // JSON 文本（兼容 SQLite）
+  metadata   String?
+  timestamp  DateTime  @default(now())
+
+  @@index([userId, timestamp])
+  @@index([action, timestamp])
+  @@index([timestamp])
+}
