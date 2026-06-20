@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640 1020" width="1640" height="1020">
+<style>text{font-family:"WenQuanYi Zen Hei","Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;}</style>
+<defs>
+<linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b9bd5"/><stop offset="1" stop-color="#3f7fc0"/></linearGradient>
+<linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f5fa6"/><stop offset="1" stop-color="#244b85"/></linearGradient>
+<linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f3a6b"/><stop offset="1" stop-color="#152a4f"/></linearGradient>
+<linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34a866"/><stop offset="1" stop-color="#268a50"/></linearGradient>
+<linearGradient id="g5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b5cc0"/><stop offset="1" stop-color="#7e44a6"/></linearGradient>
+<marker id="ar" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><polygon points="0 0,10 4,0 8" fill="#7a8699"/></marker>
+<marker id="arg" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><polygon points="0 0,10 4,0 8" fill="#34a866"/></marker>
+<filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1f2937" flood-opacity="0.18"/></filter>
+</defs>
+<rect width="1640" height="1020" fill="#ffffff"/>
+<path d="M 1556 30 L 1578 30 L 1568 70 L 1546 70 Z" fill="#3a4a7a" opacity="0.55"/>
+<path d="M 1569 30 L 1591 30 L 1581 70 L 1559 70 Z" fill="#3a4a7a" opacity="0.67"/>
+<path d="M 1582 30 L 1604 30 L 1594 70 L 1572 70 Z" fill="#3a4a7a" opacity="0.79"/>
+<path d="M 1595 30 L 1617 30 L 1607 70 L 1585 70 Z" fill="#3a4a7a" opacity="0.91"/>
+<text x="60" y="58" font-size="36" font-weight="700" fill="#1f3a6b">出货流程总览</text>
+<text x="62" y="110" font-size="21" font-weight="700" fill="#243b6b">CS下单销货指令　→　OPS出库指令　→　测试厂出货信息回传　→　爬取物流签收</text>
+<rect x="1006" y="12" width="460" height="104" rx="10" ry="10" fill="#ffffff" stroke="#34a866" stroke-width="1.8"/>
+<text x="1022" y="42" font-size="14" fill="#1f2937" font-weight="600">erp-auto 每天 0 点自动给季丰发送"未结案回执"邮件（ERP系统中</text>
+<text x="1022" y="61" font-size="14" fill="#1f2937" font-weight="600">状态：OPS已通知测试厂 - 测试厂未出货）</text>
+<path d="M 1150 116 L 1150 164" stroke="#34a866" stroke-width="2.2" fill="none" marker-end="url(#arg)"/>
+<rect x="52" y="168" width="288" height="132" rx="14" ry="14" fill="url(#g1)" stroke="none" stroke-width="0" filter="url(#sh)"/>
+<text x="196" y="222" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">CS下达销货指令</text>
+<text x="196" y="252" font-size="14" fill="#e7eefb" text-anchor="middle">销货通知单</text>
+<text x="196" y="274" font-size="14" fill="#e7eefb" text-anchor="middle">寄售调拨通知单</text>
+<rect x="370" y="168" width="288" height="132" rx="14" ry="14" fill="url(#g2)" stroke="none" stroke-width="0" filter="url(#sh)"/>
+<text x="514" y="222" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">OPS出库指令</text>
+<text x="514" y="252" font-size="14" fill="#e7eefb" text-anchor="middle">佳欣 · 创建 ERP 出库单</text>
+<rect x="688" y="168" width="288" height="132" rx="14" ry="14" fill="url(#g3)" stroke="none" stroke-width="0" filter="url(#sh)"/>
+<text x="832" y="222" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">OPS复审 ➡ 转发季丰</text>
+<text x="832" y="252" font-size="14" fill="#e7eefb" text-anchor="middle">佳欣 · 今日销货通知邮件</text>
+<rect x="1006" y="168" width="288" height="132" rx="14" ry="14" fill="url(#g4)" stroke="none" stroke-width="0" filter="url(#sh)"/>
+<text x="1150" y="222" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">测试厂出货 · 回传</text>
+<text x="1150" y="252" font-size="14" fill="#e7eefb" text-anchor="middle">测试厂　季丰</text>
+<rect x="1324" y="168" width="288" height="132" rx="14" ry="14" fill="url(#g5)" stroke="none" stroke-width="0" filter="url(#sh)"/>
+<text x="1468" y="222" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">客户已签收</text>
+<text x="1468" y="252" font-size="14" fill="#e7eefb" text-anchor="middle">爬虫抓取　IT 泽鹏</text>
+<line x1="343" y1="234" x2="367" y2="234" stroke="#7a8699" stroke-width="2.4" marker-end="url(#ar)"/>
+<line x1="661" y1="234" x2="685" y2="234" stroke="#7a8699" stroke-width="2.4" marker-end="url(#ar)"/>
+<line x1="979" y1="234" x2="1003" y2="234" stroke="#7a8699" stroke-width="2.4" marker-end="url(#ar)"/>
+<line x1="1297" y1="234" x2="1321" y2="234" stroke="#7a8699" stroke-width="2.4" marker-end="url(#ar)"/>
+<rect x="52" y="316" width="288" height="200" rx="10" ry="10" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1.2"/>
+<text x="68" y="344" font-size="15" font-weight="700" fill="#2f6cb5">提交</text>
+<text x="68" y="370" font-size="12.5" fill="#374151" font-weight="400">ERP 中销货通知单、寄售调拨通知单等单据</text>
+<rect x="370" y="316" width="288" height="200" rx="10" ry="10" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1.2"/>
+<text x="386" y="344" font-size="15" font-weight="700" fill="#27508f">录入信息</text>
+<text x="386" y="370" font-size="12.5" fill="#374151" font-weight="400">出货数量 · 封装 · BIN · 测试程序</text>
+<text x="386" y="391" font-size="12.5" fill="#374151" font-weight="400">提货方式 · 要求发货日 · 收件人/电话/地</text>
+<text x="386" y="409" font-size="12.5" fill="#374151" font-weight="400">址</text>
+<text x="386" y="430" font-size="12.5" fill="#27508f" font-weight="700">发送当日邮件 ➡ 佳欣邮箱（可撤审）</text>
+<rect x="688" y="316" width="288" height="200" rx="10" ry="10" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1.2"/>
+<text x="704" y="344" font-size="15" font-weight="700" fill="#1b315e">OPS复审后指令 → 季丰</text>
+<text x="704" y="370" font-size="12.5" fill="#374151" font-weight="400">佳欣复审系统自动发送当日需销货的邮件记录</text>
+<text x="704" y="388" font-size="12.5" fill="#374151" font-weight="400">邮件，附件添加出库单 PDF、产品标签等文件</text>
+<text x="704" y="406" font-size="12.5" fill="#374151" font-weight="400">后，邮件发给测试厂。</text>
+<rect x="1006" y="316" width="288" height="200" rx="10" ry="10" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1.2"/>
+<text x="1022" y="344" font-size="15" font-weight="700" fill="#2a8f5a">季丰回复"结案回执" → 我方</text>
+<text x="1022" y="370" font-size="12.5" fill="#374151" font-weight="400">回复邮件正文：实际发货日期、快递单号、实</text>
+<text x="1022" y="388" font-size="12.5" fill="#374151" font-weight="400">际发货数量</text>
+<text x="1022" y="409" font-size="12.5" fill="#374151" font-weight="400">回复邮件附件：已发货订单对应的箱单 excel</text>
+<rect x="1324" y="316" width="288" height="200" rx="10" ry="10" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1.2"/>
+<text x="1340" y="344" font-size="15" font-weight="700" fill="#8a48b0">系统自动</text>
+<text x="1340" y="370" font-size="12.5" fill="#374151" font-weight="400">按【出库单号】抓取季丰未结案回执邮件的实</text>
+<text x="1340" y="388" font-size="12.5" fill="#374151" font-weight="400">际发货日期、快递单号、实际发货数量。</text>
+<text x="1340" y="409" font-size="12.5" fill="#374151" font-weight="400">按【快递单号】抓取物流信息</text>
+<text x="28" y="547" font-size="19" font-weight="700" fill="#5a6675" text-anchor="middle">时</text>
+<text x="28" y="577" font-size="19" font-weight="700" fill="#5a6675" text-anchor="middle">间</text>
+<text x="28" y="607" font-size="19" font-weight="700" fill="#5a6675" text-anchor="middle">点</text>
+<text x="28" y="685" font-size="19" font-weight="700" fill="#d35400" text-anchor="middle">系</text>
+<text x="28" y="715" font-size="19" font-weight="700" fill="#d35400" text-anchor="middle">统</text>
+<text x="28" y="745" font-size="19" font-weight="700" fill="#d35400" text-anchor="middle">1</text>
+<text x="28" y="873" font-size="19" font-weight="700" fill="#c0392b" text-anchor="middle">系</text>
+<text x="28" y="903" font-size="19" font-weight="700" fill="#c0392b" text-anchor="middle">统</text>
+<text x="28" y="933" font-size="19" font-weight="700" fill="#c0392b" text-anchor="middle">2</text>
+<rect x="52" y="530" width="288" height="94" rx="8" ry="8" fill="#eaf1fa" stroke="#c5d6ec" stroke-width="1.2"/>
+<text x="66" y="562" font-size="13" fill="#27405f">常规操作（截止 16:00）</text>
+<text x="66" y="581" font-size="13" fill="#27405f">特殊操作（截止 16:30）</text>
+<text x="66" y="600" font-size="13" fill="#27405f">超急件特殊通道（截止次日上午 10:00）</text>
+<rect x="370" y="530" width="288" height="94" rx="8" ry="8" fill="#eaf1fa" stroke="#c5d6ec" stroke-width="1.2"/>
+<text x="384" y="562" font-size="13" fill="#27405f">16:30 - 18:00</text>
+<rect x="688" y="530" width="288" height="94" rx="8" ry="8" fill="#eaf1fa" stroke="#c5d6ec" stroke-width="1.2"/>
+<text x="702" y="562" font-size="13" fill="#27405f">16:30 - 18:00</text>
+<rect x="1006" y="530" width="288" height="94" rx="8" ry="8" fill="#eaf1fa" stroke="#c5d6ec" stroke-width="1.2"/>
+<text x="1020" y="562" font-size="13" fill="#27405f">CS下单销货通知 N+2 天</text>
+<text x="1020" y="581" font-size="13" fill="#27405f">上午 9:30 前反馈</text>
+<rect x="1324" y="530" width="288" height="94" rx="8" ry="8" fill="#eaf1fa" stroke="#c5d6ec" stroke-width="1.2"/>
+<text x="1338" y="562" font-size="13" fill="#27405f">CS下单销货通知 N+4 天</text>
+<text x="1338" y="581" font-size="13" fill="#27405f">中午 12:00 前完成爬取 + 数据上传</text>
+<rect x="52" y="638" width="288" height="154" rx="10" ry="10" fill="#fdeede" stroke="#e8902a" stroke-width="1.5"/>
+<text x="196" y="692" font-size="20" font-weight="700" fill="#c0392b" text-anchor="middle">自动邮件提醒</text>
+<text x="196" y="722" font-size="17" font-weight="700" fill="#c0392b" text-anchor="middle">【日报】销货通知未出货</text>
+<text x="196" y="748" font-size="15" fill="#9a4a18" text-anchor="middle">（暂用名）</text>
+<rect x="370" y="638" width="606" height="154" rx="10" ry="10" fill="#fff7ec" stroke="#f0b35a" stroke-width="1.4"/>
+<text x="386" y="668" font-size="13" fill="#4a3520" font-weight="400">1、每天三次邮件自动推送（凌晨 0 点、下午 2 点、下午 4:30）</text>
+<text x="386" y="687" font-size="13" fill="#4a3520" font-weight="400">2、邮件中需要体现的销货单核心信息：</text>
+<text x="400" y="706" font-size="13" fill="#4a3520">• CS已下单销货通知 - OPS未通知测试厂</text>
+<text x="400" y="725" font-size="13" fill="#4a3520">• OPS已通知测试厂 - 测试厂未出货</text>
+<text x="400" y="744" font-size="13" fill="#4a3520">• 测试厂已出货 - 客户未签收</text>
+<text x="400" y="763" font-size="13" fill="#4a3520">• 测试厂已出货 - 客户已签收</text>
+<rect x="1006" y="638" width="606" height="154" rx="10" ry="10" fill="#fff7ec" stroke="#f0b35a" stroke-width="1.4"/>
+<text x="1022" y="668" font-size="14" font-weight="700" fill="#0e7490">待确认事项：</text>
+<text x="1022" y="690" font-size="13" fill="#4a3520" font-weight="400">CS_SalesDelivery_UnShipInfo_V 需要增加的数据</text>
+<text x="1022" y="709" font-size="13" fill="#4a3520" font-weight="400">1、测试厂返回邮件中快递信息的爬取</text>
+<text x="1022" y="728" font-size="13" fill="#4a3520" font-weight="400">2、快递物流送达信息的爬取</text>
+<text x="1022" y="747" font-size="13" fill="#4a3520" font-weight="400">3、View 中需要增加寄售调拨通知单的数据</text>
+<text x="1022" y="766" font-size="13" fill="#4a3520" font-weight="400">4、历史已发货数据</text>
+<rect x="52" y="806" width="288" height="194" rx="10" ry="10" fill="#fdf6cf" stroke="#e0b800" stroke-width="1.5"/>
+<text x="196" y="864" font-size="20" font-weight="700" fill="#c0392b" text-anchor="middle">便捷销货出库</text>
+<text x="196" y="894" font-size="15" fill="#9a4a18" text-anchor="middle">（暂用名）</text>
+<text x="196" y="928" font-size="14" font-weight="700" fill="#c0392b" text-anchor="middle">http://10.100.10.35:5901</text>
+<rect x="370" y="806" width="606" height="194" rx="10" ry="10" fill="#fffdf0" stroke="#e8c84a" stroke-width="1.4"/>
+<text x="386" y="834" font-size="12.5" fill="#3f3416" font-weight="400">1、每天下午 4:30 佳欣在平台中操作输入出货数量、封装、Bin 别、测试程序、发货备注、提货方式</text>
+<text x="386" y="851" font-size="12.5" fill="#3f3416" font-weight="400">、要求发货日、收件人/电话/地址</text>
+<text x="386" y="868" font-size="12.5" fill="#3f3416" font-weight="400">2、佳欣点击提交后，后台调用 ERP API 同步创建出库单。若有个别已审批单据需要调整，可以撤回审</text>
+<text x="386" y="885" font-size="12.5" fill="#3f3416" font-weight="400">批。</text>
+<text x="386" y="902" font-size="12.5" fill="#3f3416" font-weight="400">3、点击【发送今日邮件】，信息包含今天需要通知测试厂的销货通知（含重审后的单据）➡ 佳欣邮箱复</text>
+<text x="386" y="919" font-size="12.5" fill="#3f3416" font-weight="400">审 ➡ 复审通过后，添加附件转发给测试厂。</text>
+<text x="386" y="936" font-size="12.5" fill="#3f3416" font-weight="400">注意：上述过程中，佳欣收到系统自动邮件后【不可以】修改邮件正文。</text>
+<text x="386" y="953" font-size="12.5" fill="#3f3416" font-weight="400">母子公司的调货是否自动化？</text>
+<rect x="1006" y="806" width="606" height="194" rx="10" ry="10" fill="#fffdf0" stroke="#e8c84a" stroke-width="1.4"/>
+<text x="1022" y="832" font-size="14" font-weight="700" fill="#0e7490">待确认事项：</text>
+<text x="1022" y="854" font-size="12.5" fill="#3f3416" font-weight="400">1、便捷销货出库平台的撤审功能，能否同步撤销 ERP 系统对应单据？API 建的单是"已审核"还是"草</text>
+<text x="1022" y="871" font-size="12.5" fill="#3f3416" font-weight="400">稿"？决定撤审是反审核还是删除？</text>
+<text x="1022" y="888" font-size="12.5" fill="#3f3416" font-weight="400">2、增加寄售调拨通知单的数据</text>
+<text x="1022" y="905" font-size="12.5" fill="#3f3416" font-weight="400">3、回复我司哪个邮箱？季丰回填正文还是附件？实际发货数量 &lt; 通知数量 → 余量自动滚回明天未结案</text>
+<text x="1022" y="922" font-size="12.5" fill="#3f3416" font-weight="400">？自提--季丰发货后并入当日结案？</text>
+<text x="1022" y="939" font-size="12.5" fill="#3f3416" font-weight="400">4、物流单号和轨迹信息导入 ERP？箱单 excel 存哪？</text>
+</svg>
