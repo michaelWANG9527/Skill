@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AI时代的编程语言：md生产，html消费</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="/Users/alchain/.claude/skills/huashu-md-html/templates/report/theme.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AI时代的编程语言：md生产，html消费</h1>
+</header>
+<p>前几天我在X上扔了条想法：自然语言是这个时代真正重要的编程语言，md是这个时代最好的编程文件。</p>
+<p>[待补图：花叔5月7日X帖截图]</p>
+<p>写这条的时候我有点自嘲。我那两个一万多star的开源项目，最重要的文件都是md。但只是因为里面还有一些python或html脚本，GitHub就把它们标成了Python项目和HTML项目。</p>
+<p>我觉得GitHub的分类系统已经没跟上时代了。</p>
+<p>差不多同一周，Anthropic Claude
+Code团队的Thariq发了篇文章，标题挺猛：HTML是新的markdown。他说他几乎不再写markdown文件了，转而让Claude
+Code给他生成HTML。</p>
+<p>[待补图：Thariq文章首页截图
+https://thariqs.github.io/html-effectiveness/]</p>
+<p>Thariq的文章我看了，写得挺好。但看完之后我意识到一件事：他说对了一半。</p>
+<p>HTML没有取代markdown。<strong>markdown跑到了另一端，登顶了。</strong></p>
+<h2 id="md早就是这个时代的代码了">md早就是这个时代的代码了</h2>
+<p>我去年某天写过一句话：<strong>最好的编程语言就该是自然语言。</strong></p>
+<p>那时候说这话还有点理想化的味道。一年多过去，事情确实在朝这个方向走。</p>
+<p>[待补图：花叔即刻动态截图 - 「最好的编程语言就该是自然语言」]</p>
+<p>去年8月，OpenAI发布了一个东西叫AGENTS.md。就是一份md文件，写在项目根目录，告诉AI
+agent这个项目的规则、约定、要做什么不要做什么。听起来像配置文件。</p>
+<p>但它扩散得吓人。到现在被60000多个开源项目采用。Cursor、Codex、Devin、Claude
+Code、Gemini CLI、GitHub Copilot都支持。</p>
+<p>到去年12月，Linux Foundation成立了Agentic AI
+Foundation，把AGENTS.md捐进去做开放标准。白金成员里有AWS、Anthropic、Google、Microsoft、OpenAI，基本是AI半壁江山。</p>
+<p>一份md文件被Linux Foundation标准化了。这事我觉得挺有象征意义的。</p>
+<p>Karpathy的影响力更直接。今年4月他把自己的llm-wiki
+gist开源出来，是一个用来管理个人知识库的项目。核心架构是三层md文件：raw/存原始资料，wiki/存LLM生成的md知识，CLAUDE.md存schema和规则。</p>
+<p>这个gist几天涨到5000多star，CLAUDE.md那个文件本身，就一个文件，单日涨了7900个star，目前接近5万。</p>
+<p><strong>一个markdown文件，5万star。</strong></p>
+<p>Karpathy自己解释为什么用md：「Future-proof，vendor-neutral，人和机器都能读。哪天Obsidian挂了，文件还能被任何文本编辑器打开。」</p>
+<p>这个理由挺简单的，但你想想，能同时满足「人能读、AI能读、可以diff、可以版本控制、可以grep、不绑定厂商」的格式，目前确实只有md。</p>
+<p>Cloudflare做过一个实测，一篇普通博客HTML格式16180个token，转成md只要3150个token。<strong>80%的token压缩</strong>。换算成实际成本，同样的预算可以处理7到17倍的请求。</p>
+<p>GitHub官方博客今年发了一篇叫spec-driven
+development，里面有句话我读到的时候停了一下：</p>
+<p>「文档不再是描述代码，文档就是代码。自然语言被编译成更低级的语言，那些更低级的语言长得像Python或JavaScript而已。」</p>
+<p>Visual Studio Magazine把md形容得更准：在agentic
+AI里，markdown是「一个稳定的、可审计的控制界面，用来定义AI的行为」。</p>
+<p>AI在Skill、CLAUDE.md、AGENTS.md、cursor
+rules里能跑出来什么，全看你md怎么写的。</p>
+<p>md不再只是一种文件格式。它是这个时代的源代码。</p>
+<h2 id="但html在消费端确实赢了">但html在消费端确实赢了</h2>
+<p>Thariq说他不再写md了，这个判断如果限定在「让AI生成给我看的产物」上，我同意。</p>
+<p>我自己的工作流早就是这样了。</p>
+<p>我做的几个项目网站，比如ppt.huasheng.ai、ds.bookai.top、ds.huasheng.ai，存放的所有内容都是html。每次让AI帮我做一个解释器、一个对比工具、一个可交互的演示，最后产出的都是html文件。</p>
+<p>我把它们丢到S3、Cloudflare、自己的服务器上，扔一个链接出去就完事了。</p>
+<p>如果让我把这些东西用md输出我会疯。md承载不了我要的东西。</p>
+<p>Thariq说的几条理由我都同意，挑两个我感受最深的。</p>
+<p>第一个是空间信息。diff、调用图、架构图、流程图这些东西天然有空间维度，md把它们压扁成一行行的字。同样一份代码diff，让AI画成左右对照的html页面，配上行内annotation和颜色区分，理解效率根本不在一个量级。</p>
+<p>第二个是动态体验。我做产品原型的时候，经常需要让AI生成一个带动画的mock。比如一个按钮按下去转什么颜色、用什么easing曲线、过渡多久。这种东西你用文字描述再多都没用，得真的看一眼才能判断。</p>
+<p>我之前做小猫补光灯的UI迭代，就是让AI生成html原型版本，每个按钮的反应直接跑一遍，看着选。那种感觉跟看md里写一句「这里建议加一个圆角动画」完全不一样。</p>
+<p>[待补图：花叔做的某个html原型或解释器截图]</p>
+<p>Anthropic今年4月推了Live
+Artifacts，让HTML从静态产物升级成了「持久化、可交互、能拉实时数据的dashboard」。我看到这个功能上线的时候挺兴奋的，因为它把html消费端的能力又往前推了一截。</p>
+<p>老牌AI实践者Simon
+Willison最近也写了篇文章，承认自己被Thariq说服了。他说GPT-4那个年代他养成了「什么都让AI输出md」的习惯，因为8192个token的上下文不允许浪费。</p>
+<p>但现在他改主意了：「我准备多试试用html格式让AI解释复杂概念了，特别是带SVG图表和交互组件的版本。」</p>
+<p>这种立场翻转挺有意思的。它说明事情确实在变。</p>
+<h2
+id="真正有意思的是这两件事其实是一件事">真正有意思的是这两件事其实是一件事</h2>
+<p>我在这里停了一下。</p>
+<p>如果md在生产端越来越重要，html在消费端越来越重要，那这两件事是不是其实是同一件事？</p>
+<p>我觉得是。</p>
+<p><strong>这是一个分工的形成。</strong></p>
+<p>以前md和html是有过论战的。10年代是HTML的时代，blog、文档、官网都用HTML写。后来md兴起，因为写起来快、看起来干净、能纯文本编辑。技术圈基本切到了md。</p>
+<p>那个论战的隐含前提是：<strong>生产者和消费者是同一个人。</strong>
+你写一份文档自己看，或者写给同事看。不管哪种，写的人和读的人都是人，都是同一类用户。</p>
+<p>所以选格式要折中，既要好写，又要好看。md胜出，因为它的折中点最舒服。</p>
+<p>AI出现之后，第一次出现了一个新情况：<strong>生产成本可以被AI吸收。</strong></p>
+<p>你不再需要亲手编辑产物。HTML因为太重而被嫌弃的那部分代价，由AI承担了。你只承担消费。</p>
+<p>这意味着原来要折中的需求被解耦成了两端的极端最优。</p>
+<p><strong>生产端要的是轻、是快、是可diff、是token-efficient。那就是md。</strong></p>
+<p><strong>消费端要的是丰富、是可视化、是可交互、是好分享。那就是html。</strong></p>
+<p>两端各自登顶。中间的那个折中位置，没人需要了。</p>
+<p>[待补图：md→html分工概念图 - 抽象的源代码到产物的流转可视化]</p>
+<p>最干净的活体证据可能是Karpathy和Lex Fridman那对组合。</p>
+<p>Karpathy的llm-wiki，内核是markdown
+wiki，所有原始资料、概念页、索引都是md。据VentureBeat等媒体的报道，Lex
+Fridman用了同款架构，但在外面加了一层，让AI生成动态html+JavaScript，可以排序、过滤、调参、做交互可视化。</p>
+<p><strong>内核md，外壳html。</strong></p>
+<p>不是Lex替换了Karpathy，是他在Karpathy的基础上加了消费层。这两层各做各的事，不冲突，互相加强。</p>
+<p>我看到这个组合的时候挺兴奋。因为这就是「md生产，html消费」在现实里跑通的样子。</p>
+<h2 id="我自己的活样本橙皮书">我自己的活样本：橙皮书</h2>
+<p>聊到这里其实我应该坦白一件事——我已经在用这个分工干活很久了，只是直到看Thariq文章那一刻才反应过来。</p>
+<p>橙皮书系列我做了7本，全部免费上架微信读书。Claude
+Code从入门到精通、Claude Code源码解析、Harness Engineering、Agent
+Skills、OpenClaw、Polymarket、Hermes Agent，加起来读者已经过百万。</p>
+<p>[待补图：橙皮书系列封面合集]</p>
+<p>经常有人问我同一个问题：你的橙皮书排版怎么这么好看？比一般的电子书强太多了。</p>
+<p>我以前回答得比较随意，说就是用了点设计技巧。现在回头看，真正的答案是这个分工。</p>
+<p>写每一本橙皮书的时候，我让AI产出的从来都是md。一章一章的md文件，简单的标题层级，行内代码块，普通的无序列表。我review的时候改的也是md，加一句话、删一段话、调一下逻辑。</p>
+<p>到了构建环节，我有一个build脚本。md转成html章节片段，html再编译成epub和pdf。</p>
+<p>所有的字体选择、颜色搭配、版面设计、章节装饰、代码高亮，全在html到epub/pdf这一层做。</p>
+<p>[待补图：橙皮书构建流程图：md源 → html fragments → epub/pdf]</p>
+<p>这意味着我review内容的时候面对的是md，没有视觉干扰，能专心看文字。AI再生成内容的时候面对的也是md，token
+efficient，能塞下整本书的上下文。</p>
+<p>但读者拿到的是漂亮的epub或pdf，HTML的所有表达力都用上了。</p>
+<p>这个分工不是我刻意设计的。一开始我也试过让AI直接产html，发现两个问题。</p>
+<p>一是改起来烦，一个段落里塞着各种tag，肉眼分辨不出哪是内容哪是格式。二是上下文炸，一个章节就要几千token，AI没办法一次看完整本书的脉络。</p>
+<p>后来切换成md转html再转pdf，问题都消失了。回头看，这就是「生产端用md、消费端用html」自然演化出来的结果。</p>
+<p>公众号文章我也是这么走的。写作用md，过editor.huasheng.ai排版变成微信富文本，最后发到公众号。我review的永远是md源文件，读者看到的是排好版的内容。</p>
+<p>我做的md-to-pdf
+skill、整套写作系统、整个橙皮书工作流，本质上都是这一个分工的物化。</p>
+<p>只是我一直不知道这个分工值得被命名。</p>
+<h2 id="边界">边界</h2>
+<p>需要补一句：这个分工不是万能的。</p>
+<p>不是所有内容都需要html消费。文章本身就是文字消费——你现在读的这篇就是。md够了，转成微信图文也够了。再丰富的html对一篇散文式文章没什么帮助。</p>
+<p>短消息、推特、即时沟通、纯文字阅读，html都过重。</p>
+<p>适合html消费的是「复杂结构信息」：研究报告、技术解释、设计文档、可交互原型、数据dashboard、需要折叠和导航的长文档、需要试参数的playground。这些场景md承载不动。</p>
+<p>适合md消费的还是「线性文字阅读」：essay、文章、书籍正文、新闻报道。这些场景html是过度设计。</p>
+<p>判断哪边的方法挺简单的：你需要的是看一段连续的字，还是看一个有空间结构的东西？</p>
+<h2 id="命名">命名</h2>
+<p>调研的时候我让agent去搜了一遍，2024年之前没有人清晰地说过「md生产，html消费」这件事。</p>
+<p>倒是有人说过markdown好，有人说过HTML的优点，有人争过两者的取舍。但<strong>把它们当作一对分工的论述，目前没看到。</strong></p>
+<p>那就叫这个名字吧。</p>
+<p>md生产，html消费。</p>
+<p>这个分工不是我们造出来的，是AI让它显形的。</p>
+<p>以前你又是写者又是读者，所以你需要一个折中的格式。</p>
+<p>现在你不写产物了，你只读它。AI替你写。</p>
+<p>写者和读者第一次是两个人。一个是AI，一个是你。</p>
+<p>两个人，自然要用不同的语言。</p>
+</body>
+</html>

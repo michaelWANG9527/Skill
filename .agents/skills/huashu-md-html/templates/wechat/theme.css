@@ -1,0 +1,423 @@
+/* ==========================================================================
+   huashu-md-html / wechat — Thariq-inspired editorial × WeChat-compatible
+   For: WeChat public account articles (paste-into-editor lossless)
+   Visual: warm cream paper + Songti serif + terracotta accent + numbered sections
+   Constraints: inline-styleable, no web fonts, no ::before content, no CSS vars
+   ========================================================================== */
+
+/* The CSS here drives the *preview*. The actual paste-to-WeChat copy
+   uses inline styles applied via JS at copy time (see template.html5). */
+
+html { font-size: 17px; -webkit-text-size-adjust: 100%; }
+@media (max-width: 600px) { html { font-size: 16px; } }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f8f3e7;
+  color: #1f1a14;
+  font-family: "Songti SC", "STSongti-SC-Regular", "Songti TC", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-feature-settings: "kern", "liga";
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-wrap: pretty;
+  hanging-punctuation: first allow-end last;
+}
+
+/* ---------- copy bar (does NOT copy into clipboard) ---------- */
+
+#copy-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px clamp(20px, 4vw, 56px);
+  background: rgba(248, 243, 231, 0.92);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid #e2d9c5;
+  font-family: "PingFang SC", "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 13px;
+  color: #6b6358;
+}
+#copy-bar .label {
+  letter-spacing: 0.06em;
+}
+#copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #c25b30;
+  color: #fff;
+  border: 1px solid #a84a23;
+  border-radius: 4px;
+  font-family: "PingFang SC", "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 120ms ease, transform 120ms ease;
+}
+#copy-btn:hover { background: #a84a23; }
+#copy-btn:active { transform: translateY(1px); }
+#copy-btn.copied {
+  background: #2e6b48;
+  border-color: #245538;
+}
+
+/* ---------- prose column ---------- */
+
+.title-block,
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 64px) clamp(20px, 4vw, 56px);
+}
+main { padding-top: 0; }
+
+/* ---------- title block (Thariq-style) ---------- */
+
+.title-block .eyebrow {
+  font-family: "PingFang SC", "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c25b30;
+  margin: 0 0 16px;
+}
+.title-block .eyebrow::before {
+  content: "—  ";
+  color: #c25b30;
+}
+.title-block .title,
+body > h1:first-of-type {
+  font-family: "Songti SC", "STSongti-SC-Regular", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2.0rem, 4.6vw, 3.0rem);
+  line-height: 1.18;
+  letter-spacing: -0.012em;
+  color: #1a1612;
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.title-block .title em,
+.title-block .title i {
+  font-style: italic;
+  font-weight: 500;
+  color: #c25b30;
+}
+.title-block .subtitle {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #4a4338;
+  margin: 14px 0 24px;
+  max-width: 60ch;
+}
+.title-block .byline {
+  font-family: "PingFang SC", "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 13px;
+  color: #6b6358;
+  letter-spacing: 0.04em;
+}
+.title-block .date {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+}
+
+.title-block {
+  border-bottom: 1px solid #e2d9c5;
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+
+/* ---------- article body ---------- */
+
+article { padding: 0; }
+
+/* h2 with numbered prefix (the prefix is rendered as a real span by template.html5
+   so it survives WeChat paste — not as ::before content) */
+article h2 {
+  font-family: "Songti SC", "STSongti-SC-Regular", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.55rem;
+  line-height: 1.3;
+  color: #1a1612;
+  margin: 2.4em 0 0.7em;
+  padding-top: 1.2em;
+  position: relative;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+article h2 .h2-num {
+  display: inline-block;
+  font-family: "PingFang SC", "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #c25b30;
+  margin-right: 12px;
+  vertical-align: 0.18em;
+  font-feature-settings: "tnum";
+}
+article h2:first-child { padding-top: 0; }
+
+article h3 {
+  font-family: "Songti SC", "STSongti-SC-Regular", "Iowan Old Style", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.32;
+  color: #1a1612;
+  margin: 1.8em 0 0.5em;
+}
+article h4 {
+  font-family: "Songti SC", "STSongti-SC-Regular", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.08rem;
+  margin: 1.5em 0 0.4em;
+  color: #1a1612;
+}
+
+article p {
+  margin: 0 0 1.1em;
+  font-size: 17px;
+  line-height: 1.78;
+  color: #1f1a14;
+}
+
+/* Bold gets the editorial highlight (Thariq-style — soft warm bg) */
+article strong, article b {
+  font-weight: 600;
+  color: #1a1612;
+  background: linear-gradient(to bottom, transparent 62%, #f3deb6 62%);
+  padding: 0 1px;
+}
+
+article em, article i { font-style: italic; }
+
+article a {
+  color: #8a3911;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: #d2b89e;
+}
+article a:hover {
+  color: #5e2509;
+  text-decoration-color: #5e2509;
+}
+
+/* ---------- blockquote ---------- */
+
+article blockquote {
+  margin: 1.8em 0;
+  padding: 0 0 0 18px;
+  border-left: 3px solid #c25b30;
+  color: #4a4338;
+  font-style: italic;
+}
+article blockquote p:last-child { margin-bottom: 0; }
+article blockquote cite {
+  display: block;
+  margin-top: 0.6em;
+  font-style: normal;
+  font-family: "PingFang SC", "Helvetica Neue", -apple-system, sans-serif;
+  font-size: 13px;
+  color: #6b6358;
+}
+
+/* ---------- lists ---------- */
+
+article ul, article ol {
+  padding-left: 1.5em;
+  margin: 0 0 1.1em;
+}
+article ul { list-style: none; padding-left: 0; }
+article ul > li {
+  position: relative;
+  padding-left: 22px;
+  margin: 0.4em 0;
+}
+article ul > li::marker { content: ""; }
+/* Use a real span for the bullet — survives paste */
+article ul > li > .bullet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #c25b30;
+  font-weight: 600;
+}
+article ol li {
+  margin: 0.4em 0;
+}
+article ol li::marker {
+  color: #c25b30;
+  font-weight: 600;
+}
+
+/* ---------- code ---------- */
+
+article code,
+article pre {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", "Consolas", monospace;
+}
+article :not(pre) > code {
+  background: #f3e9d4;
+  color: #5e2509;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.86em;
+}
+article pre {
+  margin: 1.6em 0;
+  padding: 16px 20px;
+  background: #2a2622;
+  color: #e9e2d0;
+  border-radius: 6px;
+  overflow-x: auto;
+  line-height: 1.6;
+  font-size: 13px;
+  -webkit-overflow-scrolling: touch;
+}
+article pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* ---------- tables ---------- */
+
+article table {
+  width: 100%;
+  margin: 1.6em 0;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+article thead {
+  border-top: 2px solid #1a1612;
+  border-bottom: 1px solid #1a1612;
+}
+article tbody tr { border-bottom: 1px solid #e2d9c5; }
+article tbody tr:last-child { border-bottom: 2px solid #1a1612; }
+article th, article td {
+  text-align: left;
+  padding: 10px 14px;
+  vertical-align: top;
+}
+article th {
+  font-family: "PingFang SC", -apple-system, sans-serif;
+  font-weight: 600;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1a1612;
+}
+
+/* ---------- figure & images ---------- */
+
+article figure {
+  margin: 1.8em 0;
+}
+article figure img,
+article p > img,
+article > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+article figcaption {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6b6358;
+  text-align: center;
+  font-family: "PingFang SC", -apple-system, sans-serif;
+  font-style: italic;
+}
+
+/* ---------- horizontal rule ---------- */
+
+article hr {
+  border: none;
+  height: 1px;
+  background: #e2d9c5;
+  margin: 2.6em auto;
+  width: 30%;
+}
+
+/* ---------- TOC (rarely used in wechat theme) ---------- */
+
+#TOC, nav#TOC {
+  margin: 0 0 2em;
+  padding: 16px 0;
+  border-top: 1px solid #e2d9c5;
+  border-bottom: 1px solid #e2d9c5;
+  font-family: "PingFang SC", -apple-system, sans-serif;
+  font-size: 14px;
+}
+#TOC > ul { list-style: none; padding: 0; margin: 0; }
+#TOC ul ul { list-style: none; padding-left: 1.4em; margin: 0.2em 0; }
+#TOC li { margin: 0.3em 0; }
+#TOC a {
+  color: #4a4338;
+  text-decoration: none;
+}
+#TOC a:hover { color: #c25b30; }
+
+/* ---------- footnotes ---------- */
+
+a.footnote-ref, a.footnote-back {
+  font-size: 0.78em;
+  vertical-align: super;
+  text-decoration: none;
+  color: #c25b30;
+}
+.footnotes {
+  margin-top: 3em;
+  padding-top: 1.2em;
+  border-top: 1px solid #e2d9c5;
+  font-size: 0.92em;
+  color: #4a4338;
+}
+.footnotes ol { padding-left: 1.4em; }
+
+/* ---------- selection / print ---------- */
+
+::selection {
+  background: #f3deb6;
+  color: #1a1612;
+}
+
+@media print {
+  #copy-bar { display: none; }
+  body { background: white; color: black; }
+  article pre { background: #f4efe2; color: #2a2622; }
+}
+
+/* ---------- toast notifications ---------- */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1612;
+  color: #f8f3e7;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-family: "PingFang SC", -apple-system, sans-serif;
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  z-index: 200;
+}
+#toast.show { opacity: 1; }

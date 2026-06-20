@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>huashu-md-html · md 是源代码，html/docx 是产物</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c-cream: #FDF8EE;
+  --c-cream-deep: #F7EFDF;
+  --c-paper: #FFFFFF;
+  --c-ink: #1A1A1A;
+  --c-muted: #6B6B6B;
+  --c-line: #E5DCC6;
+  --c-line-soft: #F0E6D2;
+  --c-orange: #C2410C;
+  --c-orange-deep: #9A3412;
+  --c-orange-bg: #FFEDD5;
+  --c-orange-line: #FED7AA;
+  --c-teal: #0E7C66;
+  --c-teal-bg: #CCFBF1;
+  --max-w: 880px;
+  --max-w-wide: 1080px;
+  --font-cn-sans: "PingFang SC", "Noto Sans SC", "Hiragino Sans GB", sans-serif;
+  --font-cn-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+  --font-en: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-cn-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--c-ink);
+  background: var(--c-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body * { font-family: var(--font-en), var(--font-cn-sans); }
+
+.wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+.wrap-wide { max-width: var(--max-w-wide); margin: 0 auto; padding: 0 32px; }
+
+a { color: var(--c-orange); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--c-orange-deep); }
+
+/* =====================================================
+   HERO
+====================================================== */
+.hero {
+  padding: 80px 0 70px;
+  background:
+    radial-gradient(ellipse at top right, rgba(194, 65, 12, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(14, 124, 102, 0.03) 0%, transparent 50%),
+    var(--c-cream);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.hero-badges {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--c-muted);
+  letter-spacing: 0.02em;
+}
+.hero-badge.featured {
+  background: var(--c-orange-bg);
+  border-color: var(--c-orange-line);
+  color: var(--c-orange);
+  font-weight: 600;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-block;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  text-align: center;
+  color: var(--c-ink);
+  margin-bottom: 6px;
+}
+.hero-title .accent { color: var(--c-orange); }
+
+.hero-arrow {
+  font-family: var(--font-mono);
+  display: block;
+  text-align: center;
+  font-size: 24px;
+  color: var(--c-orange);
+  margin: 14px 0 6px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.hero-products {
+  font-family: var(--font-mono);
+  text-align: center;
+  font-size: 18px;
+  color: var(--c-muted);
+  margin-bottom: 36px;
+  letter-spacing: 0.02em;
+}
+.hero-products span {
+  color: var(--c-ink);
+  font-weight: 600;
+}
+
+.hero-tagline {
+  font-family: var(--font-cn-serif);
+  font-style: italic;
+  font-size: 21px;
+  font-weight: 400;
+  text-align: center;
+  color: var(--c-muted);
+  margin-bottom: 32px;
+  letter-spacing: 0.01em;
+}
+
+.hero-desc {
+  text-align: center;
+  font-size: 16px;
+  color: var(--c-muted);
+  line-height: 1.85;
+  max-width: 720px;
+  margin: 0 auto 40px;
+}
+.hero-desc b { color: var(--c-ink); font-weight: 600; }
+
+.hero-install {
+  max-width: 580px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: stretch;
+  background: var(--c-ink);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -20px rgba(26, 26, 26, 0.4);
+}
+.hero-install .label {
+  background: var(--c-orange);
+  color: var(--c-paper);
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+}
+.hero-install code {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #FED7AA;
+  padding: 14px 18px;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.hero-meta {
+  text-align: center;
+  font-size: 13px;
+  color: var(--c-muted);
+}
+.hero-meta strong { color: var(--c-ink); font-weight: 600; }
+
+.hero-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--c-muted);
+}
+.hero-nav a {
+  padding: 4px 14px;
+  border-right: 1px solid var(--c-line);
+  color: var(--c-muted);
+}
+.hero-nav a:hover { color: var(--c-orange); }
+.hero-nav a:last-child { border-right: none; }
+
+/* =====================================================
+   SECTION COMMON
+====================================================== */
+section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--c-line);
+}
+section:last-of-type { border-bottom: none; }
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-orange);
+  margin-bottom: 14px;
+  padding: 4px 10px;
+  background: var(--c-orange-bg);
+  border-radius: 4px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--c-ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+
+.section-sub {
+  font-size: 16px;
+  color: var(--c-muted);
+  line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 680px;
+}
+
+/* =====================================================
+   DEMO SECTION
+====================================================== */
+.demo-hero {
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.demo-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.demo-caption {
+  text-align: center;
+  font-size: 13px;
+  color: var(--c-muted);
+  line-height: 1.7;
+}
+.demo-caption a { color: var(--c-orange); font-weight: 500; }
+
+.demo-secondary {
+  margin-top: 36px;
+  padding: 20px 24px;
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.demo-secondary .icon {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-orange);
+  background: var(--c-orange-bg);
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.1em;
+}
+.demo-secondary .text { flex: 1; min-width: 240px; font-size: 14px; color: var(--c-muted); line-height: 1.6; }
+.demo-secondary .text b { color: var(--c-ink); font-weight: 600; }
+.demo-secondary a {
+  font-size: 13px;
+  color: var(--c-orange);
+  font-weight: 500;
+}
+
+/* =====================================================
+   4 ABILITIES GRID
+====================================================== */
+.abilities-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 720px) {
+  .abilities-grid { grid-template-columns: 1fr; }
+}
+
+.ability {
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  padding: 30px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.ability:hover {
+  border-color: var(--c-orange-line);
+  transform: translateY(-2px);
+}
+.ability.featured {
+  background: linear-gradient(180deg, var(--c-orange-bg) 0%, var(--c-paper) 35%);
+  border-color: var(--c-orange-line);
+}
+.ability .ab-num {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-family: var(--font-en);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--c-orange);
+  opacity: 0.18;
+  line-height: 1;
+}
+.ability.featured .ab-num { opacity: 0.32; }
+
+.ability .ab-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--c-muted);
+  margin-bottom: 14px;
+}
+.ability .ab-route .from, .ability .ab-route .to {
+  color: var(--c-ink);
+  font-weight: 600;
+}
+.ability .ab-route .arrow {
+  color: var(--c-orange);
+  font-weight: 700;
+}
+
+.ability h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.ability p {
+  font-size: 14px;
+  color: var(--c-muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.ability .ab-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+.ability .ab-tool {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-orange);
+  background: var(--c-orange-bg);
+  border: 1px solid var(--c-orange-line);
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+.principle-box {
+  margin-top: 28px;
+  padding: 20px 24px;
+  background: #FFFEF9;
+  border-left: 3px solid var(--c-orange);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  color: var(--c-ink);
+  line-height: 1.8;
+}
+.principle-box strong { color: var(--c-orange); font-weight: 700; }
+.principle-box ul { margin: 8px 0 0 0; padding-left: 20px; list-style: none; }
+.principle-box li {
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.principle-box li::before {
+  content: "·";
+  position: absolute;
+  left: 4px;
+  color: var(--c-orange);
+  font-weight: 700;
+}
+
+/* =====================================================
+   4 THEMES GALLERY
+====================================================== */
+.themes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 28px;
+}
+@media (max-width: 720px) {
+  .themes-grid { grid-template-columns: 1fr; }
+}
+.theme-card {
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.theme-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--c-line);
+}
+.theme-card .theme-info {
+  padding: 14px 18px;
+}
+.theme-card .theme-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-ink);
+  margin-bottom: 4px;
+}
+.theme-card .theme-desc {
+  font-size: 12px;
+  color: var(--c-muted);
+  line-height: 1.5;
+}
+
+/* =====================================================
+   TABLES
+====================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+  background: var(--c-paper);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--c-line);
+}
+thead th {
+  background: var(--c-cream-deep);
+  color: var(--c-ink);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--c-line);
+}
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--c-line-soft);
+  line-height: 1.6;
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(194, 65, 12, 0.02); }
+table code {
+  font-family: var(--font-mono);
+  background: var(--c-cream-deep);
+  color: var(--c-orange);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+table strong { color: var(--c-ink); font-weight: 600; }
+
+/* =====================================================
+   DOCX SPOTLIGHT (NEW ABILITY)
+====================================================== */
+.docx-spotlight {
+  background: linear-gradient(135deg, var(--c-orange-bg) 0%, var(--c-cream) 60%);
+  border: 1px solid var(--c-orange-line);
+  border-radius: 16px;
+  padding: 44px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.docx-spotlight::before {
+  content: "NEW";
+  position: absolute;
+  top: 24px;
+  right: 36px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--c-paper);
+  background: var(--c-orange);
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.15em;
+}
+
+.docx-spotlight h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.docx-spotlight .docx-why {
+  font-size: 14px;
+  color: var(--c-muted);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  max-width: 640px;
+}
+.docx-spotlight .docx-why em {
+  color: var(--c-orange);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  background: var(--c-paper);
+  border: 1px solid var(--c-orange-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .feature-grid { grid-template-columns: 1fr; }
+}
+.feature-grid .cell {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--c-line-soft);
+  border-right: 1px solid var(--c-line-soft);
+}
+.feature-grid .cell:nth-child(2n) { border-right: none; }
+.feature-grid .cell:nth-last-child(-n+2) { border-bottom: none; }
+@media (max-width: 600px) {
+  .feature-grid .cell { border-right: none; }
+  .feature-grid .cell:nth-last-child(2) { border-bottom: 1px solid var(--c-line-soft); }
+}
+.feature-grid .label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-orange);
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+.feature-grid .value {
+  font-size: 13px;
+  color: var(--c-ink);
+  line-height: 1.5;
+}
+
+.realworld {
+  margin-top: 24px;
+  font-family: var(--font-cn-serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--c-ink);
+  line-height: 1.7;
+  padding-left: 14px;
+  border-left: 3px solid var(--c-orange);
+}
+.realworld b { font-style: normal; color: var(--c-orange); }
+
+/* =====================================================
+   CODE BLOCKS
+====================================================== */
+pre {
+  background: var(--c-ink);
+  color: #FED7AA;
+  padding: 22px 26px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.75;
+  overflow-x: auto;
+  margin: 18px 0;
+  box-shadow: 0 4px 20px -8px rgba(26, 26, 26, 0.3);
+}
+pre code { font-family: inherit; }
+pre .comment { color: #94A3B8; font-style: italic; }
+pre .cmd { color: #FCD34D; font-weight: 600; }
+pre .arg { color: #BEF264; }
+pre .str { color: #FED7AA; }
+
+code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--c-cream-deep);
+  color: var(--c-orange);
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+/* =====================================================
+   WORKFLOW
+====================================================== */
+.workflow-scenarios {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.workflow-item {
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.workflow-item .wf-head {
+  padding: 14px 22px;
+  background: var(--c-cream-deep);
+  border-bottom: 1px solid var(--c-line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.workflow-item .wf-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-paper);
+  background: var(--c-orange);
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+.workflow-item .wf-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--c-ink);
+}
+.workflow-item pre {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* =====================================================
+   DEPENDENCY TABLE
+====================================================== */
+.warning-box {
+  background: #FFFBEB;
+  border-left: 3px solid #D97706;
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin: 18px 0;
+  font-size: 13px;
+  color: var(--c-ink);
+  line-height: 1.7;
+}
+.warning-box strong { color: #D97706; }
+
+/* =====================================================
+   FILE TREE
+====================================================== */
+.filetree {
+  background: var(--c-ink);
+  color: #E5DCC6;
+  padding: 24px 28px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.85;
+  overflow-x: auto;
+}
+.filetree .dir { color: #FED7AA; font-weight: 600; }
+.filetree .file { color: #BEF264; }
+.filetree .new { color: var(--c-paper); background: var(--c-orange); padding: 1px 6px; border-radius: 3px; font-size: 10px; margin-left: 6px; font-weight: 700; letter-spacing: 0.05em; }
+.filetree .cmt { color: #94A3B8; font-style: italic; }
+
+/* =====================================================
+   PHILOSOPHY
+====================================================== */
+.philosophy {
+  font-family: var(--font-cn-serif);
+  font-size: 18px;
+  line-height: 1.95;
+  color: var(--c-ink);
+  letter-spacing: 0.01em;
+}
+.philosophy p { margin-bottom: 20px; }
+.philosophy p.lede {
+  font-size: 22px;
+  color: var(--c-ink);
+}
+.philosophy p.lede b {
+  color: var(--c-orange);
+  font-weight: 700;
+  font-style: italic;
+}
+.philosophy ul {
+  list-style: none;
+  margin: 24px 0;
+  padding: 0;
+}
+.philosophy ul li {
+  padding-left: 24px;
+  position: relative;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--c-muted);
+}
+.philosophy ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--c-orange);
+  font-weight: 700;
+}
+.philosophy ul li b { color: var(--c-ink); font-weight: 600; }
+
+/* =====================================================
+   CONTACT
+====================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 28px;
+}
+@media (max-width: 600px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+.contact-card:hover { border-color: var(--c-orange-line); }
+.contact-card .platform {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-muted);
+  letter-spacing: 0.05em;
+  min-width: 90px;
+}
+.contact-card .handle {
+  font-size: 14px;
+  color: var(--c-ink);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* =====================================================
+   FOOTER
+====================================================== */
+footer {
+  padding: 60px 0 70px;
+  background: var(--c-cream-deep);
+  text-align: center;
+  border-top: 1px solid var(--c-line);
+}
+footer .sig {
+  font-family: var(--font-cn-serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--c-orange);
+  margin-bottom: 10px;
+}
+footer .sub {
+  font-size: 13px;
+  color: var(--c-muted);
+  line-height: 1.7;
+}
+footer .sub a { color: var(--c-orange); font-weight: 500; }
+
+/* responsive */
+@media (max-width: 720px) {
+  .hero-title { font-size: 44px; }
+  .hero { padding: 60px 0 50px; }
+  section { padding: 60px 0; }
+  .section-title { font-size: 28px; }
+  .docx-spotlight { padding: 30px 24px; }
+  .wrap, .wrap-wide { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== HERO ============== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-badges">
+      <span class="hero-badge"><span class="dot"></span>MIT License</span>
+      <span class="hero-badge"><span class="dot"></span>Agent-Agnostic</span>
+      <span class="hero-badge"><span class="dot"></span>skills.sh Compatible</span>
+      <span class="hero-badge featured"><span class="dot"></span>NEW · md → docx</span>
+    </div>
+
+    <h1 class="hero-title">huashu<span class="accent">-</span>md<span class="accent">-</span>html</h1>
+
+    <div class="hero-arrow">md  →  html / docx</div>
+    <div class="hero-products"><span>md</span> 是源代码，<span>html / docx</span> 是产物。</div>
+
+    <div class="hero-tagline">"Source once · publish many."</div>
+
+    <p class="hero-desc">
+      把任意文件（<b>PDF / DOCX / PPTX / XLSX / EPUB / 图片 / 音频 / YouTube / 网页 URL</b>）转成干净的 markdown；
+      再用 4 套精挑过的主题加工成出色的 html；或反过来把已发布的 html 拉回来归档；
+      需要给出版社/编辑/投稿系统时——一条命令把 md 加工成<b>出版社级 docx</b>，自动嵌图、加封面、做目录、配页眉页脚。
+    </p>
+
+    <div class="hero-install">
+      <div class="label">INSTALL</div>
+      <code>npx skills add alchaincyf/huashu-md-html</code>
+    </div>
+
+    <p class="hero-meta">
+      跨 agent 通用 · <strong>Claude Code · Cursor · Codex · OpenClaw · Hermes</strong> 都能装
+    </p>
+
+    <nav class="hero-nav">
+      <a href="#demo">看效果</a>
+      <a href="#abilities">四个能力</a>
+      <a href="#themes">4 套主题</a>
+      <a href="#docx">出版社 docx</a>
+      <a href="#workflow">一条龙工作流</a>
+      <a href="#philosophy">设计哲学</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== DEMO ============== -->
+<section id="demo">
+  <div class="wrap">
+    <span class="section-label">DEMO</span>
+    <h2 class="section-title">20 秒看懂 md / html / docx 怎么流转</h2>
+    <p class="section-sub">Kenya Hara 极简风格 · md → 入·排·出 → html · 衬线 + 留白 + 一抹赤陶橙。</p>
+
+    <div class="demo-hero">
+      <img src="../demos/v3-hara-hero.gif" alt="huashu-md-html Hero · md 是源，html 是产物">
+    </div>
+    <p class="demo-caption">
+      👉 <a href="../demos/v3-hara-hero.mp4">下载 MP4（含 BGM · 850KB）</a>
+    </p>
+
+    <div class="demo-secondary">
+      <span class="icon">ALT</span>
+      <span class="text">
+        <b>另一版风格：</b>Pentagram 信息建筑派 · 象牙白 + 墨黑 + 辛辣红 · 大字号 sans + 12 列网格 + tabular nums
+      </span>
+      <a href="../demos/v1-pentagram.mp4">查看 MP4 →</a>
+    </div>
+
+    <p class="demo-caption" style="margin-top: 24px; padding: 16px; background: var(--c-paper); border-radius: 8px; border: 1px solid var(--c-line);">
+      📌 <b>以上两段动画都是用 <a href="https://github.com/alchaincyf/huashu-design">huashu-design</a> skill 做的</b>——作为本 skill 的宣传短片。同一个产品，两种视觉哲学，差异不来自模板而来自设计语言。
+    </p>
+  </div>
+</section>
+
+<!-- ============== 4 ABILITIES ============== -->
+<section id="abilities">
+  <div class="wrap">
+    <span class="section-label">FOUR ABILITIES</span>
+    <h2 class="section-title">四个能力 · 一条流水线</h2>
+    <p class="section-sub">每个能力都是独立的脚本入口，互相可以组合。决策错了会绕远路——选哪个能力之前先读路由表。</p>
+
+    <div class="abilities-grid">
+
+      <div class="ability">
+        <div class="ab-num">01</div>
+        <div class="ab-route">
+          <span class="from">PDF / DOCX / 网页…</span>
+          <span class="arrow">→</span>
+          <span class="to">md</span>
+        </div>
+        <h3>万物 → md</h3>
+        <p>把任意输入（PDF、DOCX、PPTX、XLSX、EPUB、图片、音频、YouTube、网页 URL）转成干净的 markdown，作为后续加工的源。</p>
+        <div class="ab-tools">
+          <span class="ab-tool">markitdown</span>
+          <span class="ab-tool">scripts/any_to_md.py</span>
+        </div>
+      </div>
+
+      <div class="ability">
+        <div class="ab-num">02</div>
+        <div class="ab-route">
+          <span class="from">md</span>
+          <span class="arrow">→</span>
+          <span class="to">精美 html</span>
+        </div>
+        <h3>md → 精美 html</h3>
+        <p>用 pandoc + 4 套自调主题（article / report / reading / interactive）加工成可发布的 html。自包含单文件，不依赖外部 CDN。</p>
+        <div class="ab-tools">
+          <span class="ab-tool">pandoc</span>
+          <span class="ab-tool">scripts/md_to_html.py</span>
+        </div>
+      </div>
+
+      <div class="ability">
+        <div class="ab-num">03</div>
+        <div class="ab-route">
+          <span class="from">本地 html / URL</span>
+          <span class="arrow">→</span>
+          <span class="to">md</span>
+        </div>
+        <h3>html → md</h3>
+        <p>把已发布的博客文章、新闻、Essay 反向归档成 md。trafilatura 自动去除导航/侧栏/广告，只留正文。</p>
+        <div class="ab-tools">
+          <span class="ab-tool">html-to-markdown</span>
+          <span class="ab-tool">trafilatura</span>
+          <span class="ab-tool">scripts/html_to_md.py</span>
+        </div>
+      </div>
+
+      <div class="ability featured">
+        <div class="ab-num">04</div>
+        <div class="ab-route">
+          <span class="from">md</span>
+          <span class="arrow">→</span>
+          <span class="to">出版社级 docx</span>
+        </div>
+        <h3>md → 精美 docx</h3>
+        <p>给出版社、编辑、投稿系统的<b>终极交付物</b>。自动嵌图、加封面、做目录、配页眉页脚。专为纸质书审校 / 投稿 / 出版定稿设计。</p>
+        <div class="ab-tools">
+          <span class="ab-tool">python-docx</span>
+          <span class="ab-tool">scripts/md_to_docx.py</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="principle-box">
+      <strong>决策原则</strong>
+      <ul>
+        <li>能力 1 产出的 md 可以直接喂给能力 2，组成「PDF → 精美阅读 html」<b>一条龙</b></li>
+        <li>能力 3 用于<b>反向归档</b>——把已发布的 html 博客文章存回项目源</li>
+        <li>能力 4 是<b>出版终点</b>——给人类编辑/出版社审校时用 docx，不要直接给 html 或 md</li>
+      </ul>
+    </div>
+
+    <h3 style="font-size: 18px; margin: 40px 0 14px; color: var(--c-ink);">URL 输入的两条路径</h3>
+    <table>
+      <thead>
+        <tr><th>页面类型</th><th>走哪个</th><th>原因</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>结构化页面</strong>（产品详情、技术文档、API doc、证书页、电商商品页）</td>
+          <td>能力 1（markitdown）</td>
+          <td>保留 metadata、字段值、链接、标题层级</td>
+        </tr>
+        <tr>
+          <td><strong>正文类页面</strong>（博客、新闻、Essay、长文）</td>
+          <td>能力 3（trafilatura）</td>
+          <td>自动去导航/侧栏/广告，只留正文</td>
+        </tr>
+        <tr>
+          <td><strong>不确定</strong></td>
+          <td>两个都跑一遍对比</td>
+          <td>看哪个对下游用途更合适</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 16px; font-size: 14px; color: var(--c-muted); line-height: 1.7;">
+      <strong style="color: var(--c-ink);">判断捷径：</strong>URL 里的内容是<em style="color: var(--c-orange); font-style: normal; font-weight: 600;">「读」</em>的还是<em style="color: var(--c-orange); font-style: normal; font-weight: 600;">「查」</em>的？读 → 能力 3（去噪），查 → 能力 1（保信息）。
+    </p>
+  </div>
+</section>
+
+<!-- ============== 4 THEMES ============== -->
+<section id="themes">
+  <div class="wrap">
+    <span class="section-label">HTML THEMES</span>
+    <h2 class="section-title">4 套 html 主题</h2>
+    <p class="section-sub">每套都过了反 AI slop 检查清单。自包含单 CSS，HTML 打开即用，不依赖外部 CDN。</p>
+
+    <table>
+      <thead>
+        <tr><th>主题</th><th>哲学锚点</th><th>适合场景</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>article</strong></td><td>Tufte CSS 启发 · Pentagram 式信息建筑</td><td>essay、博客、深度阅读、独立文章</td></tr>
+        <tr><td><strong>report</strong></td><td>出版社白皮书风 · 多表格密度型</td><td>技术报告、调研、白皮书、产品文档</td></tr>
+        <tr><td><strong>reading</strong></td><td>Medium 风极简 · 单栏窄体大字</td><td>公众号转接、纯阅读、轻量分发</td></tr>
+        <tr><td><strong>interactive</strong></td><td>长文档导航型 · 折叠 + 目录 + 边栏</td><td>橙皮书章节、技术书籍、长教程</td></tr>
+      </tbody>
+    </table>
+
+    <div class="themes-grid">
+      <div class="theme-card">
+        <img src="output/article.png" alt="article 主题预览">
+        <div class="theme-info">
+          <div class="theme-name">article</div>
+          <div class="theme-desc">Tufte 风 · 衬线 + 边距笔记</div>
+        </div>
+      </div>
+      <div class="theme-card">
+        <img src="output/report.png" alt="report 主题预览">
+        <div class="theme-info">
+          <div class="theme-name">report</div>
+          <div class="theme-desc">白皮书风 · 宽体多表格</div>
+        </div>
+      </div>
+      <div class="theme-card">
+        <img src="output/reading.png" alt="reading 主题预览">
+        <div class="theme-info">
+          <div class="theme-name">reading</div>
+          <div class="theme-desc">Medium 风 · 单栏极简</div>
+        </div>
+      </div>
+      <div class="theme-card">
+        <img src="output/interactive.png" alt="interactive 主题预览">
+        <div class="theme-info">
+          <div class="theme-name">interactive</div>
+          <div class="theme-desc">长文档 · 侧边栏 + 折叠目录</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size: 16px; margin: 36px 0 12px; color: var(--c-ink);">排版底线（所有主题共享）</h3>
+    <pre><span class="comment">正文字体（中文）</span>  PingFang SC, Source Han Serif, Noto Serif CJK
+<span class="comment">正文字体（英文）</span>  Inter, IBM Plex Sans, et-book
+<span class="comment">代码字体</span>         JetBrains Mono, Fira Code
+<span class="comment">行高（中文）</span>     1.75 - 1.85
+<span class="comment">字号（桌面）</span>     17 - 18px
+<span class="comment">最大宽度（文章）</span>  680 - 720px
+<span class="comment">代码块底色</span>       #F6F8FA（浅模式）/ #1F2428（深模式）
+<span class="comment">引用块</span>           左 4px 色条 + 浅灰底</pre>
+
+    <p style="margin-top: 14px; font-size: 13px; color: var(--c-muted);">
+      <strong style="color: var(--c-orange);">禁用清单：</strong>紫渐变、赛博霓虹、 <code>#0D1117</code> 深蓝底、Comic Sans、emoji 作正式图标。
+    </p>
+  </div>
+</section>
+
+<!-- ============== DOCX SPOTLIGHT ============== -->
+<section id="docx">
+  <div class="wrap">
+    <span class="section-label">FEATURED</span>
+    <h2 class="section-title">md → 出版社级 docx</h2>
+    <p class="section-sub">为什么单独做能力 4？因为 <code>pandoc md -o docx</code> 出来的 docx 默认 Calibri、无表格样式、无封面、章节首页平淡——能给 AI 看，不能给出版社编辑改稿。</p>
+
+    <div class="docx-spotlight">
+      <h3>能力 4 内置了出版社版式预设</h3>
+      <p class="docx-why">
+        章号小标 + 大字号章名 + 英文副标题 + 橙色分隔线、引用块按类型配色、表格表头底色、代码块左侧色条 + 浅灰底、页眉书名 + 页脚自动页码——这些细节都内置了，<em>单文件或一整本书都能一条命令生成</em>。
+      </p>
+
+<pre><span class="comment"># 单文件转换</span>
+<span class="cmd">python3</span> scripts/md_to_docx.py article.md
+
+<span class="comment"># 整本书（自动加封面 + 目录 + 页眉 + 章节分页）</span>
+<span class="cmd">python3</span> scripts/md_to_docx.py ch*.md postscript.md appendix.md <span class="arg">--book</span> \
+    <span class="arg">--title</span> <span class="str">"图解 Agent Skills"</span> \
+    <span class="arg">--subtitle</span> <span class="str">"让 AI 记住你的工作方式"</span> \
+    <span class="arg">--author</span> <span class="str">"花叔"</span> \
+    <span class="arg">--images-dir</span> ./images \
+    <span class="arg">-o</span> book.docx</pre>
+
+      <h3 style="margin-top: 28px; font-size: 18px;">版式特性一览</h3>
+      <div class="feature-grid">
+        <div class="cell">
+          <div class="label">PAGE</div>
+          <div class="value">大 32 开（176×240 mm）或 A4</div>
+        </div>
+        <div class="cell">
+          <div class="label">CHAPTER TITLE</div>
+          <div class="value">章号小标 + 24pt 大字号 + 橙色底分隔线 + 英文副标题</div>
+        </div>
+        <div class="cell">
+          <div class="label">CALLOUT</div>
+          <div class="value">按 emoji 自动配色：💡 琥珀 / ✅ 青色 / ⚠️ 玫红</div>
+        </div>
+        <div class="cell">
+          <div class="label">CODE BLOCK</div>
+          <div class="value">浅灰底 + 橙色左侧色边 + JetBrains Mono</div>
+        </div>
+        <div class="cell">
+          <div class="label">TABLE</div>
+          <div class="value">表头底色 + 灰色边框 + 居中对齐</div>
+        </div>
+        <div class="cell">
+          <div class="label">FIGURE</div>
+          <div class="value">居中嵌入 + 灰色斜体图说</div>
+        </div>
+        <div class="cell">
+          <div class="label">HEADER</div>
+          <div class="value">右对齐书名（斜体灰色）</div>
+        </div>
+        <div class="cell">
+          <div class="label">FOOTER</div>
+          <div class="value">居中自动页码字段</div>
+        </div>
+      </div>
+
+      <div class="realworld">
+        <b>实战验证。</b>用这个脚本生成《图解 Agent Skills》158 页出版社审校稿（9 章 + 后记 + 附录 + 57 张配图），一条命令搞定。
+      </div>
+    </div>
+
+    <p style="margin-top: 24px; font-size: 14px; color: var(--c-muted);">
+      完整 cookbook 见 <a href="../references/md-to-docx-cookbook.md"><code>references/md-to-docx-cookbook.md</code></a> · 依赖：<code>python3 -m pip install python-docx Pillow</code>
+    </p>
+  </div>
+</section>
+
+<!-- ============== WORKFLOW ============== -->
+<section id="workflow">
+  <div class="wrap">
+    <span class="section-label">WORKFLOW</span>
+    <h2 class="section-title">一条龙工作流</h2>
+    <p class="section-sub">8 个典型场景——从 PDF 白皮书到出版社审校稿。每个都是真实跑过的命令。</p>
+
+    <div class="workflow-scenarios">
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 1</span><span class="wf-title">PDF 白皮书 → 精美阅读 html</span></div>
+<pre><span class="cmd">python3</span> scripts/any_to_md.py whitepaper.pdf <span class="arg">-o</span> whitepaper.md
+<span class="cmd">python3</span> scripts/md_to_html.py whitepaper.md <span class="arg">--theme</span> report <span class="arg">-o</span> whitepaper.html</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 2</span><span class="wf-title">YouTube 视频 → 文章博客</span></div>
+<pre><span class="cmd">python3</span> scripts/any_to_md.py <span class="str">"https://youtube.com/watch?v=xxx"</span> <span class="arg">-o</span> video.md
+<span class="comment"># 编辑 video.md...</span>
+<span class="cmd">python3</span> scripts/md_to_html.py video.md <span class="arg">--theme</span> article <span class="arg">-o</span> blog.html</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 3</span><span class="wf-title">归档已发布的博客文章 → 项目源 md</span></div>
+<pre><span class="cmd">python3</span> scripts/html_to_md.py <span class="str">"https://example.com/blog/article"</span> <span class="arg">-o</span> article.md</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 4</span><span class="wf-title">抓产品页 / 技术文档 → 完整结构化 md</span></div>
+<pre><span class="cmd">python3</span> scripts/any_to_md.py <span class="str">"https://learn.microsoft.com/en-us/some-doc"</span> <span class="arg">-o</span> doc.md</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 5</span><span class="wf-title">橙皮书章节 → 多主题对比</span></div>
+<pre><span class="cmd">python3</span> scripts/md_to_html.py chapter.md <span class="arg">--theme</span> article <span class="arg">-o</span> ch-article.html
+<span class="cmd">python3</span> scripts/md_to_html.py chapter.md <span class="arg">--theme</span> interactive <span class="arg">-o</span> ch-interactive.html</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 6</span><span class="wf-title">URL 不确定走哪条路 → 两个都跑对比</span></div>
+<pre><span class="cmd">python3</span> scripts/any_to_md.py <span class="str">"https://example.com/page"</span> <span class="arg">-o</span> page-markitdown.md
+<span class="cmd">python3</span> scripts/html_to_md.py <span class="str">"https://example.com/page"</span> <span class="arg">-o</span> page-trafilatura.md</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 7</span><span class="wf-title">整本书 md → 出版社审校 docx</span></div>
+<pre><span class="cmd">python3</span> scripts/md_to_docx.py md-v2/ch*.md md-v2/postscript.md md-v2/appendix.md <span class="arg">--book</span> \
+    <span class="arg">--title</span> <span class="str">"图解 Agent Skills"</span> <span class="arg">--author</span> <span class="str">"花叔"</span> \
+    <span class="arg">--subtitle</span> <span class="str">"让 AI 记住你的工作方式"</span> \
+    <span class="arg">--images-dir</span> ./images-v2 <span class="arg">-o</span> 出版社审校版.docx</pre>
+      </div>
+
+      <div class="workflow-item">
+        <div class="wf-head"><span class="wf-num">SCENE 8</span><span class="wf-title">PDF 论文 → docx 投稿（能力 1 → 能力 4）</span></div>
+<pre><span class="cmd">python3</span> scripts/any_to_md.py paper.pdf <span class="arg">-o</span> paper.md
+<span class="comment"># 编辑 paper.md 修正格式...</span>
+<span class="cmd">python3</span> scripts/md_to_docx.py paper.md <span class="arg">--page-size</span> a4 <span class="arg">-o</span> paper.docx</pre>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== DEPENDENCIES ============== -->
+<section>
+  <div class="wrap">
+    <span class="section-label">DEPENDENCIES</span>
+    <h2 class="section-title">依赖</h2>
+    <p class="section-sub">脚本启动时会自检，缺失的依赖会明确提示安装命令，不会静默失败。</p>
+
+    <table>
+      <thead>
+        <tr><th>工具</th><th>用途</th><th>安装</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>markitdown</code></td><td>万物 → md</td><td><code>python3 -m pip install 'markitdown[all]'</code></td></tr>
+        <tr><td><code>pandoc</code></td><td>md → html</td><td><code>brew install pandoc</code>（macOS）</td></tr>
+        <tr><td><code>html-to-markdown</code></td><td>html → md（高速 Rust 引擎）</td><td><code>python3 -m pip install html-to-markdown</code></td></tr>
+        <tr><td><code>trafilatura</code></td><td>URL 正文提取</td><td><code>python3 -m pip install trafilatura</code></td></tr>
+        <tr><td><code>python-docx</code> + <code>Pillow</code></td><td>md → 精美 docx</td><td><code>python3 -m pip install python-docx Pillow</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="warning-box">
+      <strong>⚠ macOS Python 环境陷阱：</strong>
+      <code>pip</code> 和 <code>python3</code> 可能指向不同的 Python 版本（实测踩过：<code>pip</code> 是 3.11、<code>python3</code> 是 3.14）。安装依赖请用 <code>python3 -m pip install ...</code>，不要直接 <code>pip install</code>。
+    </div>
+  </div>
+</section>
+
+<!-- ============== STRUCTURE ============== -->
+<section>
+  <div class="wrap">
+    <span class="section-label">STRUCTURE</span>
+    <h2 class="section-title">仓库结构</h2>
+
+<div class="filetree">
+<span class="dir">huashu-md-html/</span>
+├── SKILL.md                 <span class="cmt"># Agent 主文档（中文）</span>
+├── README.md                <span class="cmt"># 本文件</span>
+├── <span class="dir">scripts/</span>                 <span class="cmt"># 四能力入口</span>
+│   ├── any_to_md.py         <span class="cmt"># 能力 1：万物 → md</span>
+│   ├── md_to_html.py        <span class="cmt"># 能力 2：md → 精美 html</span>
+│   ├── html_to_md.py        <span class="cmt"># 能力 3：html → md</span>
+│   └── md_to_docx.py<span class="new">NEW</span><span class="cmt">       # 能力 4：md → 出版社级 docx</span>
+├── <span class="dir">templates/</span>               <span class="cmt"># 4 套精挑 html 主题 + 公众号专用</span>
+│   ├── article/             <span class="cmt"># Tufte 风</span>
+│   ├── report/              <span class="cmt"># 白皮书风</span>
+│   ├── reading/             <span class="cmt"># Medium 极简</span>
+│   ├── interactive/         <span class="cmt"># 长文档导航</span>
+│   └── wechat/              <span class="cmt"># 公众号转接</span>
+├── <span class="dir">references/</span>              <span class="cmt"># 按任务深入文档（中文）</span>
+│   ├── markitdown-cookbook.md
+│   ├── md-to-html-themes.md
+│   ├── html-to-md-cookbook.md
+│   ├── md-to-docx-cookbook.md<span class="new">NEW</span>
+│   ├── design-tokens.md
+│   └── anti-ai-slop.md
+├── <span class="dir">examples/</span>                <span class="cmt"># 主题预览</span>
+│   ├── input/md-vs-html.md
+│   └── output/{article,report,reading,interactive}.{html,png}
+├── <span class="dir">demos/</span>                   <span class="cmt"># README 引用的宣传动画</span>
+│   ├── v3-hara-hero.{gif,mp4}     <span class="cmt"># Kenya Hara 极简</span>
+│   └── v1-pentagram.{gif,mp4}     <span class="cmt"># Pentagram 信息建筑</span>
+└── requirements.txt
+</div>
+
+  </div>
+</section>
+
+<!-- ============== PHILOSOPHY ============== -->
+<section id="philosophy">
+  <div class="wrap">
+    <span class="section-label">DESIGN PHILOSOPHY</span>
+    <h2 class="section-title">设计哲学</h2>
+
+    <div class="philosophy">
+      <p class="lede">这个 skill 的存在源于一个简单观察——<b>AI 时代，文档的「生产格式」和「消费格式」第一次解耦了。</b></p>
+
+      <p>写作发生在 markdown——可 diff、AI 友好、版本可控。<br>分发发生在 html / docx——排版精致、可分享、可导航、可投稿。<br>来回切换不应该有成本。</p>
+
+      <p>大多数「转 X 到 Y」工具优化的是「转换保真度」。这个 skill 优化的是<b>写作者的循环</b>：</p>
+
+      <ul>
+        <li><b>一份 md 是源</b>——所有创作和编辑都在 md 里</li>
+        <li><b>多套 html 是产物</b>——按场景挑主题，渲染一份精美的 html</li>
+        <li><b>docx 是出版终点</b>——给人类编辑/出版社/投稿系统的最终交付物</li>
+        <li><b>来回往返不丢结构</b>——把已发布的博客拉回项目源，或者把别人的好内容归档成 md</li>
+      </ul>
+
+      <p>继承自 <a href="https://github.com/alchaincyf/huashu-design">huashu-design</a> 的反 AI slop 审美底线——4 套 html 主题各有一个克制的强调色和一个出版级的排印签名，看起来像出版社做的，不像 SaaS 落地页。docx 模板做了同样的事——奶油底、赤陶橙、章号小标、英文副标题，整套版式语言一脉相承。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CONTACT ============== -->
+<section>
+  <div class="wrap">
+    <span class="section-label">CONTACT</span>
+    <h2 class="section-title">联系花叔</h2>
+    <p class="section-sub">
+      花叔是 AI Native Coder、独立开发者、AI 自媒体博主。代表作：小猫补光灯（App Store 付费榜 Top 1）、《一本书玩转 DeepSeek》、
+      <a href="https://github.com/alchaincyf/nuwa-skill">nuwa-skill</a>（GitHub 18k+ stars）、
+      <a href="https://github.com/alchaincyf/huashu-design">huashu-design</a>（GitHub 13k+ stars）。全平台累计粉丝 30 万+。
+    </p>
+
+    <div class="contact-grid">
+      <a href="https://x.com/AlchainHust" class="contact-card">
+        <span class="platform">X / TWITTER</span>
+        <span class="handle">@AlchainHust</span>
+      </a>
+      <a href="https://space.bilibili.com/14097567" class="contact-card">
+        <span class="platform">B 站</span>
+        <span class="handle">花叔</span>
+      </a>
+      <a href="https://www.youtube.com/@Alchain" class="contact-card">
+        <span class="platform">YOUTUBE</span>
+        <span class="handle">花叔</span>
+      </a>
+      <a href="https://www.xiaohongshu.com/user/profile/5abc6f17e8ac2b109179dfdf" class="contact-card">
+        <span class="platform">小红书</span>
+        <span class="handle">花叔</span>
+      </a>
+      <a href="https://www.huasheng.ai/" class="contact-card">
+        <span class="platform">官网</span>
+        <span class="handle">huasheng.ai</span>
+      </a>
+      <a href="https://bookai.top" class="contact-card">
+        <span class="platform">开发者 HUB</span>
+        <span class="handle">bookai.top</span>
+      </a>
+    </div>
+
+    <p style="margin-top: 28px; font-size: 14px; color: var(--c-muted); text-align: center;">
+      公众号：微信搜索<strong style="color: var(--c-ink);">「花叔」</strong> · 商业合作请发邮件到 <a href="mailto:alchaincyf@gmail.com">alchaincyf@gmail.com</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="wrap">
+    <p class="sig">md 是源代码，html / docx 是产物。</p>
+    <p class="sub">
+      MIT License · 个人和商业使用均自由<br>
+      如果这个 skill 对你有帮助，欢迎在 <a href="https://github.com/alchaincyf/huashu-md-html">GitHub</a> 上 star 仓库
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

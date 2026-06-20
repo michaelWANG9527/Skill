@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="$if(lang)$$lang$$else$zh-CN$endif$" xml:lang="$if(lang)$$lang$$else$zh-CN$endif$">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content="huashu-md-html · article theme" />
+$for(author-meta)$  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$  <meta name="dcterms.date" content="$date-meta$" />$endif$
+$if(keywords)$  <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$" />$endif$
+$if(description-meta)$  <meta name="description" content="$description-meta$" />$endif$
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+
+  <!-- Web fonts: Newsreader (display+body serif) + IBM Plex Sans (UI) + JetBrains Mono (code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+$for(css)$  <link rel="stylesheet" href="$css$" />
+$endfor$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+  <!-- Reading progress bar -->
+  <div id="reading-progress" aria-hidden="true"></div>
+
+$for(include-before)$
+  $include-before$
+$endfor$
+
+$if(title)$
+  <header class="title-block" role="banner">
+$if(eyebrow)$    <div class="eyebrow">$eyebrow$</div>$endif$
+    <h1 class="title">$title$</h1>
+$if(subtitle)$    <p class="subtitle">$subtitle$</p>$endif$
+$if(author)$    <div class="byline">
+$for(author)$      <span class="author">$author$</span>$sep$ · $endfor$
+    </div>$endif$
+$if(date)$    <time class="date" datetime="$date$">$date$</time>$endif$
+  </header>
+$endif$
+
+  <main role="main">
+$if(toc)$
+    <nav id="TOC" role="doc-toc" aria-label="目录">
+$table-of-contents$
+    </nav>
+$endif$
+
+    <article>
+$body$
+    </article>
+  </main>
+
+$for(include-after)$
+  $include-after$
+$endfor$
+
+  <!-- Reading progress + code copy + smooth scroll -->
+  <script>
+    (function () {
+      // Reading progress bar
+      var bar = document.getElementById('reading-progress');
+      if (bar) {
+        var update = function () {
+          var doc = document.documentElement;
+          var scrollTop = doc.scrollTop || document.body.scrollTop;
+          var height = doc.scrollHeight - doc.clientHeight;
+          var pct = height > 0 ? (scrollTop / height) * 100 : 0;
+          bar.style.width = pct + '%';
+        };
+        document.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+
+      // Code copy button (added on hover-capable devices)
+      var codeBlocks = document.querySelectorAll('pre > code');
+      codeBlocks.forEach(function (code) {
+        var pre = code.parentElement;
+        if (pre.querySelector('.copy-btn')) return;
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function () {
+          navigator.clipboard.writeText(code.innerText).then(function () {
+            btn.textContent = 'Copied';
+            setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+          }, function () {
+            btn.textContent = 'Failed';
+          });
+        });
+        pre.appendChild(btn);
+      });
+
+      // Smooth scroll for in-page anchors (TOC)
+      document.querySelectorAll('nav#TOC a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var target = document.querySelector(a.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, '', a.getAttribute('href'));
+          }
+        });
+      });
+
+      // Image click-to-expand (lightbox lite)
+      document.querySelectorAll('article img, figure img').forEach(function (img) {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function () {
+          var overlay = document.createElement('div');
+          overlay.className = 'img-lightbox';
+          var clone = document.createElement('img');
+          clone.src = img.src;
+          overlay.appendChild(clone);
+          overlay.addEventListener('click', function () {
+            overlay.remove();
+            document.body.style.overflow = '';
+          });
+          document.body.style.overflow = 'hidden';
+          document.body.appendChild(overlay);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

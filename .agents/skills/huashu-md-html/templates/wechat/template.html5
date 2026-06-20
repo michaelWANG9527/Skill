@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="$if(lang)$$lang$$else$zh-CN$endif$">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content="huashu-md-html · wechat theme" />
+$if(description-meta)$  <meta name="description" content="$description-meta$" />$endif$
+  <title>$pagetitle$</title>
+$for(css)$  <link rel="stylesheet" href="$css$" />
+$endfor$
+</head>
+<body>
+
+  <!-- COPY BAR — sticky at top, will NOT be copied -->
+  <div id="copy-bar" data-no-copy="true">
+    <span class="label">公众号粘贴预览 · huashu-md-html</span>
+    <button id="copy-btn" type="button">
+      <span id="copy-btn-text">复制到公众号</span>
+    </button>
+  </div>
+
+$if(title)$
+  <header class="title-block">
+$if(eyebrow)$    <div class="eyebrow">$eyebrow$</div>
+$else$    <div class="eyebrow">公众号 · 花叔</div>
+$endif$
+    <h1 class="title">$title$</h1>
+$if(subtitle)$    <p class="subtitle">$subtitle$</p>$endif$
+$if(author)$    <div class="byline">
+$for(author)$      <span class="author">$author$</span>$sep$ · $endfor$
+    </div>$endif$
+$if(date)$    <time class="date" datetime="$date$">$date$</time>$endif$
+  </header>
+$endif$
+
+  <main>
+$if(toc)$
+    <nav id="TOC" role="doc-toc">
+$table-of-contents$
+    </nav>
+$endif$
+    <article id="article-content">
+$body$
+    </article>
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ----- Step 1: post-process the rendered DOM so it matches the
+    //              "WeChat-survivable" structure (real spans, not ::before content)
+
+    // 1a. Convert section counters into real <span class="h2-num"> elements
+    var article = document.getElementById('article-content');
+    var h2s = article.querySelectorAll('h2');
+    h2s.forEach(function (h2, i) {
+      // Skip if a number span already exists (idempotent)
+      if (h2.querySelector('.h2-num')) return;
+      var num = document.createElement('span');
+      num.className = 'h2-num';
+      var n = String(i + 1).padStart(2, '0');
+      num.textContent = n;
+      h2.insertBefore(num, h2.firstChild);
+    });
+
+    // 1b. Convert UL bullets to real <span class="bullet"> for paste survival
+    var ulItems = article.querySelectorAll('ul > li');
+    ulItems.forEach(function (li) {
+      if (li.querySelector(':scope > .bullet')) return;
+      var bullet = document.createElement('span');
+      bullet.className = 'bullet';
+      bullet.textContent = '—';
+      bullet.setAttribute('data-bullet', 'true');
+      li.insertBefore(bullet, li.firstChild);
+    });
+
+    // ----- Step 2: copy logic —— inline computed styles for every element
+    //              inside <article>, then write to clipboard
+
+    // Properties to inline (whitelisted to keep payload small and reliable in WeChat)
+    var STYLE_PROPS = [
+      'color', 'background', 'background-color', 'background-image',
+      'font-family', 'font-size', 'font-weight', 'font-style', 'font-variant',
+      'line-height', 'letter-spacing', 'text-align', 'text-decoration',
+      'text-decoration-color', 'text-decoration-thickness', 'text-underline-offset',
+      'text-transform', 'white-space',
+      'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+      'padding', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+      'border', 'border-top', 'border-right', 'border-bottom', 'border-left',
+      'border-radius', 'border-color', 'border-style', 'border-width',
+      'display', 'vertical-align', 'position',
+      'width', 'max-width', 'height',
+      'overflow', 'overflow-x',
+      'list-style', 'list-style-type'
+    ];
+
+    function inlineStyles(root) {
+      var elements = root.querySelectorAll('*');
+      // Include root itself
+      var all = [root].concat(Array.prototype.slice.call(elements));
+      all.forEach(function (el) {
+        if (el.dataset && el.dataset.noCopy === 'true') return;
+        var cs = window.getComputedStyle(el);
+        var inline = '';
+        STYLE_PROPS.forEach(function (prop) {
+          var val = cs.getPropertyValue(prop);
+          if (val && val !== 'normal' && val !== 'auto' && val !== 'none' &&
+              val !== '0px' && val !== 'rgba(0, 0, 0, 0)' && val !== 'transparent') {
+            // Skip ::before/::after-derived properties; they don't apply to element itself anyway
+            inline += prop + ': ' + val + '; ';
+          }
+        });
+        if (inline) {
+          // Preserve any existing inline style first, then append computed
+          var existing = el.getAttribute('style') || '';
+          el.setAttribute('style', (existing ? existing + '; ' : '') + inline.trim());
+        }
+        // Strip class to avoid WeChat trying to interpret it (WeChat keeps class but that's fine)
+        // ...actually keep class for fallback, WeChat just ignores it.
+      });
+    }
+
+    function buildClipboardHtml() {
+      // Clone the article to avoid mutating the live page
+      var clone = article.cloneNode(true);
+
+      // Important: append to a hidden container in the live DOM so getComputedStyle works
+      var hidden = document.createElement('div');
+      hidden.setAttribute('aria-hidden', 'true');
+      hidden.style.cssText = 'position: absolute; left: -99999px; top: -99999px; width: 720px;';
+      hidden.appendChild(clone);
+      document.body.appendChild(hidden);
+
+      // Apply inline styles
+      inlineStyles(clone);
+
+      // Now read the HTML back; we no longer need the hidden node
+      var html = clone.outerHTML;
+      document.body.removeChild(hidden);
+
+      // Wrap with a UTF-8 charset declaration for safety
+      return '<section style="font-family: -apple-system, BlinkMacSystemFont, \'PingFang SC\', \'Helvetica Neue\', sans-serif;">' + html + '</section>';
+    }
+
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function () { toast.classList.remove('show'); }, 2400);
+    }
+
+    function fallbackCopy(text) {
+      // Old-school copy via hidden contentEditable + execCommand
+      var area = document.createElement('div');
+      area.contentEditable = 'true';
+      area.style.cssText = 'position: absolute; left: -9999px; top: 0; opacity: 0;';
+      area.innerHTML = text;
+      document.body.appendChild(area);
+      var range = document.createRange();
+      range.selectNodeContents(area);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try {
+        document.execCommand('copy');
+        document.body.removeChild(area);
+        return true;
+      } catch (err) {
+        document.body.removeChild(area);
+        return false;
+      }
+    }
+
+    var btn = document.getElementById('copy-btn');
+    var btnText = document.getElementById('copy-btn-text');
+    btn.addEventListener('click', async function () {
+      var html = buildClipboardHtml();
+      var plain = article.innerText;
+
+      try {
+        // Modern path: ClipboardItem with both text/html and text/plain
+        if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'text/html': new Blob([html], { type: 'text/html' }),
+              'text/plain': new Blob([plain], { type: 'text/plain' })
+            })
+          ]);
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          // Fallback to text-only (HTML formatting will still come through if pasted via execCommand path)
+          var ok = fallbackCopy(html);
+          if (!ok) await navigator.clipboard.writeText(plain);
+        } else {
+          fallbackCopy(html);
+        }
+
+        btnText.textContent = '已复制 ✓';
+        btn.classList.add('copied');
+        showToast('已复制到剪贴板,粘贴到公众号编辑器即可');
+        setTimeout(function () {
+          btnText.textContent = '复制到公众号';
+          btn.classList.remove('copied');
+        }, 2400);
+      } catch (err) {
+        console.error(err);
+        // Last-resort fallback
+        var ok = fallbackCopy(html);
+        if (ok) {
+          btnText.textContent = '已复制 ✓';
+          btn.classList.add('copied');
+          showToast('已复制 (兼容模式)');
+          setTimeout(function () {
+            btnText.textContent = '复制到公众号';
+            btn.classList.remove('copied');
+          }, 2400);
+        } else {
+          showToast('复制失败,请手动选中正文复制');
+        }
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

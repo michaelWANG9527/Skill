@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Node / editor / OS
+node_modules/
+*.swp
+.idea/
+.vscode/
+Thumbs.db
+
+# Local test outputs
+*.log
+.markitdown-cache/
+
+# Video render temp（render-video.js 产物）
+.video-tmp-*/
+**/.video-tmp-*/
+
+# 用户私有数据
+.env
+.env.local

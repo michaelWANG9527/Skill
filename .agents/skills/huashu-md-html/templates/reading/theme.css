@@ -1,0 +1,322 @@
+/* ==========================================================================
+   huashu-md-html / reading — Medium-style minimal reader theme
+   For: pure reading, public-account reposts, lightweight distribution
+   Philosophy: extreme restraint — single column, generous whitespace, large type
+   No: cyber-neon, purple gradients, #0D1117 dark blue, emoji as icons
+   ========================================================================== */
+
+:root {
+  --font-display: "Source Han Serif SC", "Noto Serif CJK SC", "Iowan Old Style", Georgia, serif;
+  --font-body-zh: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-body-en: "Charter", "Iowan Old Style", "Apple Garamond", Georgia, serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+
+  /* Color: warm paper, near-black ink, single warm accent */
+  --color-ink: #2a2a2a;
+  --color-ink-soft: #565656;
+  --color-ink-mute: #8a8a8a;
+  --color-rule: #e6e3df;
+  --color-paper: #fbfaf7;
+  --color-paper-soft: #f4f1ec;
+  --color-accent: #c75a30;
+  --color-link: #2a2a2a;
+  --color-link-underline: #c75a30;
+  --color-quote-bar: #c75a30;
+  --color-code-bg: #f0ece3;
+  --color-code-ink: #2a2622;
+
+  --max-prose: 680px;
+  --gutter: clamp(20px, 5vw, 56px);
+  --rhythm: 1.6em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #e8e4dc;
+    --color-ink-soft: #b8b1a3;
+    --color-ink-mute: #7c766b;
+    --color-rule: #2e2a25;
+    --color-paper: #15130f;
+    --color-paper-soft: #1c1916;
+    --color-accent: #e08560;
+    --color-link: #e8e4dc;
+    --color-link-underline: #e08560;
+    --color-quote-bar: #e08560;
+    --color-code-bg: #1c1916;
+    --color-code-ink: #e0dcd2;
+  }
+}
+
+html {
+  font-size: 19px;
+  -webkit-text-size-adjust: 100%;
+}
+@media (max-width: 700px) { html { font-size: 17px; } }
+@media (min-width: 1400px) { html { font-size: 20px; } }
+
+body {
+  margin: 0;
+  padding: clamp(56px, 8vw, 120px) var(--gutter) 8rem;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-feature-settings: "kern", "liga", "calt", "ss01";
+  line-height: 1.85;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-wrap: pretty;
+  hanging-punctuation: first allow-end last;
+}
+
+header.title-block, main, article, body > section {
+  max-width: var(--max-prose);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- title block (display-prominent) ---------- */
+
+header.title-block {
+  margin-bottom: 4em;
+  text-align: left;
+}
+header.title-block .title, body > h1:first-of-type {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.1rem, 5vw, 3rem);
+  line-height: 1.18;
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+  margin: 0 0 0.5em;
+}
+header.title-block .subtitle {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--color-ink-soft);
+  line-height: 1.5;
+  margin: 0 0 1.4em;
+}
+header.title-block .author {
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: 0.92rem;
+  color: var(--color-ink-soft);
+  margin: 0.2em 0;
+  letter-spacing: 0.01em;
+}
+header.title-block .date {
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: 0.85rem;
+  color: var(--color-ink-mute);
+  margin: 0.2em 0;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- headings (only h2/h3 typically used in reading mode) ---------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.32;
+  letter-spacing: -0.008em;
+  color: var(--color-ink);
+}
+h1 { font-size: 2rem; margin: 0 0 0.6em; }
+h2 { font-size: 1.5rem; margin: 2.4em 0 0.7em; }
+h3 { font-size: 1.2rem; margin: 2em 0 0.5em; }
+h4 { font-size: 1.06rem; font-style: italic; margin: 1.6em 0 0.4em; }
+
+/* ---------- body ---------- */
+
+p {
+  margin: 0 0 var(--rhythm);
+  text-indent: 0;
+}
+p:first-of-type::first-letter {
+  /* Optional drop cap when wrapped in special class — disabled by default */
+}
+
+article > p:first-of-type,
+main > p:first-of-type,
+section > p:first-of-type {
+  font-size: 1.12em;
+  color: var(--color-ink);
+  font-style: normal;
+}
+
+strong, b { font-weight: 700; color: var(--color-ink); }
+em, i { font-style: italic; }
+
+/* Subtle underline links — Medium style */
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 0.05em;
+  text-underline-offset: 0.22em;
+  text-decoration-color: var(--color-link-underline);
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+a:hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+
+/* ---------- blockquote (pull quote feel) ---------- */
+
+blockquote {
+  margin: 2em 0 2em -1em;
+  padding: 0 0 0 1.6em;
+  border-left: 3px solid var(--color-quote-bar);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.18em;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+blockquote p:last-child { margin-bottom: 0; }
+blockquote cite {
+  display: block;
+  margin-top: 0.6em;
+  font-style: normal;
+  font-size: 0.78em;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-mute);
+}
+blockquote cite::before { content: "— "; }
+
+/* ---------- lists ---------- */
+
+ul, ol { padding-left: 1.5em; margin: 0 0 var(--rhythm); }
+ul { list-style: disc; }
+li { margin: 0.5em 0; }
+
+/* ---------- code (de-emphasized in reading mode) ---------- */
+
+code, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+}
+:not(pre) > code {
+  background: var(--color-code-bg);
+  color: var(--color-code-ink);
+  padding: 0.08em 0.32em;
+  border-radius: 2px;
+}
+pre {
+  margin: 1.6em -0.4em;
+  padding: 1em 1.2em;
+  background: var(--color-code-bg);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+pre code { background: transparent; padding: 0; color: var(--color-code-ink); }
+
+/* ---------- table (rare, but keep clean) ---------- */
+
+table {
+  width: 100%;
+  margin: 1.8em 0;
+  border-collapse: collapse;
+  font-family: var(--font-body-en), var(--font-body-zh);
+  font-size: 0.94em;
+}
+thead { border-bottom: 2px solid var(--color-ink); }
+tbody tr { border-bottom: 1px solid var(--color-rule); }
+th, td { text-align: left; padding: 0.6em 0.4em; }
+th { font-weight: 600; }
+
+/* ---------- figure (image full-bleed feel) ---------- */
+
+figure {
+  margin: 2em 0;
+  max-width: 100%;
+}
+figure img, p > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 1px;
+}
+figcaption {
+  margin-top: 0.6em;
+  font-size: 0.85em;
+  color: var(--color-ink-mute);
+  text-align: center;
+  font-style: italic;
+}
+
+/* Allow large figures to bleed slightly outside the prose column */
+@media (min-width: 1000px) {
+  figure.full {
+    max-width: calc(var(--max-prose) + 200px);
+    margin-left: -100px;
+    margin-right: -100px;
+  }
+}
+
+/* ---------- hr (a quiet divider) ---------- */
+
+hr {
+  border: none;
+  text-align: center;
+  margin: 3em auto;
+  width: 100%;
+}
+hr::after {
+  content: "·   ·   ·";
+  color: var(--color-ink-mute);
+  letter-spacing: 0.6em;
+  font-size: 1.2em;
+}
+
+/* ---------- TOC (hidden by default — reading mode keeps it minimal) ---------- */
+
+#TOC, nav#TOC {
+  margin: 2em 0;
+  padding: 1em 0;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  font-size: 0.9em;
+}
+#TOC > ul, nav#TOC > ul { list-style: none; padding-left: 0; margin: 0; }
+#TOC ul ul, nav#TOC ul ul { list-style: none; padding-left: 1em; }
+#TOC a, nav#TOC a {
+  color: var(--color-ink-soft);
+  text-decoration: none;
+}
+#TOC a:hover, nav#TOC a:hover { color: var(--color-accent); }
+
+/* ---------- footnotes ---------- */
+
+a.footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  text-decoration: none;
+  color: var(--color-accent);
+}
+.footnotes {
+  margin-top: 4em;
+  padding-top: 1.5em;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.86em;
+  color: var(--color-ink-soft);
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  body { background: white; color: black; padding: 0; font-size: 12pt; }
+  pre, code, blockquote { background: #f6f6f6 !important; color: #222 !important; }
+  pre, blockquote, figure { break-inside: avoid; }
+  a { color: black; text-decoration: underline; }
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent), transparent 78%);
+  color: var(--color-ink);
+}
