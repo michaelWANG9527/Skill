@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>销货出库单</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== 顶部工具栏 ===== */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .toolbar h1 {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .toolbar h1 .dot {
+    width: 6px; height: 20px; border-radius: 3px; background: var(--primary);
+  }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { background: #f9fafb; border-color: #d1d5db; }
+  .btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+  .btn-danger { color: var(--danger); border-color: #fecaca; }
+  .btn-danger:hover { background: #fef2f2; }
+
+  /* ===== 页面容器 ===== */
+  .page { max-width: 1180px; margin: 24px auto; padding: 0 24px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafa;
+  }
+  .card-head h2 {
+    font-size: 15px;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-head h2 .bar { width: 4px; height: 16px; border-radius: 2px; background: var(--primary); }
+  .card-body { padding: 20px; }
+
+  /* ===== 状态徽标 ===== */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .badge-warning { background: #fffbeb; color: var(--warning); }
+  .badge-success { background: #f0fdf4; color: var(--success); }
+
+  /* ===== 表单网格 ===== */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 24px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .field label .req { color: var(--danger); margin-left: 2px; }
+  .field input, .field select, .field textarea {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color .15s, box-shadow .15s;
+    font-family: inherit;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+  }
+  .field input[readonly] { background: #f9fafb; color: var(--text-muted); }
+  .field.full { grid-column: 1 / -1; }
+
+  /* ===== 明细表格 ===== */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    background: #f8fafc;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    white-space: nowrap;
+  }
+  tbody tr:hover { background: var(--primary-light); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .center { text-align: center; }
+  .cell-input {
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 6px 8px;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .cell-input:focus { outline: none; border-color: var(--primary); background: #fff; }
+  tfoot td {
+    padding: 14px;
+    font-weight: 600;
+    background: #f8fafc;
+    border-top: 2px solid var(--border);
+  }
+  .row-del {
+    color: var(--danger);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 14px;
+  }
+  .row-del:hover { text-decoration: underline; }
+
+  .table-actions { padding: 14px 20px; border-top: 1px dashed var(--border); }
+  .link-btn {
+    color: var(--primary); background: none; border: none; cursor: pointer;
+    font-size: 14px; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .link-btn:hover { color: var(--primary-dark); }
+
+  .summary {
+    display: flex; gap: 36px; flex-wrap: wrap;
+    padding: 16px 20px; background: #f8fafc; border-top: 1px solid var(--border);
+  }
+  .summary .item { display: flex; flex-direction: column; gap: 2px; }
+  .summary .item .k { font-size: 12px; color: var(--text-muted); }
+  .summary .item .v { font-size: 18px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+  .summary .item .v.money { color: var(--primary); }
+  .summary .upper { margin-left: auto; align-self: center; color: var(--text-muted); font-size: 13px; }
+
+  .footer-info {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 24px;
+  }
+
+  @media (max-width: 860px) {
+    .form-grid, .footer-info { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .form-grid, .footer-info { grid-template-columns: 1fr; }
+    .toolbar { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 工具栏 -->
+  <div class="toolbar">
+    <h1><span class="dot"></span>销货出库单</h1>
+    <span class="badge badge-warning" id="statusBadge">待审核</span>
+    <div class="spacer"></div>
+    <button class="btn" onclick="alert('已保存草稿')">💾 保存</button>
+    <button class="btn btn-primary" onclick="approve()">✓ 审核</button>
+    <button class="btn" onclick="window.print()">🖨 打印</button>
+    <button class="btn btn-danger" onclick="alert('单据已作废')">✕ 作废</button>
+  </div>
+
+  <div class="page">
+
+    <!-- 单据头 -->
+    <div class="card">
+      <div class="card-head">
+        <h2><span class="bar"></span>基本信息</h2>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="field">
+            <label>出库单号</label>
+            <input type="text" value="XSCK-20260620-0001" readonly />
+          </div>
+          <div class="field">
+            <label>单据日期<span class="req">*</span></label>
+            <input type="date" value="2026-06-20" />
+          </div>
+          <div class="field">
+            <label>出库类型</label>
+            <select>
+              <option>销售出库</option>
+              <option>调拨出库</option>
+              <option>赠品出库</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>客户名称<span class="req">*</span></label>
+            <input type="text" value="深圳市远航贸易有限公司" />
+          </div>
+          <div class="field">
+            <label>关联销售订单</label>
+            <input type="text" value="XSDD-20260618-0093" />
+          </div>
+          <div class="field">
+            <label>出库仓库<span class="req">*</span></label>
+            <select>
+              <option>华南中心仓</option>
+              <option>华东分仓</option>
+              <option>成品仓</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>业务员</label>
+            <input type="text" value="李明" />
+          </div>
+          <div class="field">
+            <label>联系人 / 电话</label>
+            <input type="text" value="王经理 / 138-0000-8888" />
+          </div>
+          <div class="field">
+            <label>结算方式</label>
+            <select>
+              <option>月结30天</option>
+              <option>货到付款</option>
+              <option>预付款</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>收货地址</label>
+            <input type="text" value="广东省深圳市南山区科技园南区 18 栋 3 楼" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 商品明细 -->
+    <div class="card">
+      <div class="card-head">
+        <h2><span class="bar"></span>商品明细</h2>
+        <span style="font-size:13px;color:var(--text-muted)" id="rowCount">共 3 条</span>
+      </div>
+      <div class="table-wrap">
+        <table id="detailTable">
+          <thead>
+            <tr>
+              <th class="center" style="width:48px">#</th>
+              <th>商品编码</th>
+              <th>商品名称</th>
+              <th>规格型号</th>
+              <th class="center">单位</th>
+              <th class="num">出库数量</th>
+              <th class="num">单价(元)</th>
+              <th class="num">金额(元)</th>
+              <th>批次号</th>
+              <th class="center" style="width:60px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="center">1</td>
+              <td>SP-10086</td>
+              <td>无线蓝牙耳机 Pro</td>
+              <td>白色 / 降噪版</td>
+              <td class="center">个</td>
+              <td class="num"><input class="cell-input qty" value="120" /></td>
+              <td class="num"><input class="cell-input price" value="299.00" /></td>
+              <td class="num amount">35,880.00</td>
+              <td>PC20260601</td>
+              <td class="center"><button class="row-del" onclick="delRow(this)">删除</button></td>
+            </tr>
+            <tr>
+              <td class="center">2</td>
+              <td>SP-10241</td>
+              <td>智能手环 5</td>
+              <td>黑色 / 标准版</td>
+              <td class="center">个</td>
+              <td class="num"><input class="cell-input qty" value="200" /></td>
+              <td class="num"><input class="cell-input price" value="149.00" /></td>
+              <td class="num amount">29,800.00</td>
+              <td>PC20260605</td>
+              <td class="center"><button class="row-del" onclick="delRow(this)">删除</button></td>
+            </tr>
+            <tr>
+              <td class="center">3</td>
+              <td>SP-10355</td>
+              <td>便携充电宝 20000mAh</td>
+              <td>深空灰</td>
+              <td class="center">个</td>
+              <td class="num"><input class="cell-input qty" value="80" /></td>
+              <td class="num"><input class="cell-input price" value="89.00" /></td>
+              <td class="num amount">7,120.00</td>
+              <td>PC20260610</td>
+              <td class="center"><button class="row-del" onclick="delRow(this)">删除</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-actions">
+        <button class="link-btn" onclick="addRow()">＋ 添加商品行</button>
+      </div>
+      <div class="summary">
+        <div class="item">
+          <span class="k">合计数量</span>
+          <span class="v" id="totalQty">400</span>
+        </div>
+        <div class="item">
+          <span class="k">合计金额</span>
+          <span class="v money" id="totalAmount">¥72,800.00</span>
+        </div>
+        <div class="upper">金额大写：<span id="totalUpper">柒万贰仟捌佰元整</span></div>
+      </div>
+    </div>
+
+    <!-- 备注与签核 -->
+    <div class="card">
+      <div class="card-head">
+        <h2><span class="bar"></span>备注与签核</h2>
+      </div>
+      <div class="card-body">
+        <div class="field full" style="margin-bottom:16px">
+          <label>备注</label>
+          <textarea rows="2" placeholder="请输入备注信息…">客户要求 2026-06-22 前送达，注意防潮包装。</textarea>
+        </div>
+        <div class="footer-info">
+          <div class="field">
+            <label>制单人</label>
+            <input type="text" value="张华" readonly />
+          </div>
+          <div class="field">
+            <label>制单时间</label>
+            <input type="text" value="2026-06-20 09:42" readonly />
+          </div>
+          <div class="field">
+            <label>审核人</label>
+            <input type="text" value="—" readonly id="approver" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  function toMoney(n) {
+    return '¥' + n.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  // 数字金额转中文大写
+  function digitUpper(n) {
+    const fraction = ['角', '分'];
+    const digit = ['零','壹','贰','叁','肆','伍','陆','柒','捌','玖'];
+    const unit = [['元','万','亿'], ['','拾','佰','仟']];
+    let head = n < 0 ? '负' : '';
+    n = Math.abs(n);
+    let s = '';
+    for (let i = 0; i < fraction.length; i++) {
+      s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+    }
+    s = s || '整';
+    n = Math.floor(n);
+    for (let i = 0; i < unit[0].length && n > 0; i++) {
+      let p = '';
+      for (let j = 0; j < unit[1].length && n > 0; j++) {
+        p = digit[n % 10] + unit[1][j] + p;
+        n = Math.floor(n / 10);
+      }
+      s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+    }
+    return head + s.replace(/(零.)*零元/, '元')
+      .replace(/(零.)+/g, '零')
+      .replace(/^整$/, '零元整');
+  }
+
+  function recalc() {
+    let totalQty = 0, totalAmount = 0;
+    document.querySelectorAll('#detailTable tbody tr').forEach((tr, i) => {
+      tr.querySelector('td').textContent = i + 1;
+      const qty = parseFloat(tr.querySelector('.qty').value) || 0;
+      const price = parseFloat(tr.querySelector('.price').value) || 0;
+      const amt = qty * price;
+      tr.querySelector('.amount').textContent = amt.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      totalQty += qty;
+      totalAmount += amt;
+    });
+    document.getElementById('totalQty').textContent = totalQty.toLocaleString('zh-CN');
+    document.getElementById('totalAmount').textContent = toMoney(totalAmount);
+    document.getElementById('totalUpper').textContent = digitUpper(totalAmount);
+    const rows = document.querySelectorAll('#detailTable tbody tr').length;
+    document.getElementById('rowCount').textContent = '共 ' + rows + ' 条';
+  }
+
+  function delRow(btn) {
+    btn.closest('tr').remove();
+    recalc();
+  }
+
+  function addRow() {
+    const tbody = document.querySelector('#detailTable tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="center"></td>
+      <td>—</td>
+      <td><input class="cell-input" style="text-align:left" placeholder="商品名称" /></td>
+      <td>—</td>
+      <td class="center">个</td>
+      <td class="num"><input class="cell-input qty" value="0" /></td>
+      <td class="num"><input class="cell-input price" value="0.00" /></td>
+      <td class="num amount">0.00</td>
+      <td>—</td>
+      <td class="center"><button class="row-del" onclick="delRow(this)">删除</button></td>`;
+    tbody.appendChild(tr);
+    recalc();
+  }
+
+  function approve() {
+    const badge = document.getElementById('statusBadge');
+    badge.textContent = '已审核';
+    badge.className = 'badge badge-success';
+    document.getElementById('approver').value = '陈伟';
+    alert('单据审核通过');
+  }
+
+  document.addEventListener('input', e => {
+    if (e.target.classList.contains('qty') || e.target.classList.contains('price')) recalc();
+  });
+  recalc();
+</script>
+</body>
+</html>
