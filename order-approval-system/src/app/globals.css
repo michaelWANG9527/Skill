@@ -49,6 +49,12 @@ body > div {
   }
 }
 
+/* Loading spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @keyframes fadeSlideIn {
   from {
     opacity: 0;

@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { User, Order, ApprovalRecord } from "@/types";
-import { ORDERS } from "@/data/mockData";
+import { useState, useEffect, useCallback } from "react";
+import { User, Order, OrderStatus, ApprovalRecord } from "@/types";
 import OrderList from "@/components/OrderList";
 import OrderDetail from "@/components/OrderDetail";
 import ApprovalTimeline from "@/components/ApprovalTimeline";
@@ -20,10 +19,10 @@ type MobilePanel = "list" | "detail" | "timeline";
 type View = "approval" | "dashboard";
 
 export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProps) {
-  const [orders, setOrders] = useState<Order[]>(() =>
-    ORDERS.map((o) => ({ ...o, approvalHistory: [...o.approvalHistory] }))
-  );
-  const [selectedId, setSelectedId] = useState<string | null>(orders[0]?.id ?? null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dataSource, setDataSource] = useState<"erp" | "mock" | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [mobilePanel, setMobilePanel] = useState<MobilePanel>("list");
   const [activeView, setActiveView] = useState<View>("approval");
@@ -36,35 +35,86 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
     setToast(msg);
   }, []);
 
-  const handleApprove = useCallback(
-    (orderId: string, record: ApprovalRecord, emails: string[]) => {
-      setOrders((prev) =>
-        prev.map((o) => {
-          if (o.id !== orderId) return o;
-          const nextStatus =
-            o.status === "escalated"
-              ? ("gm_approved" as const)
-              : o.isSpecialPrice || o.grossMargin < 15
-                ? ("escalated" as const)
-                : ("vp_approved" as const);
-          return {
-            ...o,
-            status: nextStatus,
-            approvalHistory: [...o.approvalHistory, record],
-          };
-        })
-      );
-      const order = orders.find((o) => o.id === orderId);
-      if (order?.status === "escalated") {
-        showToast("终审通过");
-      } else if (order && (order.isSpecialPrice || order.grossMargin < 15)) {
-        showToast("已审批并自动上报至总经理");
-      } else {
-        showToast("审批通过");
+  // 从后端 API 拉取订单（后端对接鼎捷 T100，未配置时返回演示数据）
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/orders", { cache: "no-store" });
+        const data = await res.json();
+        if (cancelled) return;
+        if (!data.ok) throw new Error(data.error);
+        setOrders(data.orders);
+        setDataSource(data.source);
+        setSelectedId(data.orders[0]?.id ?? null);
+      } catch (err) {
+        if (!cancelled) {
+          showToast(`订单加载失败：${err instanceof Error ? err.message : "网络错误"}`);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      void emails;
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [showToast]);
+
+  /** 提交审批决定到后端（后端为状态机唯一权威并负责回写 ERP） */
+  const submitDecision = useCallback(
+    async (
+      orderId: string,
+      decision: "approve" | "reject",
+      record: ApprovalRecord,
+      emails: string[]
+    ): Promise<OrderStatus | null> => {
+      const order = orders.find((o) => o.id === orderId);
+      if (!order) return null;
+      try {
+        const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}/approval`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            decision,
+            currentStatus: order.status,
+            isSpecialPrice: order.isSpecialPrice,
+            grossMargin: order.grossMargin,
+            record,
+            emails,
+          }),
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error);
+        setOrders((prev) =>
+          prev.map((o) =>
+            o.id === orderId
+              ? { ...o, status: data.nextStatus, approvalHistory: [...o.approvalHistory, record] }
+              : o
+          )
+        );
+        return data.nextStatus as OrderStatus;
+      } catch (err) {
+        showToast(`审批提交失败：${err instanceof Error ? err.message : "网络错误"}`);
+        return null;
+      }
     },
     [orders, showToast]
+  );
+
+  const handleApprove = useCallback(
+    async (orderId: string, record: ApprovalRecord, emails: string[]) => {
+      const nextStatus = await submitDecision(orderId, "approve", record, emails);
+      if (!nextStatus) return;
+      const erpSuffix = dataSource === "erp" ? "，已回写鼎捷ERP" : "";
+      if (nextStatus === "escalated") {
+        showToast(`已审批并自动上报至总经理${erpSuffix}`);
+      } else if (nextStatus === "gm_approved") {
+        showToast(`终审通过${erpSuffix}`);
+      } else {
+        showToast(`审批通过${erpSuffix}`);
+      }
+    },
+    [submitDecision, showToast, dataSource]
   );
 
   const handleRejectRequest = useCallback(
@@ -74,21 +124,15 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
     []
   );
 
-  const handleRejectConfirm = useCallback(() => {
+  const handleRejectConfirm = useCallback(async () => {
     if (!confirmReject) return;
-    setOrders((prev) =>
-      prev.map((o) => {
-        if (o.id !== confirmReject.orderId) return o;
-        return {
-          ...o,
-          status: "rejected" as const,
-          approvalHistory: [...o.approvalHistory, confirmReject.record],
-        };
-      })
-    );
-    showToast("订单已驳回，系统已自动向 cs@seekwavetech.com 发送通知邮件");
+    const { orderId, record } = confirmReject;
     setConfirmReject(null);
-  }, [confirmReject, showToast]);
+    const nextStatus = await submitDecision(orderId, "reject", record, []);
+    if (!nextStatus) return;
+    const erpSuffix = dataSource === "erp" ? "，已回写鼎捷ERP" : "";
+    showToast(`订单已驳回${erpSuffix}，系统已自动向 cs@seekwavetech.com 发送通知邮件`);
+  }, [confirmReject, submitDecision, showToast, dataSource]);
 
   const handleSelectOrder = useCallback((id: string) => {
     setSelectedId(id);
@@ -201,6 +245,22 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
 
         {/* Right: Stats + User + Logout */}
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          {/* Data source tag */}
+          {dataSource && (
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                padding: "3px 10px",
+                borderRadius: 980,
+                background: dataSource === "erp" ? "rgba(52,199,89,0.16)" : "rgba(255,255,255,0.08)",
+                color: dataSource === "erp" ? "#30d158" : "rgba(255,255,255,0.5)",
+              }}
+            >
+              {dataSource === "erp" ? "鼎捷T100 已连接" : "演示数据"}
+            </span>
+          )}
+
           {/* Pending capsule */}
           <div
             style={{
@@ -283,9 +343,30 @@ export default function ApprovalPage({ currentUser, onLogout }: ApprovalPageProp
 
       {/* ── Main Content ── */}
       <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
-        {activeView === "dashboard" ? (
+        {loading && (
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 12,
+              color: "rgba(0,0,0,0.42)",
+              fontSize: 14,
+            }}
+          >
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style={{ animation: "spin 0.9s linear infinite" }}>
+              <circle cx="14" cy="14" r="11" stroke="rgba(0,0,0,0.08)" strokeWidth="3" />
+              <path d="M14 3a11 11 0 0 1 11 11" stroke="#0071e3" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+            正在从 ERP 同步订单数据...
+          </div>
+        )}
+        {!loading && activeView === "dashboard" && (
           <Dashboard orders={orders} onNavigateToOrder={handleDashboardNav} />
-        ) : (
+        )}
+        {!loading && activeView === "approval" && (
           <>
             <div className={`order-list-panel${mobilePanel === "list" ? " mobile-active" : ""}`}>
               <OrderList orders={orders} selectedId={selectedId} onSelect={handleSelectOrder} />
